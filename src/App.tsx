@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mic, User, Home, TrendingUp, Menu } from 'lucide-react';
+import { Mic, User, Home, TrendingUp, Menu, Crown } from 'lucide-react';
 import { Background3D } from './components/Background3D';
 import { Feed } from './components/Feed';
 import { CoinCreator } from './components/CoinCreator';
@@ -8,6 +8,7 @@ import { CoinManager } from './components/CoinManager';
 import { PresentationEditor } from './components/PresentationEditor';
 import { InsightsAnalyzer } from './components/InsightsAnalyzer';
 import { STEMResearch } from './components/STEMResearch';
+import { JesusAssistant } from './components/JesusAssistant';
 import { UserCoin, Transaction } from './types';
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
   const [showPresentationEditor, setShowPresentationEditor] = useState(false);
   const [showInsightsAnalyzer, setShowInsightsAnalyzer] = useState(false);
   const [showSTEMResearch, setShowSTEMResearch] = useState(false);
+  const [showJesusAssistant, setShowJesusAssistant] = useState(false);
   const [userCoins, setUserCoins] = useState<UserCoin[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([
     {
@@ -246,6 +248,16 @@ export default function App() {
                     <h3 className="text-xl font-bold mb-2">Heavenly Lab</h3>
                     <p className="text-rose-100">Access full STEM research environment</p>
                   </motion.button>
+
+                  <motion.button
+                    onClick={() => setShowJesusAssistant(true)}
+                    className="bg-gradient-to-br from-yellow-500 to-orange-500 p-6 rounded-xl hover:from-yellow-600 hover:to-orange-600 transition-all"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <h3 className="text-xl font-bold mb-2">Jesus Assistant</h3>
+                    <p className="text-yellow-100">AI assistant for clan development and gift circulation</p>
+                  </motion.button>
                 </div>
 
                 {userCoins.length > 0 && (
@@ -334,6 +346,16 @@ export default function App() {
                   console.log('Applied skin theme:', theme.name);
                   // Here you could apply the theme to the entire app
                 }}
+              />
+            </div>
+          )}
+          
+          {currentView === 'jesus' && (
+            <div className="p-6">
+              <JesusAssistant
+                onGiftCirculation={(amount, description) => addTransaction('earned', amount, description)}
+                onBlessingReceived={(blessing, value) => addTransaction('earned', value, `Blessing: ${blessing}`)}
+                onCurseReversed={(curse, gift) => addTransaction('earned', 100, `Reversed ${curse} with ${gift}`)}
               />
             </div>
           )}
@@ -456,6 +478,29 @@ export default function App() {
                   console.log('Applied skin theme:', theme.name);
                   setShowSTEMResearch(false);
                 }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {showJesusAssistant && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-gradient-to-br from-yellow-900/90 via-orange-900/90 to-red-900/90 backdrop-blur-md rounded-2xl w-full max-w-7xl h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-white font-space">Jesus Assistant - Clan Development</h2>
+                <button
+                  onClick={() => setShowJesusAssistant(false)}
+                  className="p-2 hover:bg-white/20 rounded-lg transition-colors text-white"
+                >
+                  ✕
+                </button>
+              </div>
+              <JesusAssistant
+                onGiftCirculation={(amount, description) => addTransaction('earned', amount, description)}
+                onBlessingReceived={(blessing, value) => addTransaction('earned', value, `Blessing: ${blessing}`)}
+                onCurseReversed={(curse, gift) => addTransaction('earned', 100, `Reversed ${curse} with ${gift}`)}
               />
             </div>
           </div>
