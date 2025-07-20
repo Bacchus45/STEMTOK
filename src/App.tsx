@@ -6,6 +6,7 @@ import { Feed } from './components/Feed';
 import { CoinCreator } from './components/CoinCreator';
 import { CoinManager } from './components/CoinManager';
 import { PresentationEditor } from './components/PresentationEditor';
+import { InsightsAnalyzer } from './components/InsightsAnalyzer';
 import { UserCoin, Transaction } from './types';
 
 export default function App() {
@@ -14,6 +15,7 @@ export default function App() {
   const [showCoinCreator, setShowCoinCreator] = useState(false);
   const [showCoinManager, setShowCoinManager] = useState(false);
   const [showPresentationEditor, setShowPresentationEditor] = useState(false);
+  const [showInsightsAnalyzer, setShowInsightsAnalyzer] = useState(false);
   const [userCoins, setUserCoins] = useState<UserCoin[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([
     {
@@ -148,6 +150,28 @@ export default function App() {
             />
           )}
           
+          {currentView === 'insights' && (
+            <div className="p-6">
+              <InsightsAnalyzer
+                userActivity={{
+                  totalPosts: 15,
+                  totalLikes: 234,
+                  totalFollowers: 89,
+                  engagementRate: 0.85
+                }}
+                platformMetrics={{
+                  totalUsers: 1250,
+                  totalCoins: userCoins.length,
+                  totalTransactions: transactions.length
+                }}
+                onInsightAction={(insight) => {
+                  console.log('Implementing insight:', insight.title);
+                  addTransaction('earned', 25, `Implemented: ${insight.title}`, 'main');
+                }}
+              />
+            </div>
+          )}
+          
           {currentView === 'studio' && (
             <div className="p-6">
               <div className="max-w-4xl mx-auto">
@@ -189,6 +213,16 @@ export default function App() {
                   >
                     <h3 className="text-xl font-bold mb-2">Presentations</h3>
                     <p className="text-green-100">Create interactive presentations</p>
+                  </motion.button>
+
+                  <motion.button
+                    onClick={() => setShowInsightsAnalyzer(true)}
+                    className="bg-gradient-to-br from-cyan-500 to-teal-500 p-6 rounded-xl hover:from-cyan-600 hover:to-teal-600 transition-all"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <h3 className="text-xl font-bold mb-2">Platform Insigte</h3>
+                    <p className="text-cyan-100">Analyze platform evolution and insights</p>
                   </motion.button>
                 </div>
 
@@ -294,6 +328,19 @@ export default function App() {
           </motion.button>
           
           <motion.button
+            onClick={() => setCurrentView('insights')}
+            className={`p-3 rounded-full transition-all ${
+              currentView === 'insights' 
+                ? 'bg-purple-500 text-white' 
+                : 'text-gray-400 hover:text-white hover:bg-white/10'
+            }`}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <TrendingUp size={24} />
+          </motion.button>
+          
+          <motion.button
             onClick={() => setCurrentView('studio')}
             className={`p-3 rounded-full transition-all ${
               currentView === 'studio' 
@@ -304,19 +351,6 @@ export default function App() {
             whileTap={{ scale: 0.9 }}
           >
             <Mic size={24} />
-          </motion.button>
-          
-          <motion.button
-            onClick={() => setShowSidePanel(!showSidePanel)}
-            className={`p-3 rounded-full transition-all ${
-              showSidePanel 
-                ? 'bg-purple-500 text-white' 
-                : 'text-gray-400 hover:text-white hover:bg-white/10'
-            }`}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <TrendingUp size={24} />
           </motion.button>
         </div>
       </motion.nav>
@@ -333,6 +367,41 @@ export default function App() {
         />
       )}
 
+      {showInsightsAnalyzer && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-gradient-to-br from-purple-900/90 via-blue-900/90 to-indigo-900/90 backdrop-blur-md rounded-2xl w-full max-w-7xl h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-white font-space">Platform Evolution Insights</h2>
+                <button
+                  onClick={() => setShowInsightsAnalyzer(false)}
+                  className="p-2 hover:bg-white/20 rounded-lg transition-colors text-white"
+                >
+                  ✕
+                </button>
+              </div>
+              <InsightsAnalyzer
+                userActivity={{
+                  totalPosts: 15,
+                  totalLikes: 234,
+                  totalFollowers: 89,
+                  engagementRate: 0.85
+                }}
+                platformMetrics={{
+                  totalUsers: 1250,
+                  totalCoins: userCoins.length,
+                  totalTransactions: transactions.length
+                }}
+                onInsightAction={(insight) => {
+                  console.log('Implementing insight:', insight.title);
+                  addTransaction('earned', 25, `Implemented: ${insight.title}`, 'main');
+                  setShowInsightsAnalyzer(false);
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
       {showCoinManager && (
         <CoinManager
           coins={userCoins}
