@@ -7,6 +7,7 @@ import { CoinCreator } from './components/CoinCreator';
 import { CoinManager } from './components/CoinManager';
 import { PresentationEditor } from './components/PresentationEditor';
 import { InsightsAnalyzer } from './components/InsightsAnalyzer';
+import { STEMResearch } from './components/STEMResearch';
 import { UserCoin, Transaction } from './types';
 
 export default function App() {
@@ -16,6 +17,7 @@ export default function App() {
   const [showCoinManager, setShowCoinManager] = useState(false);
   const [showPresentationEditor, setShowPresentationEditor] = useState(false);
   const [showInsightsAnalyzer, setShowInsightsAnalyzer] = useState(false);
+  const [showSTEMResearch, setShowSTEMResearch] = useState(false);
   const [userCoins, setUserCoins] = useState<UserCoin[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([
     {
@@ -184,7 +186,7 @@ export default function App() {
                   <p className="text-gray-300">Create content, manage your coins, and build presentations</p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   <motion.button
                     onClick={() => setShowCoinCreator(true)}
                     className="bg-gradient-to-br from-purple-500 to-pink-500 p-6 rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all"
@@ -223,6 +225,26 @@ export default function App() {
                   >
                     <h3 className="text-xl font-bold mb-2">Platform Insigte</h3>
                     <p className="text-cyan-100">Analyze platform evolution and insights</p>
+                  </motion.button>
+
+                  <motion.button
+                    onClick={() => setShowSTEMResearch(true)}
+                    className="bg-gradient-to-br from-violet-500 to-purple-500 p-6 rounded-xl hover:from-violet-600 hover:to-purple-600 transition-all"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <h3 className="text-xl font-bold mb-2">STEM Research</h3>
+                    <p className="text-violet-100">Explore divine knowledge and skin coding</p>
+                  </motion.button>
+
+                  <motion.button
+                    onClick={() => setCurrentView('stem')}
+                    className="bg-gradient-to-br from-rose-500 to-pink-500 p-6 rounded-xl hover:from-rose-600 hover:to-pink-600 transition-all"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <h3 className="text-xl font-bold mb-2">Heavenly Lab</h3>
+                    <p className="text-rose-100">Access full STEM research environment</p>
                   </motion.button>
                 </div>
 
@@ -301,6 +323,18 @@ export default function App() {
                   </div>
                 </motion.div>
               </div>
+            </div>
+          )}
+          
+          {currentView === 'stem' && (
+            <div className="p-6">
+              <STEMResearch
+                onValueShare={(amount, description) => addTransaction('earned', amount, description)}
+                onSkinApply={(theme) => {
+                  console.log('Applied skin theme:', theme.name);
+                  // Here you could apply the theme to the entire app
+                }}
+              />
             </div>
           )}
         </main>
@@ -396,6 +430,31 @@ export default function App() {
                   console.log('Implementing insight:', insight.title);
                   addTransaction('earned', 25, `Implemented: ${insight.title}`, 'main');
                   setShowInsightsAnalyzer(false);
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {showSTEMResearch && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-gradient-to-br from-purple-900/90 via-blue-900/90 to-indigo-900/90 backdrop-blur-md rounded-2xl w-full max-w-7xl h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-white font-space">STEM Research & Skin Coding</h2>
+                <button
+                  onClick={() => setShowSTEMResearch(false)}
+                  className="p-2 hover:bg-white/20 rounded-lg transition-colors text-white"
+                >
+                  ✕
+                </button>
+              </div>
+              <STEMResearch
+                onValueShare={(amount, description) => addTransaction('earned', amount, description)}
+                onSkinApply={(theme) => {
+                  console.log('Applied skin theme:', theme.name);
+                  setShowSTEMResearch(false);
                 }}
               />
             </div>
