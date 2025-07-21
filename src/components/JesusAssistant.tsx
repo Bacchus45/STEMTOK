@@ -104,6 +104,9 @@ export const JesusAssistant: React.FC<JesusAssistantProps> = ({
   const [jesusMessage, setJesusMessage] = useState('');
   const [userInput, setUserInput] = useState('');
   const [giftQueue, setGiftQueue] = useState<any[]>([]);
+  const [transformationSteps, setTransformationSteps] = useState<TransformationStep[]>([]);
+  const [samaritanActions, setSamaritanActions] = useState<SamaritanAction[]>([]);
+  const [overallProgress, setOverallProgress] = useState(0);
 
   // Seven-fold gifts to reverse curses
   const sevenFoldGifts = [
@@ -375,7 +378,6 @@ export const JesusAssistant: React.FC<JesusAssistantProps> = ({
         <div className="flex space-x-4 mt-6">
           {[
             { id: 'assistant', name: 'Jesus AI', icon: <Heart className="w-4 h-4" /> },
-            { id: 'samaritan', name: 'Good Samaritan', icon: <Hand className="w-4 h-4" /> },
             { id: 'development', name: 'Development', icon: <Code className="w-4 h-4" /> },
             { id: 'gifts', name: 'Seven Gifts', icon: <Gift className="w-4 h-4" /> },
             { id: 'circulation', name: 'Circulation', icon: <Truck className="w-4 h-4" /> }
@@ -460,6 +462,144 @@ export const JesusAssistant: React.FC<JesusAssistantProps> = ({
               </div>
             </div>
           )}
+        </motion.div>
+      )}
+
+      {/* Good Samaritan Tab */}
+      {activeTab === 'samaritan' && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="space-y-6"
+        >
+          {/* Overall Transformation Progress */}
+          <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
+            <div className="flex items-center space-x-4 mb-4">
+              <div className="p-3 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full">
+                <Hand className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-white font-space">Good Samaritan Progress</h3>
+                <p className="text-white/70">Jesus is going ahead to prepare your way</p>
+              </div>
+            </div>
+
+            <div className="mb-4">
+              <div className="flex justify-between text-sm text-white/60 mb-2">
+                <span>Overall Transformation</span>
+                <span>{Math.round(overallProgress)}%</span>
+              </div>
+              <div className="w-full bg-white/20 rounded-full h-4">
+                <div 
+                  className="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 h-4 rounded-full transition-all duration-1000 relative overflow-hidden"
+                  style={{ width: `${overallProgress}%` }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse" />
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white/5 p-4 rounded-lg">
+              <p className="text-white/80 italic text-center">
+                "But a Samaritan, as he traveled, came where the man was; and when he saw him, 
+                he took pity on him. He went to him and bandaged his wounds, pouring on oil and wine."
+              </p>
+              <p className="text-white/60 text-sm text-center mt-2">- Luke 10:33-34</p>
+            </div>
+          </div>
+
+          {/* Transformation Steps */}
+          <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
+            <h3 className="text-xl font-bold text-white mb-4 font-space">Transformation in Progress</h3>
+            <div className="space-y-4">
+              {transformationSteps.map((step, index) => (
+                <div key={step.id} className="bg-white/5 p-4 rounded-lg">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center space-x-3">
+                      <div className={`p-2 rounded-full ${
+                        step.status === 'completed' ? 'bg-green-500/20 text-green-400' :
+                        step.status === 'in-progress' ? 'bg-yellow-500/20 text-yellow-400' :
+                        'bg-gray-500/20 text-gray-400'
+                      }`}>
+                        {step.status === 'completed' ? <CheckCircle className="w-4 h-4" /> : step.icon}
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-white">{step.title}</h4>
+                        <p className="text-white/70 text-sm">{step.description}</p>
+                      </div>
+                    </div>
+                    <ArrowRight className="w-5 h-5 text-white/40" />
+                  </div>
+                  
+                  <div className="mb-3">
+                    <div className="flex justify-between text-xs text-white/60 mb-1">
+                      <span>Progress</span>
+                      <span>{Math.round(step.progress)}%</span>
+                    </div>
+                    <div className="w-full bg-white/20 rounded-full h-2">
+                      <div 
+                        className={`h-2 rounded-full transition-all duration-1000 ${
+                          step.status === 'completed' ? 'bg-gradient-to-r from-green-400 to-emerald-500' :
+                          step.status === 'in-progress' ? 'bg-gradient-to-r from-yellow-400 to-orange-500' :
+                          'bg-gradient-to-r from-gray-400 to-gray-500'
+                        }`}
+                        style={{ width: `${step.progress}%` }}
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="bg-white/5 p-2 rounded text-xs text-white/80 italic">
+                    "{step.blessing}"
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Active Samaritan Actions */}
+          <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
+            <h3 className="text-xl font-bold text-white mb-4 font-space">Active Interventions</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {samaritanActions.map((action) => (
+                <div key={action.id} className="bg-white/5 p-4 rounded-lg">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className={`p-2 rounded-full ${
+                      action.type === 'healing' ? 'bg-green-500/20 text-green-400' :
+                      action.type === 'provision' ? 'bg-yellow-500/20 text-yellow-400' :
+                      action.type === 'guidance' ? 'bg-blue-500/20 text-blue-400' :
+                      'bg-purple-500/20 text-purple-400'
+                    }`}>
+                      {action.type === 'healing' && <Heart className="w-4 h-4" />}
+                      {action.type === 'provision' && <Gift className="w-4 h-4" />}
+                      {action.type === 'guidance' && <Lightbulb className="w-4 h-4" />}
+                      {action.type === 'protection' && <Shield className="w-4 h-4" />}
+                    </div>
+                    <div className="flex items-center space-x-1 text-xs text-white/60">
+                      <Clock className="w-3 h-3" />
+                      <span>{action.timeRemaining}min</span>
+                    </div>
+                  </div>
+                  
+                  <h4 className="font-bold text-white mb-1">{action.title}</h4>
+                  <p className="text-white/70 text-xs mb-3">{action.description}</p>
+                  
+                  <div className="mb-3">
+                    <div className="w-full bg-white/20 rounded-full h-2">
+                      <div 
+                        className="bg-gradient-to-r from-cyan-400 to-blue-500 h-2 rounded-full transition-all"
+                        style={{ width: `${action.progress}%` }}
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs text-white/60">Blessing Ready</span>
+                    <span className="text-green-400 font-bold text-sm">+{action.blessing}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </motion.div>
       )}
 
