@@ -16,7 +16,13 @@ import {
   Package,
   Truck,
   Code,
-  Coins
+  Coins,
+  ArrowRight,
+  CheckCircle,
+  Clock,
+  Lightbulb,
+  Compass,
+  MapPin
 } from 'lucide-react';
 
 interface ClanMember {
@@ -68,6 +74,25 @@ interface JesusAssistantProps {
   onCurseReversed: (curse: string, gift: string) => void;
 }
 
+interface TransformationStep {
+  id: string;
+  title: string;
+  description: string;
+  status: 'pending' | 'in-progress' | 'completed';
+  progress: number;
+  blessing: string;
+  icon: React.ReactNode;
+}
+
+interface SamaritanAction {
+  id: string;
+  type: 'healing' | 'provision' | 'guidance' | 'protection';
+  title: string;
+  description: string;
+  progress: number;
+  timeRemaining: number;
+  blessing: number;
+}
 export const JesusAssistant: React.FC<JesusAssistantProps> = ({
   userClan,
   onGiftCirculation,
@@ -156,15 +181,112 @@ export const JesusAssistant: React.FC<JesusAssistantProps> = ({
   useEffect(() => {
     // Jesus AI greeting
     const greetings = [
-      "Peace be with you! I'm here to help your clan grow and develop.",
-      "Greetings in love! Ready to reverse some curses and deliver gifts?",
-      "Hello, beloved! Let's work together to bring heaven to earth through code.",
-      "Welcome! I'm excited to help you develop and circulate divine gifts.",
-      "Blessings! Your development projects are looking wonderful today."
+      "Peace be with you! I'm going ahead like a good Samaritan to prepare your path.",
+      "Greetings in love! I'm already working on transforming obstacles into opportunities.",
+      "Hello, beloved! I see your needs and I'm preparing divine solutions ahead of time.",
+      "Welcome! Like the good Samaritan, I'm here to heal, provide, and guide your journey.",
+      "Blessings! I'm transforming your challenges into stepping stones for growth."
     ];
     
     setJesusMessage(greetings[Math.floor(Math.random() * greetings.length)]);
+    initializeTransformation();
   }, []);
+
+  const initializeTransformation = () => {
+    const steps: TransformationStep[] = [
+      {
+        id: '1',
+        title: 'Healing Preparation',
+        description: 'Jesus is preparing healing for your wounds and obstacles',
+        status: 'in-progress',
+        progress: 75,
+        blessing: 'Divine healing flows ahead of your steps',
+        icon: <Heart className="w-5 h-5" />
+      },
+      {
+        id: '2',
+        title: 'Provision Gathering',
+        description: 'Resources and opportunities are being arranged for your journey',
+        status: 'in-progress',
+        progress: 60,
+        blessing: 'Your needs are known and provision is prepared',
+        icon: <Gift className="w-5 h-5" />
+      },
+      {
+        id: '3',
+        title: 'Path Clearing',
+        description: 'Obstacles are being removed and the way is being made straight',
+        status: 'pending',
+        progress: 30,
+        blessing: 'Every mountain is being made low, every valley lifted up',
+        icon: <Compass className="w-5 h-5" />
+      },
+      {
+        id: '4',
+        title: 'Divine Connections',
+        description: 'The right people and opportunities are being aligned',
+        status: 'pending',
+        progress: 15,
+        blessing: 'Divine appointments are being scheduled for your success',
+        icon: <Users className="w-5 h-5" />
+      }
+    ];
+
+    setTransformationSteps(steps);
+    
+    const actions: SamaritanAction[] = [
+      {
+        id: '1',
+        type: 'healing',
+        title: 'Emotional Healing',
+        description: 'Healing past hurts that block your progress',
+        progress: 85,
+        timeRemaining: 5,
+        blessing: 100
+      },
+      {
+        id: '2',
+        type: 'provision',
+        title: 'Financial Breakthrough',
+        description: 'Opening doors for increased income and resources',
+        progress: 45,
+        timeRemaining: 15,
+        blessing: 250
+      },
+      {
+        id: '3',
+        type: 'guidance',
+        title: 'Wisdom Impartation',
+        description: 'Downloading divine strategies for your success',
+        progress: 70,
+        timeRemaining: 8,
+        blessing: 150
+      }
+    ];
+
+    setSamaritanActions(actions);
+    
+    // Calculate overall progress
+    const totalProgress = steps.reduce((sum, step) => sum + step.progress, 0) / steps.length;
+    setOverallProgress(totalProgress);
+
+    // Simulate progress updates
+    const interval = setInterval(() => {
+      setTransformationSteps(prev => prev.map(step => ({
+        ...step,
+        progress: Math.min(step.progress + Math.random() * 2, 100),
+        status: step.progress >= 100 ? 'completed' : step.progress > 0 ? 'in-progress' : 'pending'
+      })));
+
+      setSamaritanActions(prev => prev.map(action => ({
+        ...action,
+        progress: Math.min(action.progress + Math.random() * 1.5, 100),
+        timeRemaining: Math.max(action.timeRemaining - 0.5, 0)
+      })));
+    }, 3000);
+
+    return () => clearInterval(interval);
+  };
 
   const handleJesusInteraction = (input: string) => {
     // Simulate Jesus AI responses
@@ -253,6 +375,7 @@ export const JesusAssistant: React.FC<JesusAssistantProps> = ({
         <div className="flex space-x-4 mt-6">
           {[
             { id: 'assistant', name: 'Jesus AI', icon: <Heart className="w-4 h-4" /> },
+            { id: 'samaritan', name: 'Good Samaritan', icon: <Hand className="w-4 h-4" /> },
             { id: 'development', name: 'Development', icon: <Code className="w-4 h-4" /> },
             { id: 'gifts', name: 'Seven Gifts', icon: <Gift className="w-4 h-4" /> },
             { id: 'circulation', name: 'Circulation', icon: <Truck className="w-4 h-4" /> }
