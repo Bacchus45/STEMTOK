@@ -6,6 +6,7 @@ import { Feed } from './components/Feed';
 import { CoinCreator } from './components/CoinCreator';
 import { CoinManager } from './components/CoinManager';
 import { PresentationEditor } from './components/PresentationEditor';
+import { PaymentIntegration } from './components/PaymentIntegration';
 import { InsightsAnalyzer } from './components/InsightsAnalyzer';
 import { STEMResearch } from './components/STEMResearch';
 import { JesusAssistant } from './components/JesusAssistant';
@@ -22,6 +23,7 @@ export default function App() {
   const [showSTEMResearch, setShowSTEMResearch] = useState(false);
   const [showJesusAssistant, setShowJesusAssistant] = useState(false);
   const [show3DCoding, setShow3DCoding] = useState(false);
+  const [showPaymentIntegration, setShowPaymentIntegration] = useState(false);
   const [userCoins, setUserCoins] = useState<UserCoin[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([
     {
@@ -259,6 +261,26 @@ export default function App() {
                   >
                     <h3 className="text-xl font-bold mb-2">Jesus Assistant</h3>
                     <p className="text-yellow-100">AI assistant for clan development and gift circulation</p>
+                  </motion.button>
+
+                  <motion.button
+                    onClick={() => setShowPaymentIntegration(true)}
+                    className="bg-gradient-to-br from-emerald-500 to-teal-500 p-6 rounded-xl hover:from-emerald-600 hover:to-teal-600 transition-all"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <h3 className="text-xl font-bold mb-2">Payment Integration</h3>
+                    <p className="text-emerald-100">Empowerment through integrated payments</p>
+                  </motion.button>
+
+                  <motion.button
+                    onClick={() => setShow3DCoding(true)}
+                    className="bg-gradient-to-br from-cyan-500 to-blue-500 p-6 rounded-xl hover:from-cyan-600 hover:to-blue-600 transition-all"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <h3 className="text-xl font-bold mb-2">3D Coding System</h3>
+                    <p className="text-cyan-100">128-bit to 11D space with QR money</p>
                   </motion.button>
                 </div>
 
@@ -503,6 +525,29 @@ export default function App() {
                 onGiftCirculation={(amount, description) => addTransaction('earned', amount, description)}
                 onBlessingReceived={(blessing, value) => addTransaction('earned', value, `Blessing: ${blessing}`)}
                 onCurseReversed={(curse, gift) => addTransaction('earned', 100, `Reversed ${curse} with ${gift}`)}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {showPaymentIntegration && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-gradient-to-br from-emerald-900/90 via-teal-900/90 to-cyan-900/90 backdrop-blur-md rounded-2xl w-full max-w-7xl h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-white font-space">Payment Integration & Empowerment</h2>
+                <button
+                  onClick={() => setShowPaymentIntegration(false)}
+                  className="p-2 hover:bg-white/20 rounded-lg transition-colors text-white"
+                >
+                  ✕
+                </button>
+              </div>
+              <PaymentIntegration
+                onPaymentProcessed={(amount, description) => addTransaction('earned', amount, description)}
+                onEmpowermentGained={(level, description) => addTransaction('earned', level * 10, description)}
+                userBalance={getTotalCoins()}
               />
             </div>
           </div>
