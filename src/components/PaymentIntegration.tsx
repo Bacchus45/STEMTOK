@@ -1,23 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  CreditCard, 
-  Wallet, 
-  QrCode, 
-  Send, 
-  Receive, 
-  DollarSign,
-  Bitcoin,
-  Zap,
-  Shield,
-  Globe,
-  Users,
-  TrendingUp,
-  Gift,
-  Star,
-  Crown,
-  Sparkles
-} from 'lucide-react';
+import { CreditCard, Wallet, QrCode, Send, RadioReceiver as Receive, DollarSign, Bitcoin, Zap, Shield, Globe, Users, TrendingUp, Gift, Star, Crown, Sparkles } from 'lucide-react';
 
 interface PaymentMethod {
   id: string;
