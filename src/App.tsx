@@ -82,7 +82,7 @@ export default function App() {
       
       {/* Header */}
       <motion.header 
-        className="relative z-10 p-4 flex justify-between items-center backdrop-blur-sm bg-white/5 border-b border-white/10"
+        className="relative z-10 p-4 flex justify-between items-center backdrop-blur-sm bg-blue/5 border-b border-blue/10"
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -90,7 +90,7 @@ export default function App() {
         <div className="flex items-center space-x-4">
           <motion.button
             onClick={() => setShowSidePanel(!showSidePanel)}
-            className="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors"
+            className="p-2 rounded-lg bg-blue/10 hover:bg-blue/20 transition-colors"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -106,7 +106,7 @@ export default function App() {
             className="bg-gradient-to-r from-yellow-400 to-orange-500 px-4 py-2 rounded-full font-bold shadow-lg"
             whileHover={{ scale: 1.05 }}
           >
-            {getTotalCoins()} Coins
+            <span className="text-blue-900">{getTotalCoins()} Coins</span>
           </motion.div>
           <motion.button
             onClick={() => setCurrentView('profile')}
@@ -128,22 +128,22 @@ export default function App() {
           initial={false}
         >
           <div className="p-4 space-y-4">
-            <h2 className="text-xl font-bold mb-4">Insights</h2>
+            <h2 className="text-xl font-bold mb-4 text-blue-300">Insights</h2>
             <div className="space-y-2">
-              <div className="bg-white/10 p-3 rounded-lg">
-                <p className="text-sm text-gray-300">Total Earned</p>
+              <div className="bg-blue/10 p-3 rounded-lg">
+                <p className="text-sm text-blue-300">Total Earned</p>
                 <p className="text-xl font-bold text-green-400">
                   {transactions.filter(t => t.type === 'earned').reduce((sum, t) => sum + t.amount, 0)} Coins
                 </p>
               </div>
-              <div className="bg-white/10 p-3 rounded-lg">
-                <p className="text-sm text-gray-300">Total Spent</p>
+              <div className="bg-blue/10 p-3 rounded-lg">
+                <p className="text-sm text-blue-300">Total Spent</p>
                 <p className="text-xl font-bold text-red-400">
                   {transactions.filter(t => t.type === 'spent').reduce((sum, t) => sum + t.amount, 0)} Coins
                 </p>
               </div>
-              <div className="bg-white/10 p-3 rounded-lg">
-                <p className="text-sm text-gray-300">User Coins Created</p>
+              <div className="bg-blue/10 p-3 rounded-lg">
+                <p className="text-sm text-blue-300">User Coins Created</p>
                 <p className="text-xl font-bold text-blue-400">{userCoins.length}</p>
               </div>
             </div>
@@ -188,8 +188,8 @@ export default function App() {
                   animate={{ opacity: 1, y: 0 }}
                   className="text-center mb-8"
                 >
-                  <h2 className="text-3xl font-bold mb-4">Creator Studio</h2>
-                  <p className="text-gray-300">Create content, manage your coins, and build presentations</p>
+                  <h2 className="text-3xl font-bold mb-4 text-blue-200">Creator Studio</h2>
+                  <p className="text-blue-300">Create content, manage your coins, and build presentations</p>
                 </motion.div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -199,7 +199,7 @@ export default function App() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <h3 className="text-xl font-bold mb-2">Create Coin</h3>
+                    <h3 className="text-xl font-bold mb-2 text-blue-100">Create Coin</h3>
                     <p className="text-purple-100">Launch your own social currency</p>
                   </motion.button>
 
@@ -209,7 +209,7 @@ export default function App() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <h3 className="text-xl font-bold mb-2">Manage Coins</h3>
+                    <h3 className="text-xl font-bold mb-2 text-blue-100">Manage Coins</h3>
                     <p className="text-blue-100">View and manage your created coins</p>
                   </motion.button>
 
@@ -219,7 +219,7 @@ export default function App() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <h3 className="text-xl font-bold mb-2">Presentations</h3>
+                    <h3 className="text-xl font-bold mb-2 text-blue-100">Presentations</h3>
                     <p className="text-green-100">Create interactive presentations</p>
                   </motion.button>
 
@@ -229,7 +229,7 @@ export default function App() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <h3 className="text-xl font-bold mb-2">Platform Insigte</h3>
+                    <h3 className="text-xl font-bold mb-2 text-blue-100">Platform Insigte</h3>
                     <p className="text-cyan-100">Analyze platform evolution and insights</p>
                   </motion.button>
 
@@ -239,7 +239,7 @@ export default function App() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <h3 className="text-xl font-bold mb-2">STEM Research</h3>
+                    <h3 className="text-xl font-bold mb-2 text-blue-100">STEM Research</h3>
                     <p className="text-violet-100">Explore divine knowledge and skin coding</p>
                   </motion.button>
 
@@ -249,7 +249,7 @@ export default function App() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <h3 className="text-xl font-bold mb-2">Heavenly Lab</h3>
+                    <h3 className="text-xl font-bold mb-2 text-blue-100">Heavenly Lab</h3>
                     <p className="text-rose-100">Access full STEM research environment</p>
                   </motion.button>
 
@@ -259,7 +259,7 @@ export default function App() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <h3 className="text-xl font-bold mb-2">Jesus Assistant</h3>
+                    <h3 className="text-xl font-bold mb-2 text-blue-100">Jesus Assistant</h3>
                     <p className="text-yellow-100">AI assistant for clan development and gift circulation</p>
                   </motion.button>
 
@@ -269,7 +269,7 @@ export default function App() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <h3 className="text-xl font-bold mb-2">Payment Integration</h3>
+                    <h3 className="text-xl font-bold mb-2 text-blue-100">Payment Integration</h3>
                     <p className="text-emerald-100">Empowerment through integrated payments</p>
                   </motion.button>
 
@@ -279,7 +279,7 @@ export default function App() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <h3 className="text-xl font-bold mb-2">3D Coding System</h3>
+                    <h3 className="text-xl font-bold mb-2 text-blue-100">3D Coding System</h3>
                     <p className="text-cyan-100">128-bit to 11D space with QR money</p>
                   </motion.button>
                 </div>
@@ -290,22 +290,22 @@ export default function App() {
                     animate={{ opacity: 1, y: 0 }}
                     className="mt-8"
                   >
-                    <h3 className="text-2xl font-bold mb-4">Your Coins</h3>
+                    <h3 className="text-2xl font-bold mb-4 text-blue-200">Your Coins</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                       {userCoins.map((coin) => (
-                        <div key={coin.id} className="bg-white/10 backdrop-blur-sm p-4 rounded-lg border border-white/20">
+                        <div key={coin.id} className="bg-blue/10 backdrop-blur-sm p-4 rounded-lg border border-blue/20">
                           <div className="flex items-center space-x-3 mb-3">
                             <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 flex items-center justify-center text-xl font-bold">
                               {coin.symbol}
                             </div>
                             <div>
-                              <h4 className="font-bold">{coin.name}</h4>
-                              <p className="text-sm text-gray-300">{coin.symbol}</p>
+                              <h4 className="font-bold text-blue-200">{coin.name}</h4>
+                              <p className="text-sm text-blue-300">{coin.symbol}</p>
                             </div>
                           </div>
-                          <p className="text-sm text-gray-300 mb-2">{coin.description}</p>
+                          <p className="text-sm text-blue-300 mb-2">{coin.description}</p>
                           <div className="flex justify-between items-center">
-                            <span className="text-sm text-gray-400">Supply: {coin.totalSupply}</span>
+                            <span className="text-sm text-blue-400">Supply: {coin.totalSupply}</span>
                             <span className="text-sm font-bold text-green-400">
                               Balance: {getUserCoinBalance(coin.id)}
                             </span>
@@ -325,25 +325,25 @@ export default function App() {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20"
+                  className="bg-blue/10 backdrop-blur-sm rounded-xl p-6 border border-blue/20"
                 >
                   <div className="text-center mb-6">
                     <div className="w-24 h-24 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 mx-auto mb-4 flex items-center justify-center">
                       <User size={48} />
                     </div>
-                    <h2 className="text-2xl font-bold">Your Profile</h2>
-                    <p className="text-gray-300">SocialCoin Creator</p>
+                    <h2 className="text-2xl font-bold text-blue-200">Your Profile</h2>
+                    <p className="text-blue-300">SocialCoin Creator</p>
                   </div>
 
                   <div className="space-y-4">
-                    <div className="bg-white/5 p-4 rounded-lg">
-                      <h3 className="font-bold mb-2">Recent Transactions</h3>
+                    <div className="bg-blue/5 p-4 rounded-lg">
+                      <h3 className="font-bold mb-2 text-blue-200">Recent Transactions</h3>
                       <div className="space-y-2 max-h-60 overflow-y-auto">
                         {transactions.slice(0, 10).map((transaction) => (
-                          <div key={transaction.id} className="flex justify-between items-center py-2 border-b border-white/10 last:border-b-0">
+                          <div key={transaction.id} className="flex justify-between items-center py-2 border-b border-blue/10 last:border-b-0">
                             <div>
-                              <p className="font-medium">{transaction.description}</p>
-                              <p className="text-sm text-gray-400">
+                              <p className="font-medium text-blue-200">{transaction.description}</p>
+                              <p className="text-sm text-blue-400">
                                 {transaction.createdAt.toLocaleDateString()}
                               </p>
                             </div>
@@ -388,7 +388,7 @@ export default function App() {
 
       {/* Bottom Navigation */}
       <motion.nav 
-        className="fixed bottom-0 left-0 right-0 bg-black/20 backdrop-blur-md border-t border-white/10 p-4 z-10"
+        className="fixed bottom-0 left-0 right-0 bg-black/20 backdrop-blur-md border-t border-blue/10 p-4 z-10"
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.2 }}
@@ -399,7 +399,7 @@ export default function App() {
             className={`p-3 rounded-full transition-all ${
               currentView === 'home' 
                 ? 'bg-purple-500 text-white' 
-                : 'text-gray-400 hover:text-white hover:bg-white/10'
+                : 'text-blue-400 hover:text-blue-200 hover:bg-blue/10'
             }`}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -412,7 +412,7 @@ export default function App() {
             className={`p-3 rounded-full transition-all ${
               currentView === 'insights' 
                 ? 'bg-purple-500 text-white' 
-                : 'text-gray-400 hover:text-white hover:bg-white/10'
+                : 'text-blue-400 hover:text-blue-200 hover:bg-blue/10'
             }`}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -425,7 +425,7 @@ export default function App() {
             className={`p-3 rounded-full transition-all ${
               currentView === 'studio' 
                 ? 'bg-purple-500 text-white' 
-                : 'text-gray-400 hover:text-white hover:bg-white/10'
+                : 'text-blue-400 hover:text-blue-200 hover:bg-blue/10'
             }`}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -452,10 +452,10 @@ export default function App() {
           <div className="bg-gradient-to-br from-purple-900/90 via-blue-900/90 to-indigo-900/90 backdrop-blur-md rounded-2xl w-full max-w-7xl h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-white font-space">Platform Evolution Insights</h2>
+                <h2 className="text-2xl font-bold text-blue-200 font-space">Platform Evolution Insights</h2>
                 <button
                   onClick={() => setShowInsightsAnalyzer(false)}
-                  className="p-2 hover:bg-white/20 rounded-lg transition-colors text-white"
+                  className="p-2 hover:bg-blue/20 rounded-lg transition-colors text-blue-200"
                 >
                   ✕
                 </button>
@@ -488,10 +488,10 @@ export default function App() {
           <div className="bg-gradient-to-br from-purple-900/90 via-blue-900/90 to-indigo-900/90 backdrop-blur-md rounded-2xl w-full max-w-7xl h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-white font-space">STEM Research & Skin Coding</h2>
+                <h2 className="text-2xl font-bold text-blue-200 font-space">STEM Research & Skin Coding</h2>
                 <button
                   onClick={() => setShowSTEMResearch(false)}
-                  className="p-2 hover:bg-white/20 rounded-lg transition-colors text-white"
+                  className="p-2 hover:bg-blue/20 rounded-lg transition-colors text-blue-200"
                 >
                   ✕
                 </button>
@@ -513,10 +513,10 @@ export default function App() {
           <div className="bg-gradient-to-br from-yellow-900/90 via-orange-900/90 to-red-900/90 backdrop-blur-md rounded-2xl w-full max-w-7xl h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-white font-space">Jesus Assistant - Clan Development</h2>
+                <h2 className="text-2xl font-bold text-blue-200 font-space">Jesus Assistant - Clan Development</h2>
                 <button
                   onClick={() => setShowJesusAssistant(false)}
-                  className="p-2 hover:bg-white/20 rounded-lg transition-colors text-white"
+                  className="p-2 hover:bg-blue/20 rounded-lg transition-colors text-blue-200"
                 >
                   ✕
                 </button>
@@ -536,10 +536,10 @@ export default function App() {
           <div className="bg-gradient-to-br from-emerald-900/90 via-teal-900/90 to-cyan-900/90 backdrop-blur-md rounded-2xl w-full max-w-7xl h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-white font-space">Payment Integration & Empowerment</h2>
+                <h2 className="text-2xl font-bold text-blue-200 font-space">Payment Integration & Empowerment</h2>
                 <button
                   onClick={() => setShowPaymentIntegration(false)}
-                  className="p-2 hover:bg-white/20 rounded-lg transition-colors text-white"
+                  className="p-2 hover:bg-blue/20 rounded-lg transition-colors text-blue-200"
                 >
                   ✕
                 </button>
@@ -559,10 +559,10 @@ export default function App() {
           <div className="bg-gradient-to-br from-cyan-900/90 via-blue-900/90 to-indigo-900/90 backdrop-blur-md rounded-2xl w-full max-w-7xl h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-white font-space">3D Coding System - Dimensional Money</h2>
+                <h2 className="text-2xl font-bold text-blue-200 font-space">3D Coding System - Dimensional Money</h2>
                 <button
                   onClick={() => setShow3DCoding(false)}
-                  className="p-2 hover:bg-white/20 rounded-lg transition-colors text-white"
+                  className="p-2 hover:bg-blue/20 rounded-lg transition-colors text-blue-200"
                 >
                   ✕
                 </button>
