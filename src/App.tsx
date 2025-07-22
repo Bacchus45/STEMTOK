@@ -11,6 +11,7 @@ import { InsightsAnalyzer } from './components/InsightsAnalyzer';
 import { STEMResearch } from './components/STEMResearch';
 import { JesusAssistant } from './components/JesusAssistant';
 import { CodingSystem3D } from './components/3DCodingSystem';
+import { BatchApiViewer } from './components/BatchApiViewer';
 import { UserCoin, Transaction } from './types';
 
 export default function App() {
@@ -24,6 +25,7 @@ export default function App() {
   const [showJesusAssistant, setShowJesusAssistant] = useState(false);
   const [show3DCoding, setShow3DCoding] = useState(false);
   const [showPaymentIntegration, setShowPaymentIntegration] = useState(false);
+  const [showBatchApi, setShowBatchApi] = useState(false);
   const [userCoins, setUserCoins] = useState<UserCoin[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([
     {
@@ -281,6 +283,16 @@ export default function App() {
                   >
                     <h3 className="text-xl font-bold mb-2 text-blue-100">3D Coding System</h3>
                     <p className="text-cyan-100">128-bit to 11D space with QR money</p>
+                  </motion.button>
+
+                  <motion.button
+                    onClick={() => setShowBatchApi(true)}
+                    className="bg-gradient-to-br from-green-500 to-teal-500 p-6 rounded-xl hover:from-green-600 hover:to-teal-600 transition-all"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <h3 className="text-xl font-bold mb-2 text-blue-100">Batch API Viewer</h3>
+                    <p className="text-green-100">Web-based API testing and monitoring</p>
                   </motion.button>
                 </div>
 
@@ -578,6 +590,36 @@ export default function App() {
           </div>
         </div>
       )}
+      
+      {showBatchApi && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-gradient-to-br from-green-900/90 via-teal-900/90 to-cyan-900/90 backdrop-blur-md rounded-2xl w-full max-w-7xl h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-blue-200 font-space">Batch API Viewer</h2>
+                <button
+                  onClick={() => setShowBatchApi(false)}
+                  className="p-2 hover:bg-blue/20 rounded-lg transition-colors text-blue-200"
+                >
+                  ✕
+                </button>
+              </div>
+              <BatchApiViewer
+                onApiResponse={(responses) => {
+                  console.log('API Responses:', responses);
+                  // Process API responses and update app state
+                  responses.forEach(response => {
+                    if (response.status === 200 && response.data) {
+                      addTransaction('earned', 10, `API call successful: ${response.id}`);
+                    }
+                  });
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
       {showCoinManager && (
         <CoinManager
           coins={userCoins}
