@@ -1,17 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  User, 
-  Mail, 
-  Calendar, 
-  IdCard, 
-  Building, 
-  Shield, 
-  CheckCircle,
-  AlertCircle,
-  Eye,
-  EyeOff
-} from 'lucide-react';
+import { User, Mail, Calendar, Car as IdCard, Building, Shield, CheckCircle, AlertCircle, Eye, EyeOff } from 'lucide-react';
 
 interface UserRegistrationProps {
   onUserRegistered: (userData: UserData) => void;
