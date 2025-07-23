@@ -13,6 +13,7 @@ import { JesusAssistant } from './components/JesusAssistant';
 import { CodingSystem3D } from './components/3DCodingSystem';
 import { BatchApiViewer } from './components/BatchApiViewer';
 import { BodyhacksShares } from './components/BodyhacksShares';
+import { UserRegistration } from './components/UserRegistration';
 import { UserCoin, Transaction } from './types';
 
 export default function App() {
@@ -28,6 +29,8 @@ export default function App() {
   const [showPaymentIntegration, setShowPaymentIntegration] = useState(false);
   const [showBatchApi, setShowBatchApi] = useState(false);
   const [showBodyhacksShares, setShowBodyhacksShares] = useState(false);
+  const [showUserRegistration, setShowUserRegistration] = useState(false);
+  const [currentUser, setCurrentUser] = useState<any>(null);
   const [userCoins, setUserCoins] = useState<UserCoin[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([
     {
@@ -112,6 +115,16 @@ export default function App() {
           >
             <span className="text-blue-900">{getTotalCoins()} Coins</span>
           </motion.div>
+          {!currentUser && (
+            <motion.button
+              onClick={() => setShowUserRegistration(true)}
+              className="px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:from-green-600 hover:to-emerald-700 transition-all text-sm font-medium"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Register
+            </motion.button>
+          )}
           <motion.button
             onClick={() => setCurrentView('profile')}
             className="p-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition-all"
@@ -355,9 +368,68 @@ export default function App() {
                     <div className="w-24 h-24 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 mx-auto mb-4 flex items-center justify-center">
                       <User size={48} />
                     </div>
-                    <h2 className="text-2xl font-bold text-blue-200">Your Profile</h2>
-                    <p className="text-blue-300">SocialCoin Creator</p>
+                    <h2 className="text-2xl font-bold text-blue-200">
+                      {currentUser ? currentUser.name : 'Your Profile'}
+                    </h2>
+                    <p className="text-blue-300">
+                      {currentUser ? (
+                        <>
+                          {currentUser.email} • {currentUser.userType === 'individual' ? 'Individual' : 'Company'} Account
+                          <br />
+                          <span className={`text-xs px-2 py-1 rounded-full ${
+                            currentUser.verificationStatus === 'verified' ? 'bg-green-500/20 text-green-400' :
+                            currentUser.verificationStatus === 'pending' ? 'bg-yellow-500/20 text-yellow-400' :
+                            'bg-red-500/20 text-red-400'
+                          }`}>
+                            {currentUser.verificationStatus === 'verified' ? 'Verified' :
+                             currentUser.verificationStatus === 'pending' ? 'Verification Pending' :
+                             'Verification Required'}
+                          </span>
+                        </>
+                      ) : (
+                        'SocialCoin Creator'
+                      )}
+                    </p>
                   </div>
+
+                  {currentUser && (
+                    <div className="bg-blue/5 p-4 rounded-lg mb-6">
+                      <h3 className="font-bold mb-2 text-blue-200">Account Information</h3>
+                      <div className="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                          <span className="text-blue-400">Registration Date:</span>
+                          <p className="text-blue-200">{currentUser.registrationDate.toLocaleDateString()}</p>
+                        </div>
+                        <div>
+                          <span className="text-blue-400">Account Type:</span>
+                          <p className="text-blue-200">{currentUser.userType === 'individual' ? 'Individual' : 'Company'}</p>
+                        </div>
+                        {currentUser.userType === 'individual' ? (
+                          <>
+                            <div>
+                              <span className="text-blue-400">Birthday:</span>
+                              <p className="text-blue-200">{new Date(currentUser.birthday).toLocaleDateString()}</p>
+                            </div>
+                            <div>
+                              <span className="text-blue-400">ID Number:</span>
+                              <p className="text-blue-200">***{currentUser.idNumber?.slice(-4)}</p>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div>
+                              <span className="text-blue-400">Company Founded:</span>
+                              <p className="text-blue-200">{new Date(currentUser.companyBirthday).toLocaleDateString()}</p>
+                            </div>
+                            <div>
+                              <span className="text-blue-400">Company ID:</span>
+                              <p className="text-blue-200">***{currentUser.companyId?.slice(-4)}</p>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  )}
 
                   <div className="space-y-4">
                     <div className="bg-blue/5 p-4 rounded-lg">
