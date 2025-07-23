@@ -762,6 +762,17 @@ export default function App() {
           }}
         />
       )}
+
+      {showUserRegistration && (
+        <UserRegistration
+          onUserRegistered={(userData) => {
+            setCurrentUser(userData);
+            addTransaction('earned', 100, 'Welcome bonus for new registration');
+            setShowUserRegistration(false);
+          }}
+          onClose={() => setShowUserRegistration(false)}
+        />
+      )}
     </div>
   );
 }
