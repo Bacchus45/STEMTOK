@@ -12,6 +12,7 @@ import { STEMResearch } from './components/STEMResearch';
 import { JesusAssistant } from './components/JesusAssistant';
 import { CodingSystem3D } from './components/3DCodingSystem';
 import { BatchApiViewer } from './components/BatchApiViewer';
+import { BodyhacksShares } from './components/BodyhacksShares';
 import { UserCoin, Transaction } from './types';
 
 export default function App() {
@@ -26,6 +27,7 @@ export default function App() {
   const [show3DCoding, setShow3DCoding] = useState(false);
   const [showPaymentIntegration, setShowPaymentIntegration] = useState(false);
   const [showBatchApi, setShowBatchApi] = useState(false);
+  const [showBodyhacksShares, setShowBodyhacksShares] = useState(false);
   const [userCoins, setUserCoins] = useState<UserCoin[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([
     {
@@ -293,6 +295,16 @@ export default function App() {
                   >
                     <h3 className="text-xl font-bold mb-2 text-blue-100">Batch API Viewer</h3>
                     <p className="text-green-100">Web-based API testing and monitoring</p>
+                  </motion.button>
+
+                  <motion.button
+                    onClick={() => setShowBodyhacksShares(true)}
+                    className="bg-gradient-to-br from-purple-500 to-pink-500 p-6 rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <h3 className="text-xl font-bold mb-2 text-blue-100">Bodyhacks Shares</h3>
+                    <p className="text-purple-100">Distribute shares based on platform activity</p>
                   </motion.button>
                 </div>
 
@@ -613,6 +625,42 @@ export default function App() {
                       addTransaction('earned', 10, `API call successful: ${response.id}`);
                     }
                   });
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {showBodyhacksShares && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-gradient-to-br from-purple-900/90 via-pink-900/90 to-indigo-900/90 backdrop-blur-md rounded-2xl w-full max-w-7xl h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-blue-200 font-space">Bodyhacks Shares Distribution</h2>
+                <button
+                  onClick={() => setShowBodyhacksShares(false)}
+                  className="p-2 hover:bg-blue/20 rounded-lg transition-colors text-blue-200"
+                >
+                  ✕
+                </button>
+              </div>
+              <BodyhacksShares
+                totalUsers={1250}
+                userActivity={{
+                  userId: 'current-user',
+                  posts: 15,
+                  likes: 234,
+                  comments: 89,
+                  presentations: 3,
+                  coinsCreated: userCoins.length,
+                  stemProjects: 2,
+                  jesusInteractions: 12,
+                  paymentsProcessed: 5,
+                  totalActivity: 0
+                }}
+                onSharesUpdated={(shares, description) => {
+                  addTransaction('earned', shares, description);
                 }}
               />
             </div>
