@@ -69,6 +69,8 @@ export default function App() {
   const handleVoiceRecording = (audioBlob: Blob, duration: number) => {
     // Process the voice recording
     console.log('Voice recording received:', audioBlob, duration);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
       <Background3D variant={getBackgroundVariant()} />
