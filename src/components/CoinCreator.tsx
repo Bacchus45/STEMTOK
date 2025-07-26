@@ -166,6 +166,12 @@ export const CoinCreator: React.FC<CoinCreatorProps> = ({ onClose, onCoinCreated
                   onChange={(e) => updateFormData('color', e.target.value)}
                   className="w-12 h-12 rounded-lg border border-white/20 bg-transparent cursor-pointer"
                 />
+                <div 
+                  className="w-12 h-12 rounded-lg flex items-center justify-center text-white font-bold border border-white/20"
+                  style={{ backgroundColor: formData.color }}
+                >
+                  {formData.symbol.charAt(0) || '?'}
+                </div>
                 <div className="flex-1 p-3 bg-white/10 border border-white/20 rounded-lg text-white">
                   {formData.color}
                 </div>

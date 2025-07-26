@@ -20,11 +20,61 @@ export default function App() {
       id: '1',
       type: 'earned',
       amount: 50,
-      description: 'Welkom bonus',
+      description: 'Welcome bonus for joining SocialCoin!',
       createdAt: new Date(),
+      coinType: 'main'
+    },
+    {
+      id: '2',
+      type: 'earned',
+      amount: 25,
+      description: 'Voice post engagement reward',
+      createdAt: new Date(Date.now() - 3600000),
+      coinType: 'main'
+    },
+    {
+      id: '3',
+      type: 'earned',
+      amount: 15,
+      description: 'Community interaction bonus',
+      createdAt: new Date(Date.now() - 7200000),
       coinType: 'main'
     }
   ]);
+  
+  // Add sample user coins
+  useEffect(() => {
+    const sampleCoins: UserCoin[] = [
+      {
+        id: 'winter-coin',
+        name: 'WinterCoin',
+        symbol: 'WINTER',
+        description: 'A seasonal cryptocurrency perfect for the holiday season with special rewards and community features.',
+        totalSupply: 1000000,
+        currentSupply: 850000,
+        color: '#3b82f6',
+        seasonal: true,
+        startDate: new Date('2024-12-01'),
+        endDate: new Date('2025-03-01'),
+        createdAt: new Date(Date.now() - 86400000),
+        createdBy: 'current-user'
+      },
+      {
+        id: 'creator-coin',
+        name: 'CreatorCoin',
+        symbol: 'CREATE',
+        description: 'Empowering content creators with decentralized rewards and community-driven value.',
+        totalSupply: 500000,
+        currentSupply: 500000,
+        color: '#8b5cf6',
+        seasonal: false,
+        createdAt: new Date(Date.now() - 172800000),
+        createdBy: 'current-user'
+      }
+    ];
+    
+    setUserCoins(sampleCoins);
+  }, []);
 
   // Get background variant based on current view
   const getBackgroundVariant = () => {

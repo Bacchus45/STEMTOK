@@ -9,6 +9,7 @@ interface Post {
     name: string;
     username: string;
     avatar: string;
+    avatarBg: string;
   };
   content: string;
   audioUrl?: string;
@@ -19,6 +20,7 @@ interface Post {
   isLiked: boolean;
   timestamp: Date;
   coinReward: number;
+  image?: string;
 }
 
 interface FeedProps {
@@ -38,9 +40,10 @@ export const Feed: React.FC<FeedProps> = ({ onEarnCoins }) => {
         user: {
           name: 'Sarah Chen',
           username: 'sarah_creates',
-          avatar: '👩‍🎨'
+          avatar: 'SC',
+          avatarBg: 'from-pink-500 to-rose-500'
         },
-        content: 'Just launched my new seasonal coin! WinterCoin is perfect for the holidays 🎄',
+        content: 'Just launched my new seasonal coin! WinterCoin is perfect for the holidays 🎄 The community response has been amazing and we\'re seeing great adoption rates!',
         audioUrl: '/sample-audio.mp3',
         duration: 45,
         likes: 23,
@@ -48,7 +51,8 @@ export const Feed: React.FC<FeedProps> = ({ onEarnCoins }) => {
         shares: 5,
         isLiked: false,
         timestamp: new Date(Date.now() - 3600000),
-        coinReward: 25
+        coinReward: 25,
+        image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=500&h=300&fit=crop'
       },
       {
         id: '2',
@@ -56,9 +60,10 @@ export const Feed: React.FC<FeedProps> = ({ onEarnCoins }) => {
         user: {
           name: 'Mike Johnson',
           username: 'crypto_mike',
-          avatar: '👨‍💻'
+          avatar: 'MJ',
+          avatarBg: 'from-blue-500 to-cyan-500'
         },
-        content: 'Here\'s my take on the future of voice-based social media...',
+        content: 'Here\'s my take on the future of voice-based social media and how it\'s revolutionizing authentic communication. The integration with crypto rewards creates incredible incentives!',
         audioUrl: '/sample-audio-2.mp3',
         duration: 78,
         likes: 56,
@@ -66,7 +71,8 @@ export const Feed: React.FC<FeedProps> = ({ onEarnCoins }) => {
         shares: 18,
         isLiked: true,
         timestamp: new Date(Date.now() - 7200000),
-        coinReward: 35
+        coinReward: 35,
+        image: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=500&h=300&fit=crop'
       },
       {
         id: '3',
@@ -74,15 +80,55 @@ export const Feed: React.FC<FeedProps> = ({ onEarnCoins }) => {
         user: {
           name: 'Alex Rivera',
           username: 'alex_builds',
-          avatar: '👩‍🔬'
+          avatar: 'AR',
+          avatarBg: 'from-purple-500 to-indigo-500'
         },
-        content: 'Working on a new presentation about quantum computing in crypto. The possibilities are endless! 🚀',
+        content: 'Working on a new presentation about quantum computing in crypto. The possibilities are endless! 🚀 Quantum-resistant algorithms will be crucial for the future of blockchain security.',
         likes: 34,
         comments: 15,
         shares: 9,
         isLiked: false,
         timestamp: new Date(Date.now() - 10800000),
-        coinReward: 15
+        coinReward: 15,
+        image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=500&h=300&fit=crop'
+      },
+      {
+        id: '4',
+        type: 'voice',
+        user: {
+          name: 'Emma Watson',
+          username: 'emma_codes',
+          avatar: 'EW',
+          avatarBg: 'from-green-500 to-emerald-500'
+        },
+        content: 'Building the future of decentralized social networks! Check out this demo of our new voice authentication system.',
+        audioUrl: '/sample-audio-3.mp3',
+        duration: 62,
+        likes: 89,
+        comments: 24,
+        shares: 31,
+        isLiked: false,
+        timestamp: new Date(Date.now() - 14400000),
+        coinReward: 45,
+        image: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=500&h=300&fit=crop'
+      },
+      {
+        id: '5',
+        type: 'text',
+        user: {
+          name: 'David Kim',
+          username: 'david_designs',
+          avatar: 'DK',
+          avatarBg: 'from-orange-500 to-red-500'
+        },
+        content: 'Just finished designing a new UI component library for Web3 apps. The glassmorphism effects combined with crypto themes create such a beautiful aesthetic! ✨',
+        likes: 67,
+        comments: 18,
+        shares: 12,
+        isLiked: true,
+        timestamp: new Date(Date.now() - 18000000),
+        coinReward: 28,
+        image: 'https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=500&h=300&fit=crop'
       }
     ];
 
@@ -153,7 +199,7 @@ export const Feed: React.FC<FeedProps> = ({ onEarnCoins }) => {
             {/* Post Header */}
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-xl">
+                <div className={`w-12 h-12 rounded-full bg-gradient-to-r ${post.user.avatarBg} flex items-center justify-center text-white font-bold text-sm`}>
                   {post.user.avatar}
                 </div>
                 <div>
@@ -169,6 +215,21 @@ export const Feed: React.FC<FeedProps> = ({ onEarnCoins }) => {
             {/* Post Content */}
             <div className="mb-4">
               <p className="text-white/90 leading-relaxed mb-3">{post.content}</p>
+              
+              {/* Post Image */}
+              {post.image && (
+                <div className="mb-4">
+                  <img
+                    src={post.image}
+                    alt="Post content"
+                    className="w-full h-64 object-cover rounded-xl border border-white/10"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                    }}
+                  />
+                </div>
+              )}
               
               {/* Voice Player */}
               {post.type === 'voice' && (
@@ -201,7 +262,7 @@ export const Feed: React.FC<FeedProps> = ({ onEarnCoins }) => {
                               playingPost === post.id ? 'animate-pulse' : ''
                             }`}
                             style={{ 
-                              height: `${Math.random() * 20 + 8}px`,
+                              height: `${Math.sin(i * 0.5) * 15 + 20}px`,
                               opacity: playingPost === post.id && i < 20 ? 1 : 0.4
                             }}
                           />
@@ -258,6 +319,23 @@ export const Feed: React.FC<FeedProps> = ({ onEarnCoins }) => {
           Load More Posts
         </button>
       </motion.div>
+      
+      {/* Floating Create Button */}
+      <motion.button
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        className="fixed bottom-24 right-6 w-16 h-16 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full shadow-2xl flex items-center justify-center z-40"
+        animate={{
+          boxShadow: ['0 0 20px rgba(168, 85, 247, 0.4)', '0 0 40px rgba(168, 85, 247, 0.8)', '0 0 20px rgba(168, 85, 247, 0.4)']
+        }}
+        transition={{
+          duration: 2,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      >
+        <Mic className="w-7 h-7 text-white" />
+      </motion.button>
     </div>
   );
 };
