@@ -1,16 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Mic, 
-  MicOff, 
-  Play, 
-  Pause, 
-  Square, 
-  Trash2, 
-  Send, 
-  Volume2,
-  Waveform
-} from 'lucide-react';
+import { Mic, MicOff, Play, Pause, Square, Trash2, Send, Volume2, Waves as Waveform } from 'lucide-react';
 
 interface VoiceRecorderProps {
   onRecordingComplete: (audioBlob: Blob, duration: number) => void;
