@@ -134,7 +134,7 @@ export const UserRegistration: React.FC<UserRegistrationProps> = ({
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        className="bg-blue/10 backdrop-blur-md rounded-2xl p-8 max-w-2xl w-full border border-blue/20"
+        className="bg-white/10 backdrop-blur-md rounded-2xl p-8 max-w-2xl w-full border border-white/20"
       >
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
@@ -143,13 +143,13 @@ export const UserRegistration: React.FC<UserRegistrationProps> = ({
               <User className="w-8 h-8 text-white" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-blue-200 font-space">User Registration</h2>
-              <p className="text-blue-300">Step {activeStep} of 3</p>
+              <h2 className="text-2xl font-bold text-white font-space">User Registration</h2>
+              <p className="text-white/70">Step {activeStep} of 3</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="text-blue-300 hover:text-blue-200 transition-colors"
+            className="text-white/70 hover:text-white transition-colors"
           >
             ✕
           </button>
@@ -162,12 +162,12 @@ export const UserRegistration: React.FC<UserRegistrationProps> = ({
               <div
                 key={step}
                 className={`flex items-center space-x-2 ${
-                  step <= activeStep ? 'text-blue-200' : 'text-blue-400'
+                  step <= activeStep ? 'text-white' : 'text-white/40'
                 }`}
               >
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
                   step < activeStep ? 'bg-green-500' :
-                  step === activeStep ? 'bg-blue-500' : 'bg-blue/20'
+                  step === activeStep ? 'bg-blue-500' : 'bg-white/20'
                 }`}>
                   {step < activeStep ? <CheckCircle className="w-5 h-5" /> : step}
                 </div>
@@ -177,7 +177,7 @@ export const UserRegistration: React.FC<UserRegistrationProps> = ({
               </div>
             ))}
           </div>
-          <div className="w-full bg-blue/20 rounded-full h-2">
+          <div className="w-full bg-white/20 rounded-full h-2">
             <div 
               className="bg-gradient-to-r from-purple-500 to-pink-600 h-2 rounded-full transition-all"
               style={{ width: `${(activeStep / 3) * 100}%` }}
@@ -193,14 +193,14 @@ export const UserRegistration: React.FC<UserRegistrationProps> = ({
             className="space-y-6"
           >
             <div>
-              <label className="block text-blue-300 text-sm mb-2">Full Name *</label>
+              <label className="block text-white/70 text-sm mb-2">Full Name *</label>
               <div className="relative">
-                <User className="absolute left-3 top-3 w-5 h-5 text-blue-400" />
+                <User className="absolute left-3 top-3 w-5 h-5 text-white/40" />
                 <input
                   type="text"
                   value={formData.name}
                   onChange={(e) => updateFormData('name', e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-blue/10 border border-blue/20 rounded-lg text-blue-200 placeholder-blue-400 focus:border-blue-400 focus:outline-none"
+                  className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:border-blue-400 focus:outline-none"
                   placeholder="Enter your full name"
                 />
               </div>
@@ -213,14 +213,14 @@ export const UserRegistration: React.FC<UserRegistrationProps> = ({
             </div>
 
             <div>
-              <label className="block text-blue-300 text-sm mb-2">Email Address *</label>
+              <label className="block text-white/70 text-sm mb-2">Email Address *</label>
               <div className="relative">
-                <Mail className="absolute left-3 top-3 w-5 h-5 text-blue-400" />
+                <Mail className="absolute left-3 top-3 w-5 h-5 text-white/40" />
                 <input
                   type="email"
                   value={formData.email}
                   onChange={(e) => updateFormData('email', e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-blue/10 border border-blue/20 rounded-lg text-blue-200 placeholder-blue-400 focus:border-blue-400 focus:outline-none"
+                  className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:border-blue-400 focus:outline-none"
                   placeholder="Enter your email address"
                 />
               </div>
@@ -233,15 +233,15 @@ export const UserRegistration: React.FC<UserRegistrationProps> = ({
             </div>
 
             <div>
-              <label className="block text-blue-300 text-sm mb-2">Account Type</label>
+              <label className="block text-white/70 text-sm mb-2">Account Type</label>
               <div className="grid grid-cols-2 gap-4">
                 <button
                   type="button"
                   onClick={() => setUserType('individual')}
                   className={`p-4 rounded-lg border transition-all ${
                     userType === 'individual'
-                      ? 'border-blue-400 bg-blue/20 text-blue-200'
-                      : 'border-blue/20 bg-blue/10 text-blue-300 hover:bg-blue/15'
+                      ? 'border-blue-400 bg-blue-500/20 text-white'
+                      : 'border-white/20 bg-white/10 text-white/70 hover:bg-white/15'
                   }`}
                 >
                   <User className="w-6 h-6 mx-auto mb-2" />
@@ -252,8 +252,8 @@ export const UserRegistration: React.FC<UserRegistrationProps> = ({
                   onClick={() => setUserType('company')}
                   className={`p-4 rounded-lg border transition-all ${
                     userType === 'company'
-                      ? 'border-blue-400 bg-blue/20 text-blue-200'
-                      : 'border-blue/20 bg-blue/10 text-blue-300 hover:bg-blue/15'
+                      ? 'border-blue-400 bg-blue-500/20 text-white'
+                      : 'border-white/20 bg-white/10 text-white/70 hover:bg-white/15'
                   }`}
                 >
                   <Building className="w-6 h-6 mx-auto mb-2" />
@@ -274,14 +274,14 @@ export const UserRegistration: React.FC<UserRegistrationProps> = ({
             {userType === 'individual' ? (
               <>
                 <div>
-                  <label className="block text-blue-300 text-sm mb-2">Birthday *</label>
+                  <label className="block text-white/70 text-sm mb-2">Birthday *</label>
                   <div className="relative">
-                    <Calendar className="absolute left-3 top-3 w-5 h-5 text-blue-400" />
+                    <Calendar className="absolute left-3 top-3 w-5 h-5 text-white/40" />
                     <input
                       type="date"
                       value={formData.birthday}
                       onChange={(e) => updateFormData('birthday', e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 bg-blue/10 border border-blue/20 rounded-lg text-blue-200 focus:border-blue-400 focus:outline-none"
+                      className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:border-blue-400 focus:outline-none"
                     />
                   </div>
                   {errors.birthday && (
@@ -293,14 +293,14 @@ export const UserRegistration: React.FC<UserRegistrationProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-blue-300 text-sm mb-2">ID Number *</label>
+                  <label className="block text-white/70 text-sm mb-2">ID Number *</label>
                   <div className="relative">
-                    <IdCard className="absolute left-3 top-3 w-5 h-5 text-blue-400" />
+                    <IdCard className="absolute left-3 top-3 w-5 h-5 text-white/40" />
                     <input
                       type="text"
                       value={formData.idNumber}
                       onChange={(e) => updateFormData('idNumber', e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 bg-blue/10 border border-blue/20 rounded-lg text-blue-200 placeholder-blue-400 focus:border-blue-400 focus:outline-none"
+                      className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:border-blue-400 focus:outline-none"
                       placeholder="Enter your ID number"
                     />
                   </div>
@@ -315,14 +315,14 @@ export const UserRegistration: React.FC<UserRegistrationProps> = ({
             ) : (
               <>
                 <div>
-                  <label className="block text-blue-300 text-sm mb-2">Company ID *</label>
+                  <label className="block text-white/70 text-sm mb-2">Company ID *</label>
                   <div className="relative">
-                    <Building className="absolute left-3 top-3 w-5 h-5 text-blue-400" />
+                    <Building className="absolute left-3 top-3 w-5 h-5 text-white/40" />
                     <input
                       type="text"
                       value={formData.companyId}
                       onChange={(e) => updateFormData('companyId', e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 bg-blue/10 border border-blue/20 rounded-lg text-blue-200 placeholder-blue-400 focus:border-blue-400 focus:outline-none"
+                      className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:border-blue-400 focus:outline-none"
                       placeholder="Enter company registration ID"
                     />
                   </div>
@@ -335,14 +335,14 @@ export const UserRegistration: React.FC<UserRegistrationProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-blue-300 text-sm mb-2">Company Founding Date *</label>
+                  <label className="block text-white/70 text-sm mb-2">Company Founding Date *</label>
                   <div className="relative">
-                    <Calendar className="absolute left-3 top-3 w-5 h-5 text-blue-400" />
+                    <Calendar className="absolute left-3 top-3 w-5 h-5 text-white/40" />
                     <input
                       type="date"
                       value={formData.companyBirthday}
                       onChange={(e) => updateFormData('companyBirthday', e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 bg-blue/10 border border-blue/20 rounded-lg text-blue-200 focus:border-blue-400 focus:outline-none"
+                      className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:border-blue-400 focus:outline-none"
                     />
                   </div>
                   {errors.companyBirthday && (
@@ -355,12 +355,12 @@ export const UserRegistration: React.FC<UserRegistrationProps> = ({
               </>
             )}
 
-            <div className="bg-blue/5 p-4 rounded-lg">
+            <div className="bg-white/5 p-4 rounded-lg">
               <div className="flex items-start space-x-3">
                 <Shield className="w-5 h-5 text-blue-400 mt-0.5" />
                 <div>
-                  <h4 className="font-bold text-blue-200 mb-1">Verification Required</h4>
-                  <p className="text-blue-300 text-sm">
+                  <h4 className="font-bold text-white mb-1">Verification Required</h4>
+                  <p className="text-white/70 text-sm">
                     {userType === 'individual' 
                       ? 'Your birthday and ID number are required for account verification and security.'
                       : 'Company ID and founding date are required for business account verification.'
@@ -380,20 +380,20 @@ export const UserRegistration: React.FC<UserRegistrationProps> = ({
             className="space-y-6"
           >
             <div>
-              <label className="block text-blue-300 text-sm mb-2">Password *</label>
+              <label className="block text-white/70 text-sm mb-2">Password *</label>
               <div className="relative">
-                <Shield className="absolute left-3 top-3 w-5 h-5 text-blue-400" />
+                <Shield className="absolute left-3 top-3 w-5 h-5 text-white/40" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={formData.password}
                   onChange={(e) => updateFormData('password', e.target.value)}
-                  className="w-full pl-10 pr-12 py-3 bg-blue/10 border border-blue/20 rounded-lg text-blue-200 placeholder-blue-400 focus:border-blue-400 focus:outline-none"
+                  className="w-full pl-10 pr-12 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:border-blue-400 focus:outline-none"
                   placeholder="Create a secure password"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-3 text-blue-400 hover:text-blue-300"
+                  className="absolute right-3 top-3 text-white/40 hover:text-white/70"
                 >
                   {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
@@ -407,14 +407,14 @@ export const UserRegistration: React.FC<UserRegistrationProps> = ({
             </div>
 
             <div>
-              <label className="block text-blue-300 text-sm mb-2">Confirm Password *</label>
+              <label className="block text-white/70 text-sm mb-2">Confirm Password *</label>
               <div className="relative">
-                <Shield className="absolute left-3 top-3 w-5 h-5 text-blue-400" />
+                <Shield className="absolute left-3 top-3 w-5 h-5 text-white/40" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={formData.confirmPassword}
                   onChange={(e) => updateFormData('confirmPassword', e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-blue/10 border border-blue/20 rounded-lg text-blue-200 placeholder-blue-400 focus:border-blue-400 focus:outline-none"
+                  className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:border-blue-400 focus:outline-none"
                   placeholder="Confirm your password"
                 />
               </div>
@@ -452,7 +452,7 @@ export const UserRegistration: React.FC<UserRegistrationProps> = ({
           <button
             onClick={handleBack}
             disabled={activeStep === 1}
-            className="px-6 py-3 bg-blue/10 text-blue-300 rounded-lg hover:bg-blue/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-6 py-3 bg-white/10 text-white/70 rounded-lg hover:bg-white/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Back
           </button>

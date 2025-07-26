@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mic, User, Home, TrendingUp, Menu } from 'lucide-react';
+import { Mic, User, Home, TrendingUp, Menu, Settings, MessageCircle, BarChart3, TrendingDown } from 'lucide-react';
 import { Background3D } from './components/Background3D';
 import { Feed } from './components/Feed';
 import { CoinCreator } from './components/CoinCreator';
 import { CoinManager } from './components/CoinManager';
 import { PresentationEditor } from './components/PresentationEditor';
+import { UserRegistration } from './components/UserRegistration';
+import { VoiceRecorder } from './components/VoiceRecorder';
+import { CoinTradingInterface } from './components/CoinTradingInterface';
+import { DashboardAnalytics } from './components/DashboardAnalytics';
+import { ChatMessagingSystem } from './components/ChatMessagingSystem';
 import { UserCoin, Transaction } from './types';
 
 export default function App() {
@@ -14,6 +19,9 @@ export default function App() {
   const [showCoinCreator, setShowCoinCreator] = useState(false);
   const [showCoinManager, setShowCoinManager] = useState(false);
   const [showPresentationEditor, setShowPresentationEditor] = useState(false);
+  const [showUserRegistration, setShowUserRegistration] = useState(false);
+  const [showVoiceRecorder, setShowVoiceRecorder] = useState(false);
+  const [currentUser, setCurrentUser] = useState<any>(null);
   const [userCoins, setUserCoins] = useState<UserCoin[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([
     {
@@ -76,10 +84,30 @@ export default function App() {
     setUserCoins(sampleCoins);
   }, []);
 
+  const handleUserRegistered = (userData: any) => {
+    setCurrentUser(userData);
+    setShowUserRegistration(false);
+    addTransaction('earned', 100, 'Welcome bonus for new user!', 'main');
+  };
+
+  const handleVoiceRecording = (audioBlob: Blob, duration: number) => {
+    addTransaction('earned', 25, `Voice message recorded (${duration}s)`, 'main');
+    setShowVoiceRecorder(false);
+  };
+
+  const handleTradeComplete = (order: any) => {
+    const amount = order.type === 'buy' ? -order.total : order.total;
+    addTransaction(order.type === 'buy' ? 'spent' : 'earned', Math.abs(amount), 
+      `${order.type.toUpperCase()} ${order.amount} ${order.coin}`, 'main');
+  };
+
   // Get background variant based on current view
   const getBackgroundVariant = () => {
     if (currentView === 'profile') return 'profile';
     if (currentView === 'studio') return 'studio';
+    if (currentView === 'chat') return 'insights';
+    if (currentView === 'trading') return 'insights';
+    if (currentView === 'analytics') return 'insights';
     if (showSidePanel) return 'insights';
     return 'main';
   };
@@ -149,6 +177,13 @@ export default function App() {
             <span className="text-blue-900">{getTotalCoins()} Coins</span>
           </div>
           
+          <button 
+            onClick={() => setShowUserRegistration(true)}
+            className="p-3 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 transition-all shadow-lg"
+          >
+            <Settings size={20} className="text-white" />
+          </button>
+          
           <button className="p-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition-all shadow-lg">
             <User size={20} className="text-white" />
           </button>
@@ -208,10 +243,10 @@ export default function App() {
               )}
               
               {currentView === 'insights' && (
-                <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
-                  <h2 className="text-2xl font-bold text-white mb-4">Platform Insights</h2>
-                  <p className="text-white/70">Analytics and insights coming soon...</p>
-                </div>
+                <DashboardAnalytics
+                  userBalance={getTotalCoins()}
+                  totalTransactions={transactions.length}
+                />
               )}
               
               {currentView === 'studio' && (
@@ -300,6 +335,29 @@ export default function App() {
                   )}
                 </div>
               )}
+              
+              {currentView === 'trading' && (
+                <CoinTradingInterface
+                  onTradeComplete={handleTradeComplete}
+                  userBalance={getTotalCoins()}
+                />
+              )}
+              
+              {currentView === 'chat' && (
+                <ChatMessagingSystem
+                  currentUserId="current-user"
+                  onSendMessage={(message, chatId) => {
+                    addTransaction('earned', 5, 'Message sent', 'main');
+                  }}
+                />
+              )}
+              
+              {currentView === 'analytics' && (
+                <DashboardAnalytics
+                  userBalance={getTotalCoins()}
+                  totalTransactions={transactions.length}
+                />
+              )}
 
               {/* Profile view */}
               {currentView === 'profile' && (
@@ -317,6 +375,45 @@ export default function App() {
                       <p className="text-white/70 text-lg">SocialCoin Creator</p>
                     </motion.div>
 
+                    {currentUser && (
+                      <div className="bg-white/5 p-4 rounded-lg mb-6">
+                        <h3 className="font-bold mb-2 text-white">Account Information</h3>
+                        <div className="grid grid-cols-2 gap-4 text-sm">
+                          <div>
+                            <span className="text-white/60">Registration Date:</span>
+                            <p className="text-white">{currentUser.registrationDate.toLocaleDateString()}</p>
+                          </div>
+                          <div>
+                            <span className="text-white/60">Account Type:</span>
+                            <p className="text-white">{currentUser.userType === 'individual' ? 'Individual' : 'Company'}</p>
+                          </div>
+                          {currentUser.userType === 'individual' ? (
+                            <>
+                              <div>
+                                <span className="text-white/60">Birthday:</span>
+                                <p className="text-white">{new Date(currentUser.birthday).toLocaleDateString()}</p>
+                              </div>
+                              <div>
+                                <span className="text-white/60">ID Number:</span>
+                                <p className="text-white">***{currentUser.idNumber?.slice(-4)}</p>
+                              </div>
+                            </>
+                          ) : (
+                            <>
+                              <div>
+                                <span className="text-white/60">Company Founded:</span>
+                                <p className="text-white">{new Date(currentUser.companyBirthday).toLocaleDateString()}</p>
+                              </div>
+                              <div>
+                                <span className="text-white/60">Company ID:</span>
+                                <p className="text-white">***{currentUser.companyId?.slice(-4)}</p>
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                    
                       {currentUser && (
                         <div className="bg-blue/5 p-4 rounded-lg mb-6">
                           <h3 className="font-bold mb-2 text-blue-200">Account Information</h3>
@@ -411,16 +508,16 @@ export default function App() {
             </motion.button>
             
             <motion.button
-              onClick={() => setCurrentView('insights')}
+              onClick={() => setCurrentView('trading')}
               className={`p-3 rounded-full transition-all ${
-                currentView === 'insights' 
+                currentView === 'trading' 
                   ? 'bg-purple-500 text-white' 
                   : 'text-blue-400 hover:text-blue-200 hover:bg-blue/10'
               }`}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
-              <TrendingUp size={24} />
+              <TrendingDown size={24} />
             </motion.button>
             
             <motion.button
@@ -434,6 +531,32 @@ export default function App() {
               whileTap={{ scale: 0.9 }}
             >
               <Mic size={24} />
+            </motion.button>
+            
+            <motion.button
+              onClick={() => setCurrentView('chat')}
+              className={`p-3 rounded-full transition-all ${
+                currentView === 'chat' 
+                  ? 'bg-purple-500 text-white' 
+                  : 'text-white/60 hover:text-white hover:bg-white/10'
+              }`}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <MessageCircle size={24} />
+            </motion.button>
+            
+            <motion.button
+              onClick={() => setCurrentView('analytics')}
+              className={`p-3 rounded-full transition-all ${
+                currentView === 'analytics' 
+                  ? 'bg-purple-500 text-white' 
+                  : 'text-white/60 hover:text-white hover:bg-white/10'
+              }`}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <BarChart3 size={24} />
             </motion.button>
           </div>
         </motion.nav>
@@ -521,6 +644,39 @@ export default function App() {
           }}
         />
       )}
+      
+      {showUserRegistration && (
+        <UserRegistration
+          onClose={() => setShowUserRegistration(false)}
+          onUserRegistered={handleUserRegistered}
+        />
+      )}
+      
+      {showVoiceRecorder && (
+        <VoiceRecorder
+          isOpen={showVoiceRecorder}
+          onClose={() => setShowVoiceRecorder(false)}
+          onRecordingComplete={handleVoiceRecording}
+        />
+      )}
+      
+      {/* Floating Voice Record Button */}
+      <motion.button
+        onClick={() => setShowVoiceRecorder(true)}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        className="fixed bottom-24 right-6 w-16 h-16 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full shadow-2xl flex items-center justify-center z-40"
+        animate={{
+          boxShadow: ['0 0 20px rgba(168, 85, 247, 0.4)', '0 0 40px rgba(168, 85, 247, 0.8)', '0 0 20px rgba(168, 85, 247, 0.4)']
+        }}
+        transition={{
+          duration: 2,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      >
+        <Mic className="w-7 h-7 text-white" />
+      </motion.button>
     </div>
   );
 }
