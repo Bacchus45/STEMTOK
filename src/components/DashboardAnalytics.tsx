@@ -15,8 +15,12 @@ import {
   BarChart3,
   PieChart,
   Activity,
-  Award
+  Star,
+  Database,
+  Server,
+  Cpu
 } from 'lucide-react';
+import { SparkDataProcessor } from './SparkDataProcessor';
 
 interface AnalyticsData {
   totalUsers: number;
@@ -235,6 +239,16 @@ export const DashboardAnalytics: React.FC<DashboardAnalyticsProps> = ({
               color="from-yellow-500 to-orange-600"
             />
           </div>
+
+          {/* Apache Spark Integration */}
+          <SparkDataProcessor
+            onJobComplete={(job) => {
+              console.log('Spark job completed:', job);
+            }}
+            onDataStream={(data) => {
+              console.log('Stream data received:', data);
+            }}
+          />
 
           {/* Chart */}
           <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
