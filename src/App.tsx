@@ -11,6 +11,8 @@ import { VoiceRecorder } from './components/VoiceRecorder';
 import { CoinTradingInterface } from './components/CoinTradingInterface';
 import { DashboardAnalytics } from './components/DashboardAnalytics';
 import { ChatMessagingSystem } from './components/ChatMessagingSystem';
+import { EnhancedDashboard } from './components/EnhancedDashboard';
+import { UserInterface } from './components/UserInterface';
 import { STEMResearch } from './components/STEMResearch';
 import { PowerStemCells } from './components/PowerStemCells';
 import { UserCoin, Transaction } from './types';
@@ -25,6 +27,7 @@ export default function App() {
   const [showVoiceRecorder, setShowVoiceRecorder] = useState(false);
   const [showSTEMResearch, setShowSTEMResearch] = useState(false);
   const [showPowerStemCells, setShowPowerStemCells] = useState(false);
+  const [showUserInterface, setShowUserInterface] = useState(false);
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [userCoins, setUserCoins] = useState<UserCoin[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([
@@ -54,6 +57,61 @@ export default function App() {
     }
   ]);
   
+  // Sample user profile and notifications for UserInterface
+  const [userProfile] = useState({
+    id: 'user-1',
+    name: 'John Creator',
+    email: 'john@socialcoin.com',
+    username: 'johncreator',
+    bio: 'Passionate about voice technology and cryptocurrency. Building the future of social interactions.',
+    location: 'San Francisco, CA',
+    joinDate: new Date('2024-01-15'),
+    verified: true,
+    level: 'Creator Pro',
+    achievements: ['Early Adopter', 'Voice Pioneer', 'Coin Creator', 'Community Builder'],
+    preferences: {
+      theme: 'dark' as const,
+      notifications: true,
+      soundEnabled: true,
+      language: 'en',
+      privacy: 'public' as const
+    },
+    stats: {
+      posts: 156,
+      followers: 2847,
+      following: 1234,
+      coinsEarned: getTotalCoins(),
+      level: 8
+    }
+  });
+
+  const [notifications] = useState([
+    {
+      id: '1',
+      type: 'coin' as const,
+      title: 'Coins Earned!',
+      message: 'You earned 25 coins from voice post engagement',
+      timestamp: new Date(Date.now() - 300000),
+      read: false
+    },
+    {
+      id: '2',
+      type: 'like' as const,
+      title: 'Post Liked',
+      message: 'Sarah Chen liked your voice post about crypto trends',
+      timestamp: new Date(Date.now() - 600000),
+      read: false
+    },
+    {
+      id: '3',
+      type: 'follow' as const,
+      title: 'New Follower',
+      message: 'Mike Johnson started following you',
+      timestamp: new Date(Date.now() - 1800000),
+      read: true
+    }
+  ]);
+
   // Add sample user coins
   useEffect(() => {
     const sampleCoins: UserCoin[] = [
@@ -242,9 +300,11 @@ export default function App() {
               )}
               
               {currentView === 'insights' && (
-                <DashboardAnalytics
+                <EnhancedDashboard
                   userBalance={getTotalCoins()}
                   totalTransactions={transactions.length}
+                  userCoins={userCoins}
+                  onNavigate={setCurrentView}
                 />
               )}
               
@@ -293,6 +353,12 @@ export default function App() {
                         desc: 'J.J. NELL bioelectric research', 
                         color: 'from-orange-500 to-red-500',
                         action: () => setShowPowerStemCells(true)
+                      },
+                      { 
+                        title: 'User Interface', 
+                        desc: 'Manage profile and settings', 
+                        color: 'from-indigo-500 to-purple-500',
+                        action: () => setShowUserInterface(true)
                       }
                     ].map((item, index) => (
                       <motion.div
@@ -302,7 +368,7 @@ export default function App() {
                         transition={{ delay: index * 0.1 }}
                         whileHover={{ y: -5 }}
                         className={`bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20 cursor-pointer hover:bg-white/15 transition-all ${
-                          index >= 3 ? 'md:col-span-2 lg:col-span-1' : ''
+                          index >= 4 ? 'md:col-span-2 lg:col-span-1' : ''
                         }`}
                         onClick={item.action}
                       >
@@ -374,85 +440,16 @@ export default function App() {
 
               {/* Profile view */}
               {currentView === 'profile' && (
-                <div className="max-w-2xl mx-auto">
-                  <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="text-center mb-6"
-                    >
-                      <div className="w-32 h-32 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 mx-auto mb-4 flex items-center justify-center">
-                        <User size={64} className="text-white" />
-                      </div>
-                      <h2 className="text-3xl font-bold text-white font-space">Your Profile</h2>
-                      <p className="text-white/70 text-lg">SocialCoin Creator</p>
-                    </motion.div>
-
-                    {currentUser && (
-                      <div className="bg-white/5 p-4 rounded-lg mb-6">
-                        <h3 className="font-bold mb-2 text-white">Account Information</h3>
-                        <div className="grid grid-cols-2 gap-4 text-sm">
-                          <div>
-                            <span className="text-white/60">Registration Date:</span>
-                            <p className="text-white">{currentUser.registrationDate.toLocaleDateString()}</p>
-                          </div>
-                          <div>
-                            <span className="text-white/60">Account Type:</span>
-                            <p className="text-white">{currentUser.userType === 'individual' ? 'Individual' : 'Company'}</p>
-                          </div>
-                          {currentUser.userType === 'individual' ? (
-                            <>
-                              <div>
-                                <span className="text-white/60">Birthday:</span>
-                                <p className="text-white">{new Date(currentUser.birthday).toLocaleDateString()}</p>
-                              </div>
-                              <div>
-                                <span className="text-white/60">ID Number:</span>
-                                <p className="text-white">***{currentUser.idNumber?.slice(-4)}</p>
-                              </div>
-                            </>
-                          ) : (
-                            <>
-                              <div>
-                                <span className="text-white/60">Company Founded:</span>
-                                <p className="text-white">{new Date(currentUser.companyBirthday).toLocaleDateString()}</p>
-                              </div>
-                              <div>
-                                <span className="text-white/60">Company ID:</span>
-                                <p className="text-white">***{currentUser.companyId?.slice(-4)}</p>
-                              </div>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    )}
-                    {/* Transaction history */}
-                    <div className="space-y-4">
-                      <h3 className="font-bold mb-4 text-white text-xl font-space">Recent Transactions</h3>
-                      <div className="space-y-3 max-h-80 overflow-y-auto">
-                        {transactions.slice(0, 10).map((transaction) => (
-                          <motion.div 
-                            key={transaction.id} 
-                            className="flex justify-between items-center p-4 bg-white/5 rounded-lg border border-white/10"
-                            whileHover={{ scale: 1.02 }}
-                          >
-                            <div>
-                              <p className="font-medium text-white">{transaction.description}</p>
-                              <p className="text-sm text-white/60">
-                                {transaction.createdAt.toLocaleDateString()}
-                              </p>
-                            </div>
-                            <span className={`font-bold text-lg ${
-                              transaction.type === 'earned' ? 'text-green-400' : 'text-red-400'
-                            }`}>
-                              {transaction.type === 'earned' ? '+' : '-'}{transaction.amount}
-                            </span>
-                          </motion.div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <UserInterface
+                  userProfile={userProfile}
+                  notifications={notifications}
+                  onProfileUpdate={(updates) => {
+                    console.log('Profile updated:', updates);
+                  }}
+                  onNotificationAction={(id, action) => {
+                    console.log('Notification action:', id, action);
+                  }}
+                />
               )}
             </motion.div>
           </AnimatePresence>
@@ -492,6 +489,19 @@ export default function App() {
             whileTap={{ scale: 0.9 }}
           >
             <TrendingUp size={24} />
+          </motion.button>
+          
+          <motion.button
+            onClick={() => setCurrentView('profile')}
+            className={`p-3 rounded-full transition-all ${
+              currentView === 'profile' 
+                ? 'bg-purple-500 text-white' 
+                : 'text-white/60 hover:text-white hover:bg-white/10'
+            }`}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <User size={24} />
           </motion.button>
           
           <motion.button
@@ -608,6 +618,36 @@ export default function App() {
                 }}
                 onPowerGenerated={(amount, type) => {
                   addTransaction('earned', amount, `Generated ${amount}μW from ${type} cells`);
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {showUserInterface && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 overflow-y-auto">
+          <div className="min-h-screen p-4">
+            <div className="max-w-4xl mx-auto">
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 mb-6">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-2xl font-bold text-white font-space">User Interface & Settings</h2>
+                  <button
+                    onClick={() => setShowUserInterface(false)}
+                    className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                  >
+                    <span className="text-white/70 hover:text-white text-xl">✕</span>
+                  </button>
+                </div>
+              </div>
+              <UserInterface
+                userProfile={userProfile}
+                notifications={notifications}
+                onProfileUpdate={(updates) => {
+                  console.log('Profile updated:', updates);
+                }}
+                onNotificationAction={(id, action) => {
+                  console.log('Notification action:', id, action);
                 }}
               />
             </div>
