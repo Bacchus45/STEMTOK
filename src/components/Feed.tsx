@@ -73,7 +73,7 @@ export const Feed: React.FC<FeedProps> = ({ onEarnCoins }) => {
         timestamp: new Date(Date.now() - 1800000),
         coinReward: 75,
         image: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=500&h=300&fit=crop'
-      },</parameter>
+      },
       {
         id: '2',
         type: 'voice',
