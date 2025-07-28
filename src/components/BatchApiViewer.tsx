@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { 
   Server, 
   Play, 
-  Pause, 
   RefreshCw, 
   CheckCircle, 
   AlertCircle, 
@@ -13,8 +12,6 @@ import {
   Globe,
   Monitor,
   Activity,
-  Settings,
-  Download,
   Upload
 } from 'lucide-react';
 import { batchApi, BatchRequest, BatchResponse } from '../api/batchApi';

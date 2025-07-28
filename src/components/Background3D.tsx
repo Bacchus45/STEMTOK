@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
 
 interface Background3DProps {
   variant?: 'main' | 'profile' | 'studio' | 'insights';
