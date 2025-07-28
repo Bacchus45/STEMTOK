@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mic, User, Home, TrendingUp, Menu, Settings, TrendingDown } from 'lucide-react';
+import { Mic, User, Home, TrendingUp, Menu, Settings } from 'lucide-react';
 import { Background3D } from './components/Background3D';
 import { Feed } from './components/Feed';
 import { CoinCreator } from './components/CoinCreator';
@@ -28,7 +28,6 @@ export default function App() {
   const [showSTEMResearch, setShowSTEMResearch] = useState(false);
   const [showPowerStemCells, setShowPowerStemCells] = useState(false);
   const [showUserInterface, setShowUserInterface] = useState(false);
-  const [currentUser, setCurrentUser] = useState<any>(null);
   const [userCoins, setUserCoins] = useState<UserCoin[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([
     {
@@ -57,6 +56,16 @@ export default function App() {
     }
   ]);
   
+  const getTotalCoins = () => {
+    return transactions
+      .filter(t => t.coinType === 'main')
+      .reduce((total, transaction) => {
+        return transaction.type === 'earned' 
+          ? total + transaction.amount 
+          : total - transaction.amount;
+      }, 0);
+  };
+
   // Sample user profile and notifications for UserInterface
   const [userProfile] = useState({
     id: 'user-1',
@@ -147,7 +156,6 @@ export default function App() {
   }, []);
 
   const handleUserRegistered = (userData: any) => {
-    setCurrentUser(userData);
     setShowUserRegistration(false);
     addTransaction('earned', 100, 'Welcome bonus for new user!', 'main');
   };
@@ -184,16 +192,6 @@ export default function App() {
       coinType
     };
     setTransactions(prev => [newTransaction, ...prev]);
-  };
-
-  const getTotalCoins = () => {
-    return transactions
-      .filter(t => t.coinType === 'main')
-      .reduce((total, transaction) => {
-        return transaction.type === 'earned' 
-          ? total + transaction.amount 
-          : total - transaction.amount;
-      }, 0);
   };
 
   const getUserCoinBalance = (coinId: string) => {
