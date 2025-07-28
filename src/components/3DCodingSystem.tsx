@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Youtube as Cube, Code, Printer, QrCode, Download, Banknote, Zap, Brain, Infinity, Star, Layers, Grid as Grid3X3, Binary, Cpu } from 'lucide-react';
+import { Youtube as Cube, Code, Printer, QrCode } from 'lucide-react';
 import QRCode from 'qrcode';
 import * as THREE from 'three';
 
@@ -448,7 +448,7 @@ export const CodingSystem3D: React.FC<CodingSystemProps> = ({
               onClick={() => setCurrentDimension(dimension.id)}
             >
               <div className={`p-3 rounded-lg bg-gradient-to-r ${dimension.color} mb-4`}>
-                <Grid3X3 className="w-6 h-6 text-white" />
+                <Code className="w-6 h-6 text-white" />
               </div>
               
               <h3 className="text-lg font-bold text-white mb-2 font-space">
