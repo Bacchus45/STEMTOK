@@ -157,11 +157,11 @@ export default function App() {
 
   const handleUserRegistered = (userData: any) => {
     setShowUserRegistration(false);
-    addTransaction('earned', 100, 'Welcome bonus for new user!', 'main');
+    addTransaction('earned', 100, `Welcome bonus for new user: ${userData.name || userData.email || 'User'}!`, 'main');
   };
 
   const handleVoiceRecording = (audioBlob: Blob, duration: number) => {
-    addTransaction('earned', 25, `Voice message recorded (${duration}s)`, 'main');
+    addTransaction('earned', 25, `Voice message recorded (${duration}s), size: ${audioBlob.size} bytes`, 'main');
     setShowVoiceRecorder(false);
   };
 
@@ -424,7 +424,7 @@ export default function App() {
                 <ChatMessagingSystem
                   currentUserId="current-user"
                   onSendMessage={(message, chatId) => {
-                    addTransaction('earned', 5, 'Message sent', 'main');
+                    addTransaction('earned', 5, `Message sent to chat ${chatId}: "${message.substring(0, 20)}..."`, 'main');
                   }}
                 />
               )}
