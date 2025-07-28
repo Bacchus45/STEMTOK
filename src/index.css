@@ -130,7 +130,7 @@ body {
   50% {
     transform: translateY(-10px);
   }
-}</parameter>
+}
 /* Loading animations */
 .loading-dots {
   display: inline-block;
