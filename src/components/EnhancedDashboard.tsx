@@ -97,6 +97,7 @@ export const EnhancedDashboard: React.FC<EnhancedDashboardProps> = ({
   });
 
   const [chartData, setChartData] = useState<number[]>([]);
+  const [growthStartTime] = useState(Date.now());
 
   useEffect(() => {
     // Generate mock chart data
@@ -105,30 +106,36 @@ export const EnhancedDashboard: React.FC<EnhancedDashboardProps> = ({
     );
     setChartData(data);
 
-    // Simulate real-time updates
+    // Fast mathematical user growth - 3+ users per second
     const interval = setInterval(() => {
+      const elapsed = (Date.now() - growthStartTime) / 1000; // seconds elapsed
+      const baseGrowth = Math.floor(elapsed * 3.2); // 3.2 users per second base rate
+      const mathGrowth = Math.floor(Math.sin(elapsed * 0.1) * 10 + Math.log(elapsed + 1) * 5); // Mathematical variation
+      const totalNewUsers = baseGrowth + mathGrowth;
+      
       setRealtimeData(prev => ({
-        currentActiveUsers: prev.currentActiveUsers + Math.floor(Math.random() * 20) - 10,
+        currentActiveUsers: 1247 + totalNewUsers + Math.floor(Math.random() * 50), // 3+ users/sec + variation
         liveStreams: Math.max(0, prev.liveStreams + Math.floor(Math.random() * 6) - 3),
-        messagesPerMinute: prev.messagesPerMinute + Math.floor(Math.random() * 30) - 15,
-        coinsTransferred: prev.coinsTransferred + Math.floor(Math.random() * 100)
+        messagesPerMinute: prev.messagesPerMinute + Math.floor(Math.random() * 50) - 10,
+        coinsTransferred: prev.coinsTransferred + Math.floor(Math.random() * 200) + 50
       }));
 
       setDashboardStats(prev => ({
         ...prev,
-        activeUsers: prev.activeUsers + Math.floor(Math.random() * 10) - 5,
-        totalRevenue: prev.totalRevenue + Math.floor(Math.random() * 500),
+        totalUsers: prev.totalUsers + Math.floor(elapsed * 2.8) + Math.floor(Math.random() * 5), // Growing total users
+        activeUsers: 1247 + totalNewUsers + Math.floor(Math.random() * 30), // Match realtime growth
+        totalRevenue: prev.totalRevenue + Math.floor(Math.random() * 1000) + 200, // Faster revenue growth
         engagement: {
           ...prev.engagement,
-          likes: prev.engagement.likes + Math.floor(Math.random() * 50),
-          comments: prev.engagement.comments + Math.floor(Math.random() * 20),
-          shares: prev.engagement.shares + Math.floor(Math.random() * 15)
+          likes: prev.engagement.likes + Math.floor(Math.random() * 100) + 25, // Faster engagement
+          comments: prev.engagement.comments + Math.floor(Math.random() * 40) + 10,
+          shares: prev.engagement.shares + Math.floor(Math.random() * 30) + 8
         }
       }));
-    }, 5000);
+    }, 333); // Update every 333ms (3 times per second) for smooth 3+ users/sec growth
 
     return () => clearInterval(interval);
-  }, []);
+  }, [growthStartTime]);
 
   const formatNumber = (num: number): string => {
     if (num >= 1000000) {

@@ -80,19 +80,22 @@ export const DashboardAnalytics: React.FC<DashboardAnalyticsProps> = ({
     );
     setChartData(data);
 
-    // Update analytics data periodically
+    // Fast mathematical growth updates
     const interval = setInterval(() => {
+      const timestamp = Date.now() / 1000;
+      const mathGrowth = Math.floor(Math.sin(timestamp * 0.05) * 15 + Math.cos(timestamp * 0.03) * 8);
+      
       setAnalytics(prev => ({
-        ...prev,
-        activeUsers: prev.activeUsers + Math.floor(Math.random() * 10) - 5,
+        activeUsers: prev.activeUsers + Math.floor(Math.random() * 12) + 4, // Faster user growth
+        totalRevenue: prev.totalRevenue + Math.floor(Math.random() * 800) + 100,
         totalPosts: prev.totalPosts + Math.floor(Math.random() * 5),
         engagement: {
-          likes: prev.engagement.likes + Math.floor(Math.random() * 50),
-          comments: prev.engagement.comments + Math.floor(Math.random() * 20),
-          shares: prev.engagement.shares + Math.floor(Math.random() * 15)
-        }
+          likes: prev.engagement.likes + Math.floor(Math.random() * 75) + 15,
+          comments: prev.engagement.comments + Math.floor(Math.random() * 35) + 8,
+          shares: prev.engagement.shares + Math.floor(Math.random() * 25) + 5
+        coinsTransferred: prev.coinsTransferred + Math.floor(Math.random() * 150) + 25
       }));
-    }, 10000);
+    }, 400); // Update every 400ms for faster growth visibility
 
     return () => clearInterval(interval);
   }, [timeRange]);
