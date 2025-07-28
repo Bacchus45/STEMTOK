@@ -30,7 +30,7 @@ interface AudioPostCardProps {
   onFollow: (userId: string) => void;
 }
 
-export const AudioPostCard: React.FC<AudioPostCardProps> = ({ post, onLike, onShare, onTip, onFollow }) => {
+export const AudioPostCard: React.FC<AudioPostCardProps> = ({ post, onLike, onShare, onFollow }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showCommentModal, setShowCommentModal] = useState(false);
@@ -51,11 +51,11 @@ export const AudioPostCard: React.FC<AudioPostCardProps> = ({ post, onLike, onSh
     onShare(postId);
   };
 
-  const handleComment = (postId: string) => {
+  const handleComment = () => {
     setShowCommentModal(true);
   };
 
-  const handleTip = (postId: string) => {
+  const handleTip = () => {
     setShowTipModal(true);
   };
 
@@ -150,7 +150,7 @@ export const AudioPostCard: React.FC<AudioPostCardProps> = ({ post, onLike, onSh
           </button>
           
           <button
-            onClick={() => handleComment(post.id)}
+            onClick={() => handleComment()}
             className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium text-white/70 hover:text-green-400 hover:bg-green-500/10 transition-all"
           >
             <MessageCircle className="w-4 h-4" />
@@ -159,7 +159,7 @@ export const AudioPostCard: React.FC<AudioPostCardProps> = ({ post, onLike, onSh
         </div>
         
         <button
-          onClick={() => handleTip(post.id)}
+          onClick={() => handleTip()}
           className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white rounded-lg text-sm font-medium transition-all shadow-lg"
         >
           <DollarSign className="w-4 h-4" />
