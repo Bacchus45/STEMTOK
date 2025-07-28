@@ -55,6 +55,16 @@ interface PowerStemCellsProps {
   onPowerGenerated: (amount: number, type: string) => void;
 }
 
+// Easter egg: J.J. NELL's Red Lighter Collection
+const redLighterJokes = [
+  "J.J. NELL found another red lighter! Research efficiency +25%",
+  "Red lighter discovered in lab coat pocket. Mysterious energy detected!",
+  "BREAKING: Red lighter powers stem cell breakthrough!",
+  "J.J. NELL's lighter collection: 47 red, 3 blue, 1 mysterious green",
+  "Red lighter activated quantum tunneling effect in stem cells",
+  "Plot twist: The red lighter was the key to bioelectric power all along!"
+];
+
 export const PowerStemCells: React.FC<PowerStemCellsProps> = ({
   onResearchComplete,
   onPowerGenerated
@@ -63,6 +73,9 @@ export const PowerStemCells: React.FC<PowerStemCellsProps> = ({
   const [selectedCell, setSelectedCell] = useState<PowerCell | null>(null);
   const [powerGeneration, setPowerGeneration] = useState(0);
   const [researchProgress, setResearchProgress] = useState(0);
+  const [lighterCount, setLighterCount] = useState(1);
+  const [showLighterJoke, setShowLighterJoke] = useState(false);
+  const [currentJoke, setCurrentJoke] = useState('');
 
   const [powerCells, setPowerCells] = useState<PowerCell[]>([
     {
@@ -76,7 +89,7 @@ export const PowerStemCells: React.FC<PowerStemCellsProps> = ({
       connectivity: 96,
       research: {
         author: 'J.J. NELL Research Team',
-        findings: 'Neural stem cells can generate bioelectric power while promoting cognitive repair',
+        findings: 'Neural stem cells can generate bioelectric power while promoting cognitive repair. Fun fact: Discovery made while J.J. NELL was looking for a red lighter!',
         applications: ['Memory Enhancement', 'Neural Disorders', 'Brain-Computer Interfaces'],
         breakthrough: true
       },
