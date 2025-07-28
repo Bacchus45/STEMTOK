@@ -11,6 +11,8 @@ import { VoiceRecorder } from './components/VoiceRecorder';
 import { CoinTradingInterface } from './components/CoinTradingInterface';
 import { DashboardAnalytics } from './components/DashboardAnalytics';
 import { ChatMessagingSystem } from './components/ChatMessagingSystem';
+import { STEMResearch } from './components/STEMResearch';
+import { PowerStemCells } from './components/PowerStemCells';
 import { UserCoin, Transaction } from './types';
 
 export default function App() {
@@ -21,6 +23,8 @@ export default function App() {
   const [showPresentationEditor, setShowPresentationEditor] = useState(false);
   const [showUserRegistration, setShowUserRegistration] = useState(false);
   const [showVoiceRecorder, setShowVoiceRecorder] = useState(false);
+  const [showSTEMResearch, setShowSTEMResearch] = useState(false);
+  const [showPowerStemCells, setShowPowerStemCells] = useState(false);
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [userCoins, setUserCoins] = useState<UserCoin[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([
@@ -282,6 +286,18 @@ export default function App() {
                         desc: 'Create interactive presentations', 
                         color: 'from-green-500 to-emerald-500',
                         action: () => setShowPresentationEditor(true)
+                      },
+                      { 
+                        title: 'STEM Research', 
+                        desc: 'Explore advanced scientific research', 
+                        color: 'from-purple-500 to-indigo-500',
+                        action: () => setShowSTEMResearch(true)
+                      },
+                      { 
+                        title: 'Power & Stem Cells', 
+                        desc: 'J.J. NELL bioelectric research', 
+                        color: 'from-orange-500 to-red-500',
+                        action: () => setShowPowerStemCells(true)
                       }
                     ].map((item, index) => (
                       <motion.div
@@ -290,7 +306,9 @@ export default function App() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.1 }}
                         whileHover={{ y: -5 }}
-                        className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20 cursor-pointer hover:bg-white/15 transition-all"
+                        className={`bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20 cursor-pointer hover:bg-white/15 transition-all ${
+                          index >= 3 ? 'md:col-span-2 lg:col-span-1' : ''
+                        }`}
                         onClick={item.action}
                       >
                         <div className={`p-4 rounded-xl bg-gradient-to-r ${item.color} mb-4`}>
@@ -658,6 +676,62 @@ export default function App() {
           onClose={() => setShowVoiceRecorder(false)}
           onRecordingComplete={handleVoiceRecording}
         />
+      )}
+      
+      {showSTEMResearch && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 overflow-y-auto">
+          <div className="min-h-screen p-4">
+            <div className="max-w-7xl mx-auto">
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 mb-6">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-2xl font-bold text-white font-space">STEM Research Laboratory</h2>
+                  <button
+                    onClick={() => setShowSTEMResearch(false)}
+                    className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                  >
+                    <span className="text-white/70 hover:text-white text-xl">✕</span>
+                  </button>
+                </div>
+              </div>
+              <STEMResearch
+                onValueShare={(amount, description) => addTransaction('earned', amount, description)}
+                onSkinApply={(theme) => {
+                  console.log('Applied theme:', theme);
+                  addTransaction('earned', theme.valueShared, `Applied ${theme.name} theme`);
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {showPowerStemCells && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 overflow-y-auto">
+          <div className="min-h-screen p-4">
+            <div className="max-w-7xl mx-auto">
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 mb-6">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-2xl font-bold text-white font-space">J.J. NELL Power & Stem Cell Laboratory</h2>
+                  <button
+                    onClick={() => setShowPowerStemCells(false)}
+                    className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                  >
+                    <span className="text-white/70 hover:text-white text-xl">✕</span>
+                  </button>
+                </div>
+              </div>
+              <PowerStemCells
+                onResearchComplete={(findings) => {
+                  console.log('Research completed:', findings);
+                  addTransaction('earned', 200, `Completed research: ${findings.title}`);
+                }}
+                onPowerGenerated={(amount, type) => {
+                  addTransaction('earned', amount, `Generated ${amount}μW from ${type} cells`);
+                }}
+              />
+            </div>
+          </div>
+        </div>
       )}
       
       {/* Floating Voice Record Button */}
