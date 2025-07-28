@@ -76,6 +76,14 @@ body {
   .animation-delay-4000 {
     animation-delay: 4s;
   }
+  
+  .lighter-glow {
+    animation: lighter-glow 2s ease-in-out infinite alternate;
+  }
+  
+  .nell-bounce {
+    animation: nell-bounce 1s ease-in-out infinite;
+  }
 }
 
 @keyframes pulse-glow {
@@ -104,6 +112,23 @@ body {
   }
 }
 
+@keyframes lighter-glow {
+  0% {
+    box-shadow: 0 0 5px rgba(239, 68, 68, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.8), 0 0 30px rgba(249, 115, 22, 0.6);
+  }
+}
+
+@keyframes nell-bounce {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}</parameter>
 /* Loading animations */
 .loading-dots {
   display: inline-block;

@@ -179,8 +179,17 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
                 Voice Recorder
               </h2>
               <p className="text-white/70">
-                {isRecording ? 'Recording...' : audioURL ? 'Review your recording' : 'Press to start recording'}
+                {isRecording ? 'Recording... 🔥' : audioURL ? 'Review your recording' : 'Press to start recording (NELL approved!)'}
               </p>
+              {isRecording && (
+                <motion.p
+                  animate={{ opacity: [0.5, 1, 0.5] }}
+                  transition={{ duration: 1, repeat: Infinity }}
+                  className="text-red-400 text-sm mt-2"
+                >
+                  🔥 Red lighter energy detected! Enhanced recording quality activated!
+                </motion.p>
+              )}
             </div>
 
             {/* Waveform Visualization */}

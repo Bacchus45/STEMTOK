@@ -55,6 +55,26 @@ export const Feed: React.FC<FeedProps> = ({ onEarnCoins }) => {
         image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=500&h=300&fit=crop'
       },
       {
+        id: '6',
+        type: 'voice',
+        user: {
+          name: 'J.J. NELL',
+          username: 'nell_researcher',
+          avatar: 'JN',
+          avatarBg: 'from-red-500 to-orange-500'
+        },
+        content: 'Breakthrough discovery! Found my red lighter again and immediately discovered how to power stem cells with bioelectric energy! 🔥 Sometimes the best science happens when you\'re looking for something else entirely.',
+        audioUrl: '/nell-lighter-discovery.mp3',
+        duration: 67,
+        likes: 156,
+        comments: 34,
+        shares: 28,
+        isLiked: false,
+        timestamp: new Date(Date.now() - 1800000),
+        coinReward: 75,
+        image: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=500&h=300&fit=crop'
+      },</parameter>
+      {
         id: '2',
         type: 'voice',
         user: {

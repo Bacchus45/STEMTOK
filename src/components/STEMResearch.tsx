@@ -59,6 +59,26 @@ export const STEMResearch: React.FC<STEMResearchProps> = ({ onValueShare, onSkin
   const [activeTab, setActiveTab] = useState<'research' | 'skins' | 'predictions'>('research');
   const [selectedProject, setSelectedProject] = useState<STEMProject | null>(null);
   const [selectedSkin, setSelectedSkin] = useState<SkinTheme | null>(null);
+  const [easterEggActivated, setEasterEggActivated] = useState(false);
+  const [konami, setKonami] = useState<string[]>([]);
+  
+  // Easter egg sequence: click NELL 3 times
+  const activateNellEasterEgg = () => {
+    const jokes = [
+      "🔥 NELL's red lighter ignited a quantum breakthrough!",
+      "🧬 Stem cells respond to red lighter wavelengths!",
+      "⚡ Red lighter frequency: 666.69 THz - Perfect for research!",
+      "🎯 Pro tip: Always carry a red lighter for scientific discoveries",
+      "🔬 J.J. NELL's Lighter Theory: Red = Power, Blue = Logic, Green = Mystery"
+    ];
+    
+    const randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
+    setEasterEggActivated(true);
+    onValueShare(50, randomJoke);
+    
+    setTimeout(() => setEasterEggActivated(false), 3000);
+  };
+
   const [userPreferences, setUserPreferences] = useState({
     favoriteColors: ['#6366f1', '#8b5cf6', '#06b6d4'],
     learningStyle: 'visual',
@@ -279,8 +299,22 @@ export const STEMResearch: React.FC<STEMResearchProps> = ({ onValueShare, onSkin
             <Microscope className="w-8 h-8 text-white" />
           </div>
           <div>
-            <h2 className="text-3xl font-bold text-white font-space">STEM Research & Skin Coding</h2>
+            <h2 
+              className="text-3xl font-bold text-white font-space cursor-pointer"
+              onClick={activateNellEasterEgg}
+            >
+              STEM Research & Skin Coding by J.J. NELL
+            </h2>
             <p className="text-white/70">Explore divine knowledge and create heavenly interfaces</p>
+            {easterEggActivated && (
+              <motion.p 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-red-400 text-sm mt-2"
+              >
+                🔥 Red lighter energy activated! Bonus research power unlocked!
+              </motion.p>
+            )}
           </div>
         </div>
 

@@ -333,6 +333,14 @@ export const DashboardAnalytics: React.FC<DashboardAnalyticsProps> = ({
                   <span className="text-white/70">Success Rate</span>
                   <span className="text-green-400 font-bold">98.7%</span>
                 </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-white/70">NELL's Red Lighters</span>
+                  <span className="text-red-400 font-bold">47 🔥</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-white/70">Research Boost</span>
+                  <span className="text-yellow-400 font-bold">+25% active</span>
+                </div>
               </div>
             </div>
           </div>
