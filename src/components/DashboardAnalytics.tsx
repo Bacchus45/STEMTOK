@@ -18,7 +18,8 @@ import {
   Star,
   Database,
   Server,
-  Cpu
+  Cpu,
+  Award
 } from 'lucide-react';
 import { SparkDataProcessor } from './SparkDataProcessor';
 
@@ -29,6 +30,8 @@ interface AnalyticsData {
   voicePosts: number;
   totalCoins: number;
   coinsEarned: number;
+  totalRevenue: number;
+  coinsTransferred: number;
   engagement: {
     likes: number;
     comments: number;
@@ -59,6 +62,8 @@ export const DashboardAnalytics: React.FC<DashboardAnalyticsProps> = ({
     voicePosts: 28945,
     totalCoins: 2847293,
     coinsEarned: userBalance,
+    totalRevenue: 0,
+    coinsTransferred: 0,
     engagement: {
       likes: 156438,
       comments: 43292,
@@ -86,6 +91,7 @@ export const DashboardAnalytics: React.FC<DashboardAnalyticsProps> = ({
       const mathGrowth = Math.floor(Math.sin(timestamp * 0.05) * 15 + Math.cos(timestamp * 0.03) * 8);
       
       setAnalytics(prev => ({
+        ...prev,
         activeUsers: prev.activeUsers + Math.floor(Math.random() * 12) + 4, // Faster user growth
         totalRevenue: prev.totalRevenue + Math.floor(Math.random() * 800) + 100,
         totalPosts: prev.totalPosts + Math.floor(Math.random() * 5),
@@ -93,6 +99,7 @@ export const DashboardAnalytics: React.FC<DashboardAnalyticsProps> = ({
           likes: prev.engagement.likes + Math.floor(Math.random() * 75) + 15,
           comments: prev.engagement.comments + Math.floor(Math.random() * 35) + 8,
           shares: prev.engagement.shares + Math.floor(Math.random() * 25) + 5
+        },
         coinsTransferred: prev.coinsTransferred + Math.floor(Math.random() * 150) + 25
       }));
     }, 400); // Update every 400ms for faster growth visibility
