@@ -30,7 +30,7 @@ interface AudioPostCardProps {
   onFollow: (userId: string) => void;
 }
 
-export const AudioPostCard: React.FC<AudioPostCardProps> = ({ post, onLike, onShare, onComment, onTip, onFollow }) => {
+export const AudioPostCard: React.FC<AudioPostCardProps> = ({ post, onLike, onShare, onTip, onFollow }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showCommentModal, setShowCommentModal] = useState(false);
