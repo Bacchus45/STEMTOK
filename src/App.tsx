@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mic, User, Home, TrendingUp, Menu, Settings, MessageCircle, BarChart3, TrendingDown } from 'lucide-react';
 import { Background3D } from './components/Background3D';
@@ -146,11 +146,6 @@ export default function App() {
           ? total + transaction.amount 
           : total - transaction.amount;
       }, 0);
-  };
-
-  const handleVoiceRecording = (audioBlob: Blob, duration: number) => {
-    // Process the voice recording
-    console.log('Voice recording received:', audioBlob, duration);
   };
 
   return (
@@ -431,46 +426,6 @@ export default function App() {
                         </div>
                       </div>
                     )}
-                    
-                      {currentUser && (
-                        <div className="bg-blue/5 p-4 rounded-lg mb-6">
-                          <h3 className="font-bold mb-2 text-blue-200">Account Information</h3>
-                          <div className="grid grid-cols-2 gap-4 text-sm">
-                            <div>
-                              <span className="text-blue-400">Registration Date:</span>
-                              <p className="text-blue-200">{currentUser.registrationDate.toLocaleDateString()}</p>
-                            </div>
-                            <div>
-                              <span className="text-blue-400">Account Type:</span>
-                              <p className="text-blue-200">{currentUser.userType === 'individual' ? 'Individual' : 'Company'}</p>
-                            </div>
-                            {currentUser.userType === 'individual' ? (
-                              <>
-                                <div>
-                                  <span className="text-blue-400">Birthday:</span>
-                                  <p className="text-blue-200">{new Date(currentUser.birthday).toLocaleDateString()}</p>
-                                </div>
-                                <div>
-                                  <span className="text-blue-400">ID Number:</span>
-                                  <p className="text-blue-200">***{currentUser.idNumber?.slice(-4)}</p>
-                                </div>
-                              </>
-                            ) : (
-                              <>
-                                <div>
-                                  <span className="text-blue-400">Company Founded:</span>
-                                  <p className="text-blue-200">{new Date(currentUser.companyBirthday).toLocaleDateString()}</p>
-                                </div>
-                                <div>
-                                  <span className="text-blue-400">Company ID:</span>
-                                  <p className="text-blue-200">***{currentUser.companyId?.slice(-4)}</p>
-                                </div>
-                              </>
-                            )}
-                          </div>
-                        </div>
-                      )}
-                      
                     {/* Transaction history */}
                     <div className="space-y-4">
                       <h3 className="font-bold mb-4 text-white text-xl font-space">Recent Transactions</h3>
@@ -504,80 +459,6 @@ export default function App() {
         </main>
       </div>
 
-        {/* Bottom Navigation */}
-        <motion.nav 
-          className="fixed bottom-0 left-0 right-0 bg-black/20 backdrop-blur-md border-t border-blue/10 p-4 z-10"
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          <div className="flex justify-around max-w-md mx-auto">
-            <motion.button
-              onClick={() => setCurrentView('home')}
-              className={`p-3 rounded-full transition-all ${
-                currentView === 'home' 
-                  ? 'bg-purple-500 text-white' 
-                  : 'text-blue-400 hover:text-blue-200 hover:bg-blue/10'
-              }`}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <Home size={24} />
-            </motion.button>
-            
-            <motion.button
-              onClick={() => setCurrentView('trading')}
-              className={`p-3 rounded-full transition-all ${
-                currentView === 'trading' 
-                  ? 'bg-purple-500 text-white' 
-                  : 'text-blue-400 hover:text-blue-200 hover:bg-blue/10'
-              }`}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <TrendingDown size={24} />
-            </motion.button>
-            
-            <motion.button
-              onClick={() => setCurrentView('studio')}
-              className={`p-3 rounded-full transition-all ${
-                currentView === 'studio' 
-                  ? 'bg-purple-500 text-white' 
-                  : 'text-blue-400 hover:text-blue-200 hover:bg-blue/10'
-              }`}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <Mic size={24} />
-            </motion.button>
-            
-            <motion.button
-              onClick={() => setCurrentView('chat')}
-              className={`p-3 rounded-full transition-all ${
-                currentView === 'chat' 
-                  ? 'bg-purple-500 text-white' 
-                  : 'text-white/60 hover:text-white hover:bg-white/10'
-              }`}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <MessageCircle size={24} />
-            </motion.button>
-            
-            <motion.button
-              onClick={() => setCurrentView('analytics')}
-              className={`p-3 rounded-full transition-all ${
-                currentView === 'analytics' 
-                  ? 'bg-purple-500 text-white' 
-                  : 'text-white/60 hover:text-white hover:bg-white/10'
-              }`}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <BarChart3 size={24} />
-            </motion.button>
-          </div>
-        </motion.nav>
 
       {/* Bottom Navigation */}
       <motion.nav 
