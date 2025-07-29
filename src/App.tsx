@@ -15,6 +15,7 @@ import { EnhancedDashboard } from './components/EnhancedDashboard';
 import { UserInterface } from './components/UserInterface';
 import { STEMResearch } from './components/STEMResearch';
 import { PowerStemCells } from './components/PowerStemCells';
+import { SocialPlugins } from './components/SocialPlugins';
 import { UserCoin, Transaction } from './types';
 
 export default function App() {
@@ -29,6 +30,7 @@ export default function App() {
   const [showPowerStemCells, setShowPowerStemCells] = useState(false);
   const [showUserInterface, setShowUserInterface] = useState(false);
   const [showSpiritualPopup, setShowSpiritualPopup] = useState(true);
+  const [showSocialPlugins, setShowSocialPlugins] = useState(false);
   const [userCoins, setUserCoins] = useState<UserCoin[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([
     {
@@ -358,6 +360,12 @@ export default function App() {
                         desc: 'Manage profile and settings', 
                         color: 'from-indigo-500 to-purple-500',
                         action: () => setShowUserInterface(true)
+                      },
+                      { 
+                        title: 'TikTok & Meta Plugins', 
+                        desc: 'Cross-platform social media integration', 
+                        color: 'from-pink-500 to-red-500',
+                        action: () => setShowSocialPlugins(true)
                       }
                     ].map((item, index) => (
                       <motion.div
@@ -647,6 +655,36 @@ export default function App() {
                 }}
                 onNotificationAction={(id, action) => {
                   console.log('Notification action:', id, action);
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {showSocialPlugins && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 overflow-y-auto">
+          <div className="min-h-screen p-4">
+            <div className="max-w-6xl mx-auto">
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 mb-6">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-2xl font-bold text-white font-space">Social Media Plugins</h2>
+                  <button
+                    onClick={() => setShowSocialPlugins(false)}
+                    className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                  >
+                    <span className="text-white/70 hover:text-white text-xl">✕</span>
+                  </button>
+                </div>
+              </div>
+              <SocialPlugins
+                onPluginInstall={(plugin) => {
+                  console.log('Installing plugin:', plugin);
+                  addTransaction('earned', 100, `Installed ${plugin.name} plugin`);
+                }}
+                onPluginConnect={(plugin) => {
+                  console.log('Connecting plugin:', plugin);
+                  addTransaction('earned', 50, `Connected to ${plugin.platform.toUpperCase()}`);
                 }}
               />
             </div>
