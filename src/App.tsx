@@ -28,6 +28,7 @@ export default function App() {
   const [showSTEMResearch, setShowSTEMResearch] = useState(false);
   const [showPowerStemCells, setShowPowerStemCells] = useState(false);
   const [showUserInterface, setShowUserInterface] = useState(false);
+  const [showSpiritualPopup, setShowSpiritualPopup] = useState(true);
   const [userCoins, setUserCoins] = useState<UserCoin[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([
     {
