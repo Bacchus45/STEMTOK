@@ -785,7 +785,8 @@ export default function App() {
       >
         <Mic className="w-7 h-7 text-white" />
       </motion.button>
-      </div>
+
+    </div>
     </EnhancedUI>
   );
 }
