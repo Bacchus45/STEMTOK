@@ -16,6 +16,7 @@ import { UserInterface } from './components/UserInterface';
 import { STEMResearch } from './components/STEMResearch';
 import { PowerStemCells } from './components/PowerStemCells';
 import { SocialPlugins } from './components/SocialPlugins';
+import { DOTAAIBots } from './components/DOTAAIBots';
 import { UserCoin, Transaction } from './types';
 
 export default function App() {
@@ -30,6 +31,7 @@ export default function App() {
   const [showPowerStemCells, setShowPowerStemCells] = useState(false);
   const [showUserInterface, setShowUserInterface] = useState(false);
   const [showSocialPlugins, setShowSocialPlugins] = useState(false);
+  const [showDOTAAIBots, setShowDOTAAIBots] = useState(false);
   const [userCoins, setUserCoins] = useState<UserCoin[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([
     {
@@ -366,6 +368,12 @@ export default function App() {
                         color: 'from-pink-500 to-red-500',
                         action: () => setShowSocialPlugins(true)
                       }
+                      { 
+                        title: 'DOTA AI Bots', 
+                        desc: '4 strategic AI bots with DOTA execution', 
+                        color: 'from-blue-500 to-purple-500',
+                        action: () => setShowDOTAAIBots(true)
+                      }
                     ].map((item, index) => (
                       <motion.div
                         key={item.title}
@@ -684,6 +692,37 @@ export default function App() {
                 onPluginConnect={(plugin) => {
                   console.log('Connecting plugin:', plugin);
                   addTransaction('earned', 50, `Connected to ${plugin.platform.toUpperCase()}`);
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {showDOTAAIBots && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 overflow-y-auto">
+          <div className="min-h-screen p-4">
+            <div className="max-w-7xl mx-auto">
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 mb-6">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-2xl font-bold text-white font-space">DOTA AI Execution Bots</h2>
+                  <button
+                    onClick={() => setShowDOTAAIBots(false)}
+                    className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                  >
+                    <span className="text-white/70 hover:text-white text-xl">✕</span>
+                  </button>
+                </div>
+              </div>
+              <DOTAAIBots
+                onBotAction={(action, result) => {
+                  console.log('Bot action:', action, result);
+                  if (action === 'AI_BOTS_STARTED') {
+                    addTransaction('earned', 50, 'AI Bot execution started');
+                  }
+                }}
+                onCoinsEarned={(amount, description) => {
+                  addTransaction('earned', amount, description);
                 }}
               />
             </div>
