@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mic, User, Home, TrendingUp, Menu, Settings } from 'lucide-react';
 import { Background3D } from './components/Background3D';
+import { EnhancedUI } from './components/EnhancedUI';
 import { Feed } from './components/Feed';
 import { CoinCreator } from './components/CoinCreator';
 import { CoinManager } from './components/CoinManager';
@@ -211,8 +212,9 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
-      <Background3D variant={getBackgroundVariant()} />
+    <EnhancedUI theme="aurora">
+      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+        <Background3D variant={getBackgroundVariant()} />
       
       {/* Header */}
       <motion.header 
@@ -783,7 +785,7 @@ export default function App() {
       >
         <Mic className="w-7 h-7 text-white" />
       </motion.button>
-
-    </div>
+      </div>
+    </EnhancedUI>
   );
 }
