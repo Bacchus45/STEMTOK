@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mic, User, Home, TrendingUp, Menu, Settings } from 'lucide-react';
+import { Mic, User, Home, TrendingUp, Menu, Settings, Crown } from 'lucide-react';
 import { Background3D } from './components/Background3D';
 import { Feed } from './components/Feed';
 import { CoinCreator } from './components/CoinCreator';
