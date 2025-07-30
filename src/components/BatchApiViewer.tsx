@@ -14,7 +14,7 @@ import {
   Activity,
   Upload
 } from 'lucide-react';
-import { batchApi, BatchRequest, BatchResponse } from '../api/batchApi';
+import { BatchRequest, BatchResponse } from '../api/batchApi';
 
 interface BatchApiViewerProps {
   onApiResponse: (response: any) => void;

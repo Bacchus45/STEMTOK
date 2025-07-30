@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Sparkles, Camera, Baby, Droplets, Wind, Star, Gift, Crown, Zap, Sun, Moon, Rainbow as RainbowIcon, Flower, Router as Butterfly } from 'lucide-react';
+import { Heart, Sparkles, Camera, Baby, Droplets, Wind, Star, Crown, Zap, Sun, Moon, Rainbow as RainbowIcon, Flower, Router as Butterfly } from 'lucide-react';
 
 interface Blessing {
   id: string;
