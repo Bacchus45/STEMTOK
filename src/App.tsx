@@ -369,7 +369,7 @@ export default function App() {
                         desc: 'Cross-platform social media integration', 
                         color: 'from-pink-500 to-red-500',
                         action: () => setShowSocialPlugins(true)
-                      }
+                      },
                       { 
                         title: 'DOTA AI Bots', 
                         desc: '4 strategic AI bots with DOTA execution', 
