@@ -17,6 +17,7 @@ import { STEMResearch } from './components/STEMResearch';
 import { PowerStemCells } from './components/PowerStemCells';
 import { SocialPlugins } from './components/SocialPlugins';
 import { DOTAAIBots } from './components/DOTAAIBots';
+import { GTASimulation } from './components/GTASimulation';
 import { UserCoin, Transaction } from './types';
 
 export default function App() {
@@ -32,6 +33,7 @@ export default function App() {
   const [showUserInterface, setShowUserInterface] = useState(false);
   const [showSocialPlugins, setShowSocialPlugins] = useState(false);
   const [showDOTAAIBots, setShowDOTAAIBots] = useState(false);
+  const [showGTASimulation, setShowGTASimulation] = useState(false);
   const [userCoins, setUserCoins] = useState<UserCoin[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([
     {
@@ -373,6 +375,12 @@ export default function App() {
                         desc: '4 strategic AI bots with DOTA execution', 
                         color: 'from-blue-500 to-purple-500',
                         action: () => setShowDOTAAIBots(true)
+                      },
+                      { 
+                        title: 'GTA 8 Simulation', 
+                        desc: 'Open-world crime simulation game', 
+                        color: 'from-red-500 to-orange-500',
+                        action: () => setShowGTASimulation(true)
                       }
                     ].map((item, index) => (
                       <motion.div
@@ -723,6 +731,34 @@ export default function App() {
                 }}
                 onCoinsEarned={(amount, description) => {
                   addTransaction('earned', amount, description);
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {showGTASimulation && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 overflow-y-auto">
+          <div className="min-h-screen p-4">
+            <div className="max-w-7xl mx-auto">
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 mb-6">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-2xl font-bold text-white font-space">GTA 8: City of Sin</h2>
+                  <button
+                    onClick={() => setShowGTASimulation(false)}
+                    className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                  >
+                    <span className="text-white/70 hover:text-white text-xl">✕</span>
+                  </button>
+                </div>
+              </div>
+              <GTASimulation
+                onMoneyEarned={(amount, description) => {
+                  addTransaction(amount > 0 ? 'earned' : 'spent', Math.abs(amount), description);
+                }}
+                onLevelUp={(newLevel) => {
+                  addTransaction('earned', newLevel * 100, `Leveled up to ${newLevel}!`);
                 }}
               />
             </div>

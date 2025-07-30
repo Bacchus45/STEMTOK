@@ -38,6 +38,8 @@ export const CodingSystem3D: React.FC<CodingSystemProps> = ({
   const [bitDepth, setBitDepth] = useState(128);
   const [generatedMoney, setGeneratedMoney] = useState<PaperMoney[]>([]);
   const [selectedMoney, setSelectedMoney] = useState<PaperMoney | null>(null);
+  const [growthDirection, setGrowthDirection] = useState({ x: 0, y: 0, z: 0 });
+  const [isShiftPressed, setIsShiftPressed] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
@@ -59,7 +61,72 @@ export const CodingSystem3D: React.FC<CodingSystemProps> = ({
 
   useEffect(() => {
     initializeThreeJS();
+    
+    // Add keyboard event listeners for directional growth
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Shift') {
+        setIsShiftPressed(true);
+      }
+      
+      if (isShiftPressed || event.shiftKey) {
+        switch (event.key) {
+          case 'ArrowUp':
+            event.preventDefault();
+            setGrowthDirection(prev => ({ ...prev, y: prev.y + 1 }));
+            setCurrentDimension(prev => Math.min(prev + 1, 11));
+            onValueCreated(25, 'Dimensional growth upward - Y axis expansion');
+            break;
+          case 'ArrowDown':
+            event.preventDefault();
+            setGrowthDirection(prev => ({ ...prev, y: prev.y - 1 }));
+            setCurrentDimension(prev => Math.max(prev - 1, 3));
+            onValueCreated(15, 'Dimensional contraction downward - Y axis reduction');
+            break;
+          case 'ArrowLeft':
+            event.preventDefault();
+            setGrowthDirection(prev => ({ ...prev, x: prev.x - 1 }));
+            setBitDepth(prev => Math.max(prev - 128, 128));
+            onValueCreated(20, 'Dimensional growth leftward - X axis expansion');
+            break;
+          case 'ArrowRight':
+            event.preventDefault();
+            setGrowthDirection(prev => ({ ...prev, x: prev.x + 1 }));
+            setBitDepth(prev => Math.min(prev + 128, 2048));
+            onValueCreated(30, 'Dimensional growth rightward - X axis expansion');
+            break;
+          case '>':
+          case '.':
+            if (event.shiftKey) {
+              event.preventDefault();
+              setGrowthDirection(prev => ({ ...prev, z: prev.z + 1 }));
+              generatePaperMoney();
+              onValueCreated(50, 'Z-axis dimensional breakthrough - Sacred geometry activated');
+            }
+            break;
+          case '<':
+          case ',':
+            if (event.shiftKey) {
+              event.preventDefault();
+              setGrowthDirection(prev => ({ ...prev, z: prev.z - 1 }));
+              onValueCreated(35, 'Z-axis dimensional compression - Reality folding');
+            }
+            break;
+        }
+      }
+    };
+    
+    const handleKeyUp = (event: KeyboardEvent) => {
+      if (event.key === 'Shift') {
+        setIsShiftPressed(false);
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+    
     return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
       if (rendererRef.current) {
         rendererRef.current.dispose();
       }
@@ -139,10 +206,11 @@ export const CodingSystem3D: React.FC<CodingSystemProps> = ({
       });
       
       const mesh = new THREE.Mesh(geometry, material);
+      // Apply growth direction to positioning
       mesh.position.set(
-        (i - currentDimension / 2) * 2,
-        Math.sin(i) * 1.5,
-        Math.cos(i) * 1.5
+        (i - currentDimension / 2) * 2 + growthDirection.x * 0.5,
+        Math.sin(i) * 1.5 + growthDirection.y * 0.3,
+        Math.cos(i) * 1.5 + growthDirection.z * 0.4
       );
       
       sceneRef.current.add(mesh);
@@ -367,6 +435,10 @@ export const CodingSystem3D: React.FC<CodingSystemProps> = ({
             <div className="space-y-4">
               <div>
                 <label className="block text-white/70 text-sm mb-2">Dimension: {currentDimension}D</label>
+                <div className="text-xs text-white/50 mb-2">
+                  Growth Vector: ({growthDirection.x}, {growthDirection.y}, {growthDirection.z})
+                  {isShiftPressed && <span className="text-yellow-400 ml-2">⬆️ SHIFT MODE ACTIVE</span>}
+                </div>
                 <input
                   type="range"
                   min="3"
@@ -392,6 +464,30 @@ export const CodingSystem3D: React.FC<CodingSystemProps> = ({
             </div>
           </div>
 
+          {/* Growth Controls Help */}
+          <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
+            <h3 className="text-xl font-bold text-white mb-4 font-space">Directional Growth Controls</h3>
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              <div className="bg-white/5 p-3 rounded-lg">
+                <h4 className="font-bold text-white mb-2">Keyboard Controls:</h4>
+                <div className="space-y-1 text-white/70">
+                  <p><kbd className="bg-white/20 px-2 py-1 rounded text-xs">Shift + ↑</kbd> Y-axis growth (dimensions)</p>
+                  <p><kbd className="bg-white/20 px-2 py-1 rounded text-xs">Shift + ↓</kbd> Y-axis contraction</p>
+                  <p><kbd className="bg-white/20 px-2 py-1 rounded text-xs">Shift + ←</kbd> X-axis expansion (bit depth)</p>
+                  <p><kbd className="bg-white/20 px-2 py-1 rounded text-xs">Shift + →</kbd> X-axis expansion (bit depth)</p>
+                </div>
+              </div>
+              <div className="bg-white/5 p-3 rounded-lg">
+                <h4 className="font-bold text-white mb-2">Sacred Geometry:</h4>
+                <div className="space-y-1 text-white/70">
+                  <p><kbd className="bg-white/20 px-2 py-1 rounded text-xs">Shift + &gt;</kbd> Z-axis breakthrough</p>
+                  <p><kbd className="bg-white/20 px-2 py-1 rounded text-xs">Shift + &lt;</kbd> Z-axis compression</p>
+                  <p className="text-yellow-400 text-xs mt-2">Hold Shift for growth mode</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Coding Interface */}
           <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
             <h3 className="text-xl font-bold text-white mb-4 font-space">Dimensional Code</h3>
@@ -400,11 +496,16 @@ export const CodingSystem3D: React.FC<CodingSystemProps> = ({
               <div>dimension_space = create_space({currentDimension}D);</div>
               <div>bit_depth = {bitDepth};</div>
               <div>quantum_state = initialize_quantum({bitDepth});</div>
+              <div>growth_vector = ({growthDirection.x}, {growthDirection.y}, {growthDirection.z});</div>
               <div></div>
               <div>// Dimensional Flow</div>
               {Array.from({ length: currentDimension }, (_, i) => (
                 <div key={i}>axis[{i + 1}] = generate_axis({i + 1}, {bitDepth});</div>
               ))}
+              <div></div>
+              <div>// Growth Direction Processing</div>
+              <div>apply_growth_vector(growth_vector);</div>
+              <div>sacred_geometry_shift(shift_mode: {isShiftPressed ? 'true' : 'false'});</div>
               <div></div>
               <div>// Sacred Geometry Integration</div>
               <div>golden_ratio = 1.618033988749;</div>
