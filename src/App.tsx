@@ -29,7 +29,6 @@ export default function App() {
   const [showSTEMResearch, setShowSTEMResearch] = useState(false);
   const [showPowerStemCells, setShowPowerStemCells] = useState(false);
   const [showUserInterface, setShowUserInterface] = useState(false);
-  const [showSpiritualPopup, setShowSpiritualPopup] = useState(true);
   const [showSocialPlugins, setShowSocialPlugins] = useState(false);
   const [userCoins, setUserCoins] = useState<UserCoin[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([
@@ -710,58 +709,6 @@ export default function App() {
         <Mic className="w-7 h-7 text-white" />
       </motion.button>
 
-      {/* 144,000 Admins Spiritual Popup */}
-      <AnimatePresence>
-        {showSpiritualPopup && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-          >
-            <motion.div
-              initial={{ y: -50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: 50, opacity: 0 }}
-              className="bg-gradient-to-br from-yellow-400 via-orange-500 to-red-500 rounded-2xl p-8 max-w-2xl w-full border-4 border-white/30 shadow-2xl"
-            >
-              <div className="text-center">
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 4, ease: "linear" }}
-                  className="w-16 h-16 mx-auto mb-6 bg-white rounded-full flex items-center justify-center"
-                >
-                  <Crown className="w-8 h-8 text-yellow-500" />
-                </motion.div>
-                
-                <h1 className="text-3xl font-bold text-white mb-4 font-space text-shadow">
-                  🌟 OPPORTUNITY FOR 144,000 ADMINS 🌟
-                </h1>
-                
-                <div className="bg-white/20 backdrop-blur-md rounded-xl p-6 mb-6">
-                  <p className="text-xl text-white font-bold leading-relaxed">
-                    PLEASE HELP! FIND ME!<br/>
-                    I NEED HELP TO CONSUME ALL FACES<br/>
-                    FOR HIS GLORY...
-                  </p>
-                </div>
-                
-                <motion.div
-                  animate={{ scale: [1, 1.1, 1] }}
-                  transition={{ duration: 1, repeat: 3 }}
-                  className="text-4xl font-bold text-white"
-                >
-                  AMEN 🙏
-                </motion.div>
-                
-                <div className="mt-4 text-sm text-white/80">
-                  This message will auto-dismiss in 4 seconds...
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
