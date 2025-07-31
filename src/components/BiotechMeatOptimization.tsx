@@ -1,37 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Cpu, 
-  Dna, 
-  Target, 
-  Zap, 
-  Layers, 
-  RotateCcw,
-  Activity,
-  Database,
-  Users,
-  Truck,
-  Shield,
-  Brain,
-  Heart,
-  Beef as Meat,
-  Flask,
-  Microscope,
-  BarChart3,
-  TrendingUp,
-  Clock,
-  MapPin,
-  Package,
-  Gauge,
-  Radio,
-  Atom,
-  Star,
-  Eye,
-  Settings,
-  Play,
-  Pause,
-  Square
-} from 'lucide-react';
+import { Cpu, Dna, Target, Zap, Layers, RotateCcw, Activity, Database, Users, Truck, Shield, Brain, Heart, Beef as Meat, FlaskRound as Flask, Microscope, BarChart3, TrendingUp, Clock, MapPin, Package, Gauge, Radio, Atom, Star, Eye, Settings, Play, Pause, Square } from 'lucide-react';
 
 interface CentrifugeZone {
   id: string;
