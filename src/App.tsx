@@ -384,6 +384,12 @@ export default function App() {
                         color: 'from-red-500 to-orange-500',
                         action: () => setShowGTASimulation(true)
                       },
+                      { 
+                        title: 'Biotech Meat Silo', 
+                        desc: 'Centrifuge optimization of cloned meat for population feeding', 
+                        color: 'from-green-500 to-teal-600',
+                        action: () => setShowBiotechMeat(true)
+                      },
                     ].map((item, index) => (
                       <motion.div
                         key={item.title}
