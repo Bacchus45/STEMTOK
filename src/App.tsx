@@ -21,7 +21,7 @@ import { DOTAAIBots } from './components/DOTAAIBots';
 import { GTASimulation } from './components/GTASimulation';
 import { BiotechMeatOptimization } from './components/BiotechMeatOptimization';
 import { BillOfQuantitiesRepository } from './components/BillOfQuantitiesRepository';
-import { TimeTravel ProjectAlchemy } from './components/TimeTravel ProjectAlchemy';
+import { TimeTravelProjectAlchemy } from './components/TimeTravelProjectAlchemy';
 import { QuantumSpaceTimeCoordinates } from './components/QuantumSpaceTimeCoordinates';
 import { UserCoin, Transaction } from './types';
 
@@ -926,7 +926,7 @@ export default function App() {
                   </button>
                 </div>
               </div>
-              <TimeTravel ProjectAlchemy
+              <TimeTravelProjectAlchemy
                 onProjectFunded={(amount, description) => addTransaction('spent', amount, description)}
                 onProtectionCreated={(protection, blessing) => {
                   addTransaction('earned', blessing, `Divine protection created: ${protection.name}`);
