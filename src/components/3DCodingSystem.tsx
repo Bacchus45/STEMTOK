@@ -29,17 +29,46 @@ interface CodingSystemProps {
   onValueCreated: (amount: number, description: string) => void;
 }
 
+interface StepState {
+  position: number;
+  direction: 'forward' | 'backward';
+  leverageType: 'over' | 'under';
+  thoughtEnergy: number;
+  reverseValue: number;
+  integralSum: number;
+}
+
+interface ThoughtProcess {
+  id: string;
+  concept: string;
+  energyValue: number;
+  leverageMultiplier: number;
+  reversePolarity: boolean;
+  dimensionalResonance: number[];
+  consciousness: number;
+}
+
 export const CodingSystem3D: React.FC<CodingSystemProps> = ({
   onMoneyGenerated,
   onValueCreated
 }) => {
-  const [activeTab, setActiveTab] = useState<'coding' | 'dimensions' | 'money' | 'print'>('coding');
+  const [activeTab, setActiveTab] = useState<'coding' | 'stepping' | 'dimensions' | 'money' | 'print'>('coding');
   const [currentDimension, setCurrentDimension] = useState(3);
   const [bitDepth, setBitDepth] = useState(128);
   const [generatedMoney, setGeneratedMoney] = useState<PaperMoney[]>([]);
   const [selectedMoney, setSelectedMoney] = useState<PaperMoney | null>(null);
   const [growthDirection, setGrowthDirection] = useState({ x: 0, y: 0, z: 0 });
   const [isShiftPressed, setIsShiftPressed] = useState(false);
+  const [stepState, setStepState] = useState<StepState>({
+    position: 0,
+    direction: 'forward',
+    leverageType: 'over',
+    thoughtEnergy: 100,
+    reverseValue: 0,
+    integralSum: 0
+  });
+  const [thoughtProcesses, setThoughtProcesses] = useState<ThoughtProcess[]>([]);
+  const [integralPath, setIntegralPath] = useState<number[]>([]);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
@@ -110,6 +139,30 @@ export const CodingSystem3D: React.FC<CodingSystemProps> = ({
               setGrowthDirection(prev => ({ ...prev, z: prev.z - 1 }));
               onValueCreated(35, 'Z-axis dimensional compression - Reality folding');
             }
+            break;
+          case 'w':
+          case 'W':
+            event.preventDefault();
+            stepForward();
+            break;
+          case 's':
+          case 'S':
+            event.preventDefault();
+            stepBackward();
+            break;
+          case 'a':
+          case 'A':
+            event.preventDefault();
+            toggleLeverage();
+            break;
+          case 'd':
+          case 'D':
+            event.preventDefault();
+            calculateReverseValue();
+            break;
+          case ' ':
+            event.preventDefault();
+            processThoughtEnergy();
             break;
         }
       }
@@ -274,6 +327,99 @@ export const CodingSystem3D: React.FC<CodingSystemProps> = ({
     return signature.join('');
   };
 
+  const stepForward = () => {
+    setStepState(prev => {
+      const newPosition = prev.position + 1;
+      const energyGain = Math.floor(newPosition * 1.618); // Golden ratio multiplier
+      const leverageBonus = prev.leverageType === 'over' ? 1.5 : 0.8;
+      const totalEnergy = Math.floor(energyGain * leverageBonus);
+      
+      onValueCreated(totalEnergy, `Forward step to position ${newPosition} - Thought energy: ${totalEnergy}`);
+      
+      return {
+        ...prev,
+        position: newPosition,
+        direction: 'forward',
+        thoughtEnergy: prev.thoughtEnergy + totalEnergy,
+        integralSum: prev.integralSum + newPosition * totalEnergy
+      };
+    });
+    
+    setIntegralPath(prev => [...prev.slice(-9), stepState.position + 1]);
+  };
+
+  const stepBackward = () => {
+    setStepState(prev => {
+      const newPosition = Math.max(prev.position - 1, 0);
+      const energyLoss = Math.floor(prev.position * 0.618); // Inverse golden ratio
+      const leverageBonus = prev.leverageType === 'under' ? 1.3 : 0.9;
+      const totalEnergy = Math.floor(energyLoss * leverageBonus);
+      
+      onValueCreated(totalEnergy, `Backward step to position ${newPosition} - Energy reclaimed: ${totalEnergy}`);
+      
+      return {
+        ...prev,
+        position: newPosition,
+        direction: 'backward',
+        thoughtEnergy: prev.thoughtEnergy + totalEnergy,
+        integralSum: prev.integralSum - energyLoss
+      };
+    });
+    
+    setIntegralPath(prev => [...prev.slice(-9), stepState.position - 1]);
+  };
+
+  const toggleLeverage = () => {
+    setStepState(prev => {
+      const newLeverageType = prev.leverageType === 'over' ? 'under' : 'over';
+      const leverageEnergy = newLeverageType === 'over' ? 75 : 50;
+      
+      onValueCreated(leverageEnergy, `Leverage switched to ${newLeverageType} - Energy shift: ${leverageEnergy}`);
+      
+      return {
+        ...prev,
+        leverageType: newLeverageType,
+        thoughtEnergy: prev.thoughtEnergy + leverageEnergy
+      };
+    });
+  };
+
+  const calculateReverseValue = () => {
+    setStepState(prev => {
+      const reverseCalculation = prev.integralSum * -0.618; // Negative golden ratio
+      const thoughtBonus = Math.floor(prev.thoughtEnergy * 0.1);
+      const totalReverse = Math.floor(reverseCalculation + thoughtBonus);
+      
+      onValueCreated(Math.abs(totalReverse), `Reverse value calculated: ${totalReverse} - Thought bonus: ${thoughtBonus}`);
+      
+      return {
+        ...prev,
+        reverseValue: totalReverse,
+        thoughtEnergy: prev.thoughtEnergy + Math.abs(totalReverse)
+      };
+    });
+  };
+
+  const processThoughtEnergy = () => {
+    const newThought: ThoughtProcess = {
+      id: Date.now().toString(),
+      concept: `Integral Thought ${stepState.position}`,
+      energyValue: stepState.thoughtEnergy,
+      leverageMultiplier: stepState.leverageType === 'over' ? 1.618 : 0.618,
+      reversePolarity: stepState.reverseValue < 0,
+      dimensionalResonance: Array.from({ length: currentDimension }, (_, i) => 
+        Math.sin(stepState.position * (i + 1) * 0.1) * stepState.thoughtEnergy
+      ),
+      consciousness: Math.floor(stepState.integralSum / 100)
+    };
+    
+    setThoughtProcesses(prev => [newThought, ...prev.slice(0, 9)]);
+    
+    const energyOutput = Math.floor(newThought.energyValue * newThought.leverageMultiplier);
+    onValueCreated(energyOutput, `Thought processed: ${newThought.concept} - Energy: ${energyOutput}`);
+    generatePaperMoney();
+  };
+
   const printMoney = (money: PaperMoney) => {
     // Create printable HTML
     const printWindow = window.open('', '_blank');
@@ -398,6 +544,7 @@ export const CodingSystem3D: React.FC<CodingSystemProps> = ({
         <div className="flex space-x-4">
           {[
             { id: 'coding', name: '3D Coding', icon: <Code className="w-4 h-4" /> },
+            { id: 'stepping', name: 'Integral Steps', icon: <Layers className="w-4 h-4" /> },
             { id: 'dimensions', name: 'Dimensions', icon: <Layers className="w-4 h-4" /> },
             { id: 'money', name: 'QR Money', icon: <QrCode className="w-4 h-4" /> },
             { id: 'print', name: 'Print', icon: <Printer className="w-4 h-4" /> }
