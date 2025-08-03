@@ -21,6 +21,7 @@ import { DOTAAIBots } from './components/DOTAAIBots';
 import { GTASimulation } from './components/GTASimulation';
 import { BiotechMeatOptimization } from './components/BiotechMeatOptimization';
 import { BillOfQuantitiesRepository } from './components/BillOfQuantitiesRepository';
+import { TimeTravel ProjectAlchemy } from './components/TimeTravel ProjectAlchemy';
 import { UserCoin, Transaction } from './types';
 
 export default function App() {
@@ -39,6 +40,7 @@ export default function App() {
   const [showGTASimulation, setShowGTASimulation] = useState(false);
   const [showBiotechMeat, setShowBiotechMeat] = useState(false);
   const [showBOQRepository, setShowBOQRepository] = useState(false);
+  const [showTimeTravelAlchemy, setShowTimeTravelAlchemy] = useState(false);
   const [userCoins, setUserCoins] = useState<UserCoin[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([
     {
@@ -894,6 +896,35 @@ export default function App() {
                 }}
                 onCollaborationUpdate={(participants, project) => {
                   addTransaction('earned', participants * 50, `Collaboration update: ${project} (${participants} participants)`);
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {showTimeTravelAlchemy && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 overflow-y-auto">
+          <div className="min-h-screen p-4">
+            <div className="max-w-7xl mx-auto">
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 mb-6">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-2xl font-bold text-white font-space">Time Travel Divine Protection Alchemy</h2>
+                  <button
+                    onClick={() => setShowTimeTravelAlchemy(false)}
+                    className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                  >
+                    <span className="text-white/70 hover:text-white text-xl">✕</span>
+                  </button>
+                </div>
+              </div>
+              <TimeTravel ProjectAlchemy
+                onProjectFunded={(amount, description) => addTransaction('spent', amount, description)}
+                onProtectionCreated={(protection, blessing) => {
+                  addTransaction('earned', blessing, `Divine protection created: ${protection.name}`);
+                }}
+                onDivineIntervention={(intervention, blessing) => {
+                  addTransaction('earned', blessing, intervention);
                 }}
               />
             </div>
