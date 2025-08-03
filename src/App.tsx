@@ -22,6 +22,7 @@ import { GTASimulation } from './components/GTASimulation';
 import { BiotechMeatOptimization } from './components/BiotechMeatOptimization';
 import { BillOfQuantitiesRepository } from './components/BillOfQuantitiesRepository';
 import { TimeTravel ProjectAlchemy } from './components/TimeTravel ProjectAlchemy';
+import { QuantumSpaceTimeCoordinates } from './components/QuantumSpaceTimeCoordinates';
 import { UserCoin, Transaction } from './types';
 
 export default function App() {
@@ -41,6 +42,7 @@ export default function App() {
   const [showBiotechMeat, setShowBiotechMeat] = useState(false);
   const [showBOQRepository, setShowBOQRepository] = useState(false);
   const [showTimeTravelAlchemy, setShowTimeTravelAlchemy] = useState(false);
+  const [showQuantumCoordinates, setShowQuantumCoordinates] = useState(false);
   const [userCoins, setUserCoins] = useState<UserCoin[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([
     {
@@ -425,6 +427,12 @@ export default function App() {
                         desc: 'Bill of quantities for multiplayer coin projects', 
                         color: 'from-blue-500 to-indigo-600',
                         action: () => setShowBOQRepository(true)
+                      },
+                      { 
+                        title: 'Quantum Coordinates', 
+                        desc: 'Space-time positioning with quantum satellites', 
+                        color: 'from-cyan-500 to-blue-600',
+                        action: () => setShowQuantumCoordinates(true)
                       },
                     ].map((item, index) => (
                       <motion.div
@@ -925,6 +933,35 @@ export default function App() {
                 }}
                 onDivineIntervention={(intervention, blessing) => {
                   addTransaction('earned', blessing, intervention);
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {showQuantumCoordinates && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 overflow-y-auto">
+          <div className="min-h-screen p-4">
+            <div className="max-w-7xl mx-auto">
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 mb-6">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-2xl font-bold text-white font-space">Quantum Space-Time Coordinates</h2>
+                  <button
+                    onClick={() => setShowQuantumCoordinates(false)}
+                    className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                  >
+                    <span className="text-white/70 hover:text-white text-xl">✕</span>
+                  </button>
+                </div>
+              </div>
+              <QuantumSpaceTimeCoordinates
+                onCoordinatesCalculated={(position, factoring) => {
+                  console.log('Earth position calculated:', position);
+                  addTransaction('earned', 500, `Space-time coordinates calculated for ${position.date.toLocaleDateString()}`);
+                }}
+                onQuantumEntanglement={(satellites, energy) => {
+                  addTransaction('earned', Math.floor(energy / 10), `Quantum satellites entangled - Energy: ${energy.toFixed(0)} units`);
                 }}
               />
             </div>
