@@ -143,6 +143,10 @@ export default function App() {
         totalSupply: 1000000,
         currentSupply: 850000,
         color: '#3b82f6',
+        coinType: 'big',
+        faceSize: 'large',
+        valueIntensity: 25,
+        creativeTeaching: false,
         seasonal: true,
         startDate: new Date('2024-12-01'),
         endDate: new Date('2025-03-01'),
@@ -157,8 +161,28 @@ export default function App() {
         totalSupply: 500000,
         currentSupply: 500000,
         color: '#8b5cf6',
+        coinType: 'angel',
+        faceSize: 'medium',
+        valueIntensity: 85,
+        creativeTeaching: true,
         seasonal: false,
         createdAt: new Date(Date.now() - 172800000),
+        createdBy: 'current-user'
+      },
+      {
+        id: 'value-coin',
+        name: 'ValueCoin',
+        symbol: 'VALUE',
+        description: 'Small but mighty - concentrated value in every unit. Maximum utility per coin.',
+        totalSupply: 100000,
+        currentSupply: 100000,
+        color: '#f59e0b',
+        coinType: 'small',
+        faceSize: 'small',
+        valueIntensity: 95,
+        creativeTeaching: false,
+        seasonal: false,
+        createdAt: new Date(Date.now() - 259200000),
         createdBy: 'current-user'
       }
     ];
@@ -432,17 +456,52 @@ export default function App() {
                         {userCoins.map((coin) => (
                           <div key={coin.id} className="bg-white/10 backdrop-blur-md p-4 rounded-lg border border-white/20">
                             <div className="flex items-center space-x-3 mb-3">
-                              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 flex items-center justify-center text-xl font-bold text-white">
-                                {coin.symbol}
+                              <div className="relative">
+                                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 flex items-center justify-center text-xl font-bold text-white">
+                                  {coin.symbol}
+                                </div>
+                                {coin.coinType === 'angel' && (
+                                  <div className="absolute -top-1 -right-1 text-lg">👼</div>
+                                )}
+                                {coin.coinType === 'small' && (
+                                  <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full flex items-center justify-center">
+                                    <span className="text-black text-xs">🔸</span>
+                                  </div>
+                                )}
+                                {coin.coinType === 'big' && (
+                                  <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-blue-400 rounded-full flex items-center justify-center">
+                                    <span className="text-white text-xs">🔷</span>
+                                  </div>
+                                )}
                               </div>
                               <div>
                                 <h4 className="font-bold text-white">{coin.name}</h4>
                                 <p className="text-sm text-white/70">{coin.symbol}</p>
+                                {coin.coinType !== 'standard' && (
+                                  <div className={`text-xs px-2 py-1 rounded-full inline-block mt-1 ${
+                                    coin.coinType === 'small' ? 'bg-yellow-500/20 text-yellow-400' :
+                                    coin.coinType === 'big' ? 'bg-blue-500/20 text-blue-400' :
+                                    'bg-pink-500/20 text-pink-400'
+                                  }`}>
+                                    {coin.coinType === 'angel' ? '👼 Angel' : coin.coinType.toUpperCase()}
+                                  </div>
+                                )}
                               </div>
                             </div>
                             <p className="text-sm text-white/70 mb-2">{coin.description}</p>
                             <div className="flex justify-between items-center">
-                              <span className="text-sm text-white/60">Supply: {coin.totalSupply}</span>
+                              <div className="text-sm text-white/60">
+                                <div>Supply: {coin.totalSupply.toLocaleString()}</div>
+                                {coin.coinType === 'small' && (
+                                  <div className="text-yellow-400 text-xs">🔸 Intense: {coin.valueIntensity}%</div>
+                                )}
+                                {coin.coinType === 'big' && (
+                                  <div className="text-blue-400 text-xs">🔷 Growth: {100 - coin.valueIntensity}%</div>
+                                )}
+                                {coin.coinType === 'angel' && (
+                                  <div className="text-pink-400 text-xs">👼 Teaching: {coin.creativeTeaching ? 'ON' : 'OFF'}</div>
+                                )}
+                              </div>
                               <span className="text-sm font-bold text-green-400">
                                 Balance: {getUserCoinBalance(coin.id)}
                               </span>
