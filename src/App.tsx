@@ -20,6 +20,7 @@ import { SocialPlugins } from './components/SocialPlugins';
 import { DOTAAIBots } from './components/DOTAAIBots';
 import { GTASimulation } from './components/GTASimulation';
 import { BiotechMeatOptimization } from './components/BiotechMeatOptimization';
+import { BillOfQuantitiesRepository } from './components/BillOfQuantitiesRepository';
 import { UserCoin, Transaction } from './types';
 
 export default function App() {
@@ -37,6 +38,7 @@ export default function App() {
   const [showDOTAAIBots, setShowDOTAAIBots] = useState(false);
   const [showGTASimulation, setShowGTASimulation] = useState(false);
   const [showBiotechMeat, setShowBiotechMeat] = useState(false);
+  const [showBOQRepository, setShowBOQRepository] = useState(false);
   const [userCoins, setUserCoins] = useState<UserCoin[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([
     {
@@ -391,6 +393,12 @@ export default function App() {
                         desc: 'Optimize meat production for global nutrition', 
                         color: 'from-green-500 to-teal-500',
                         action: () => setShowBiotechMeat(true)
+                      },
+                      { 
+                        title: 'BOQ Repository', 
+                        desc: 'Bill of quantities for multiplayer coin projects', 
+                        color: 'from-blue-500 to-indigo-600',
+                        action: () => setShowBOQRepository(true)
                       },
                     ].map((item, index) => (
                       <motion.div
@@ -795,6 +803,38 @@ export default function App() {
                 onMeatProcessed={(amount, description) => addTransaction('earned', amount, description)}
                 onPopulationFed={(people, nutritionValue) => {
                   addTransaction('earned', nutritionValue, `Fed ${people.toLocaleString()} people with optimized nutrition`);
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {showBOQRepository && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 overflow-y-auto">
+          <div className="min-h-screen p-4">
+            <div className="max-w-7xl mx-auto">
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 mb-6">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-2xl font-bold text-white font-space">Bill of Quantities Repository</h2>
+                  <button
+                    onClick={() => setShowBOQRepository(false)}
+                    className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                  >
+                    <span className="text-white/70 hover:text-white text-xl">✕</span>
+                  </button>
+                </div>
+              </div>
+              <BillOfQuantitiesRepository
+                onProjectCreated={(project) => {
+                  console.log('New project created:', project);
+                  addTransaction('spent', 1000, `Created project: ${project.name}`);
+                }}
+                onResourceAllocated={(amount, description) => {
+                  addTransaction('spent', amount, description);
+                }}
+                onCollaborationUpdate={(participants, project) => {
+                  addTransaction('earned', participants * 50, `Collaboration update: ${project} (${participants} participants)`);
                 }}
               />
             </div>
