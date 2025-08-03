@@ -83,6 +83,15 @@ export const CoinManager: React.FC<CoinManagerProps> = ({
                           {isSeasonalActive(coin) ? 'Active' : 'Expired'}
                         </span>
                       )}
+                      {coin.coinType !== 'standard' && (
+                        <span className={`text-xs px-2 py-1 rounded-full ${
+                          coin.coinType === 'small' ? 'bg-yellow-500/20 text-yellow-400' :
+                          coin.coinType === 'big' ? 'bg-blue-500/20 text-blue-400' :
+                          'bg-pink-500/20 text-pink-400'
+                        }`}>
+                          {coin.coinType === 'angel' ? '👼 Angel' : coin.coinType.toUpperCase()}
+                        </span>
+                      )}
                       <button className="p-1 hover:bg-white/10 rounded">
                         <Edit3 className="w-4 h-4 text-white/60" />
                       </button>
@@ -91,7 +100,32 @@ export const CoinManager: React.FC<CoinManagerProps> = ({
 
                   <h3 className="text-lg font-bold text-white mb-1">{coin.name}</h3>
                   <p className="text-white/60 text-sm mb-3">{coin.symbol}</p>
-                  <p className="text-white/80 text-sm mb-4 line-clamp-2">{coin.description}</p>
+                  <p className="text-white/80 text-sm mb-3 line-clamp-2">{coin.description}</p>
+
+                  {/* Value Philosophy Display */}
+                  <div className="bg-white/5 p-3 rounded-lg mb-4">
+                    {coin.coinType === 'small' && (
+                      <div className="text-center">
+                        <div className="text-yellow-400 text-xs font-bold mb-1">🔸 INTENSE VALUE</div>
+                        <div className="text-white/70 text-xs">Concentrated power in small form</div>
+                        <div className="text-yellow-300 text-xs">Value Intensity: {coin.valueIntensity}%</div>
+                      </div>
+                    )}
+                    {coin.coinType === 'big' && (
+                      <div className="text-center">
+                        <div className="text-blue-400 text-xs font-bold mb-1">🔷 GROWTH FOCUSED</div>
+                        <div className="text-white/70 text-xs">Impressive details, growth potential</div>
+                        <div className="text-blue-300 text-xs">Face Size: {coin.faceSize.toUpperCase()}</div>
+                      </div>
+                    )}
+                    {coin.coinType === 'angel' && (
+                      <div className="text-center">
+                        <div className="text-pink-400 text-xs font-bold mb-1">👼 TEACH TO FISH</div>
+                        <div className="text-white/70 text-xs">Creative learning & value creation</div>
+                        <div className="text-pink-300 text-xs">Teaching: {coin.creativeTeaching ? 'ENABLED' : 'DISABLED'}</div>
+                      </div>
+                    )}
+                  </div>
 
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
@@ -102,6 +136,20 @@ export const CoinManager: React.FC<CoinManagerProps> = ({
                       <span className="text-white/60">Your Balance:</span>
                       <span className="text-green-400 font-bold">
                         {getUserCoinBalance(coin.id).toLocaleString()}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-white/60">Philosophy:</span>
+                      <span className={`${
+                        coin.coinType === 'small' ? 'text-yellow-400' :
+                        coin.coinType === 'big' ? 'text-blue-400' :
+                        coin.coinType === 'angel' ? 'text-pink-400' :
+                        'text-white'
+                      }`}>
+                        {coin.coinType === 'small' ? 'Intense Value' :
+                         coin.coinType === 'big' ? 'Growth Focus' :
+                         coin.coinType === 'angel' ? 'Teach to Fish' :
+                         'Standard'}
                       </span>
                     </div>
                     <div className="flex justify-between">
@@ -185,6 +233,76 @@ export const CoinManager: React.FC<CoinManagerProps> = ({
                     {getUserCoinBalance(selectedCoin.id).toLocaleString()}
                   </p>
                 </div>
+              </div>
+
+              {/* Enhanced Value Philosophy */}
+              <div className="bg-white/5 p-4 rounded-lg mb-6">
+                <h3 className="font-bold text-white mb-3">Value Philosophy</h3>
+                {selectedCoin.coinType === 'small' && (
+                  <div>
+                    <div className="flex items-center space-x-2 mb-2">
+                      <div className="w-6 h-6 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500"></div>
+                      <span className="text-yellow-400 font-bold">Small Coin - Intense Value</span>
+                    </div>
+                    <p className="text-white/80 text-sm mb-2">
+                      Concentrated value in compact form. Every unit carries maximum utility and purchasing power.
+                    </p>
+                    <div className="text-xs space-y-1">
+                      <div className="flex justify-between">
+                        <span className="text-white/60">Value Intensity:</span>
+                        <span className="text-yellow-400">{selectedCoin.valueIntensity}%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-white/60">Face Size:</span>
+                        <span className="text-white">{selectedCoin.faceSize}</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {selectedCoin.coinType === 'big' && (
+                  <div>
+                    <div className="flex items-center space-x-2 mb-2">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-400 to-purple-500"></div>
+                      <span className="text-blue-400 font-bold">Big Coin - Growth Focused</span>
+                    </div>
+                    <p className="text-white/80 text-sm mb-2">
+                      Impressive visual details designed for growth and expansion. Beauty over immediate value.
+                    </p>
+                    <div className="text-xs space-y-1">
+                      <div className="flex justify-between">
+                        <span className="text-white/60">Growth Potential:</span>
+                        <span className="text-blue-400">{100 - selectedCoin.valueIntensity}%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-white/60">Visual Impact:</span>
+                        <span className="text-white">{selectedCoin.faceSize} face</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {selectedCoin.coinType === 'angel' && (
+                  <div>
+                    <div className="flex items-center space-x-2 mb-2">
+                      <div className="w-7 h-7 rounded-full bg-gradient-to-r from-pink-400 to-rose-500 flex items-center justify-center">
+                        👼
+                      </div>
+                      <span className="text-pink-400 font-bold">Angel Coin - Teach to Fish</span>
+                    </div>
+                    <p className="text-white/80 text-sm mb-2">
+                      Empowers creative learning and value generation. Teaches users to create their own wealth.
+                    </p>
+                    <div className="text-xs space-y-1">
+                      <div className="flex justify-between">
+                        <span className="text-white/60">Creative Teaching:</span>
+                        <span className="text-pink-400">{selectedCoin.creativeTeaching ? 'ENABLED' : 'DISABLED'}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-white/60">Learning Multiplier:</span>
+                        <span className="text-pink-300">{selectedCoin.valueIntensity / 10}x</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {selectedCoin.seasonal && selectedCoin.startDate && selectedCoin.endDate && (
