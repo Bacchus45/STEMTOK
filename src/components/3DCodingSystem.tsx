@@ -675,6 +675,222 @@ export const CodingSystem3D: React.FC<CodingSystemProps> = ({
         </motion.div>
       )}
 
+      {/* Integral Stepping Tab */}
+      {activeTab === 'stepping' && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="space-y-6"
+        >
+          {/* Stepping Controls */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
+              <h3 className="text-xl font-bold text-white mb-4 font-space">Integral Stepping Mechanism</h3>
+              
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="bg-white/5 p-4 rounded-lg text-center">
+                  <p className="text-white/60 text-sm">Current Position</p>
+                  <p className="text-2xl font-bold text-blue-400">{stepState.position}</p>
+                </div>
+                <div className="bg-white/5 p-4 rounded-lg text-center">
+                  <p className="text-white/60 text-sm">Direction</p>
+                  <p className="text-2xl font-bold text-green-400 capitalize">{stepState.direction}</p>
+                </div>
+                <div className="bg-white/5 p-4 rounded-lg text-center">
+                  <p className="text-white/60 text-sm">Leverage</p>
+                  <p className="text-2xl font-bold text-purple-400 capitalize">{stepState.leverageType}</p>
+                </div>
+                <div className="bg-white/5 p-4 rounded-lg text-center">
+                  <p className="text-white/60 text-sm">Thought Energy</p>
+                  <p className="text-2xl font-bold text-yellow-400">{stepState.thoughtEnergy}</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="bg-white/5 p-4 rounded-lg text-center">
+                  <p className="text-white/60 text-sm">Integral Sum</p>
+                  <p className="text-2xl font-bold text-cyan-400">{stepState.integralSum}</p>
+                </div>
+                <div className="bg-white/5 p-4 rounded-lg text-center">
+                  <p className="text-white/60 text-sm">Reverse Value</p>
+                  <p className={`text-2xl font-bold ${stepState.reverseValue >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                    {stepState.reverseValue}
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-white/5 p-4 rounded-lg mb-4">
+                <h4 className="font-bold text-white mb-2">Integral Path Visualization</h4>
+                <div className="h-20 flex items-end space-x-1">
+                  {integralPath.map((value, i) => (
+                    <div
+                      key={i}
+                      className="flex-1 bg-gradient-to-t from-blue-500 to-purple-500 rounded-t-sm"
+                      style={{ 
+                        height: `${Math.abs(value) * 10 + 10}px`,
+                        opacity: 0.3 + (i / integralPath.length) * 0.7
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <h4 className="font-bold text-white">Controls:</h4>
+                <div className="grid grid-cols-2 gap-2 text-sm">
+                  <div className="bg-white/5 p-2 rounded">
+                    <kbd className="bg-white/20 px-2 py-1 rounded text-xs">W</kbd> Step Forward
+                  </div>
+                  <div className="bg-white/5 p-2 rounded">
+                    <kbd className="bg-white/20 px-2 py-1 rounded text-xs">S</kbd> Step Backward
+                  </div>
+                  <div className="bg-white/5 p-2 rounded">
+                    <kbd className="bg-white/20 px-2 py-1 rounded text-xs">A</kbd> Toggle Leverage
+                  </div>
+                  <div className="bg-white/5 p-2 rounded">
+                    <kbd className="bg-white/20 px-2 py-1 rounded text-xs">D</kbd> Reverse Value
+                  </div>
+                  <div className="bg-white/5 p-2 rounded col-span-2">
+                    <kbd className="bg-white/20 px-2 py-1 rounded text-xs">SPACE</kbd> Process Thought Energy
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Thought Energy Processor */}
+            <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
+              <h3 className="text-xl font-bold text-white mb-4 font-space">Thought Energy Value</h3>
+              
+              <div className="bg-white/5 p-4 rounded-lg mb-4">
+                <h4 className="font-bold text-white mb-3">Energy Calculation Matrix</h4>
+                <div className="space-y-2 text-sm font-mono">
+                  <div className="flex justify-between">
+                    <span className="text-white/60">Base Energy:</span>
+                    <span className="text-white">{stepState.thoughtEnergy}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-white/60">Position Factor:</span>
+                    <span className="text-blue-400">{stepState.position} × 1.618</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-white/60">Leverage Multiplier:</span>
+                    <span className="text-purple-400">
+                      {stepState.leverageType === 'over' ? '1.618' : '0.618'} ({stepState.leverageType})
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-white/60">Reverse Polarity:</span>
+                    <span className={stepState.reverseValue >= 0 ? 'text-green-400' : 'text-red-400'}>
+                      {stepState.reverseValue >= 0 ? 'Positive' : 'Negative'}
+                    </span>
+                  </div>
+                  <div className="border-t border-white/20 pt-2">
+                    <div className="flex justify-between">
+                      <span className="text-white/60">Integral Sum:</span>
+                      <span className="text-yellow-400 font-bold">{stepState.integralSum}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <button
+                  onClick={stepForward}
+                  className="w-full py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:from-green-600 hover:to-emerald-700 transition-all font-medium"
+                >
+                  ▲ Step Forward (W)
+                </button>
+                <button
+                  onClick={stepBackward}
+                  className="w-full py-3 bg-gradient-to-r from-blue-500 to-cyan-600 text-white rounded-lg hover:from-blue-600 hover:to-cyan-700 transition-all font-medium"
+                >
+                  ▼ Step Backward (S)
+                </button>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    onClick={toggleLeverage}
+                    className="py-2 bg-gradient-to-r from-purple-500 to-pink-600 text-white rounded-lg hover:from-purple-600 hover:to-pink-700 transition-all font-medium"
+                  >
+                    ◄► Toggle Leverage (A)
+                  </button>
+                  <button
+                    onClick={calculateReverseValue}
+                    className="py-2 bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-lg hover:from-orange-600 hover:to-red-700 transition-all font-medium"
+                  >
+                    ↻ Reverse Value (D)
+                  </button>
+                </div>
+                <button
+                  onClick={processThoughtEnergy}
+                  className="w-full py-3 bg-gradient-to-r from-yellow-500 to-orange-600 text-white rounded-lg hover:from-yellow-600 hover:to-orange-700 transition-all font-medium"
+                >
+                  ⚡ Process Thought Energy (SPACE)
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Thought Processes History */}
+          <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
+            <h3 className="text-xl font-bold text-white mb-4 font-space">Processed Thought Energy</h3>
+            
+            {thoughtProcesses.length === 0 ? (
+              <div className="text-center py-8">
+                <div className="text-white/40 mb-4">⚡ 🧠 ⚡</div>
+                <p className="text-white/60">No thought processes yet. Press SPACE to process thought energy.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {thoughtProcesses.map((thought, index) => (
+                  <motion.div
+                    key={thought.id}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: index * 0.1 }}
+                    className="bg-white/5 p-4 rounded-lg border border-white/10"
+                  >
+                    <h4 className="font-bold text-white mb-2">{thought.concept}</h4>
+                    <div className="space-y-2 text-xs">
+                      <div className="flex justify-between">
+                        <span className="text-white/60">Energy Value:</span>
+                        <span className="text-yellow-400">{thought.energyValue}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-white/60">Leverage:</span>
+                        <span className="text-purple-400">{thought.leverageMultiplier}x</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-white/60">Polarity:</span>
+                        <span className={thought.reversePolarity ? 'text-red-400' : 'text-green-400'}>
+                          {thought.reversePolarity ? 'Reverse' : 'Forward'}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-white/60">Consciousness:</span>
+                        <span className="text-cyan-400">{thought.consciousness}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="mt-3">
+                      <h5 className="text-white/60 text-xs mb-1">Dimensional Resonance:</h5>
+                      <div className="flex space-x-1">
+                        {thought.dimensionalResonance.slice(0, 6).map((resonance, i) => (
+                          <div
+                            key={i}
+                            className="w-2 h-8 bg-gradient-to-t from-cyan-500 to-blue-500 rounded-full opacity-70"
+                            style={{ height: `${Math.abs(resonance) / 10 + 8}px` }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            )}
+          </div>
+        </motion.div>
+      )}
+
       {/* Dimensions Tab */}
       {activeTab === 'dimensions' && (
         <motion.div
