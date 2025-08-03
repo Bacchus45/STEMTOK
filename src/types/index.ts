@@ -6,6 +6,10 @@ export interface UserCoin {
   totalSupply: number;
   currentSupply: number;
   color: string;
+  coinType: 'small' | 'big' | 'angel' | 'standard';
+  faceSize: 'small' | 'medium' | 'large';
+  valueIntensity: number;
+  creativeTeaching: boolean;
   seasonal: boolean;
   startDate?: Date;
   endDate?: Date;
