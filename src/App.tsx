@@ -44,6 +44,7 @@ export const EnhancedUI: React.FC<EnhancedUIProps> = ({
     totalSupply: 1000000,
     initialPrice: 1.0,
     description: ''
+  });
 
   const themeStyles = {
     aurora: 'from-purple-900 via-blue-900 to-indigo-900',
