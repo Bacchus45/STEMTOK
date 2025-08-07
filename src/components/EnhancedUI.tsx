@@ -215,7 +215,7 @@ export const EnhancedUI: React.FC<EnhancedUIProps> = ({
           initial={{ x: 300, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: 300, opacity: 0 }}
-          className="fixed top-4 right-4 z-50 max-w-sm"
+          className="fixed bottom-32 right-4 z-50 max-w-sm"
         >
           <div className="glass-strong rounded-xl p-4 border-l-4 border-green-400">
             <div className="flex items-center space-x-3">
