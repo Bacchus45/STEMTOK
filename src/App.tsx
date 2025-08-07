@@ -1,993 +1,340 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mic, User, Home, TrendingUp, Menu, Settings } from 'lucide-react';
-import { Background3D } from './components/Background3D';
-import { EnhancedUI } from './components/EnhancedUI';
-import { Feed } from './components/Feed';
-import { CoinCreator } from './components/CoinCreator';
-import { CoinManager } from './components/CoinManager';
-import { PresentationEditor } from './components/PresentationEditor';
-import { UserRegistration } from './components/UserRegistration';
-import { VoiceRecorder } from './components/VoiceRecorder';
-import { CoinTradingInterface } from './components/CoinTradingInterface';
-import { DashboardAnalytics } from './components/DashboardAnalytics';
-import { ChatMessagingSystem } from './components/ChatMessagingSystem';
-import { EnhancedDashboard } from './components/EnhancedDashboard';
-import { UserInterface } from './components/UserInterface';
-import { STEMResearch } from './components/STEMResearch';
-import { PowerStemCells } from './components/PowerStemCells';
-import { SocialPlugins } from './components/SocialPlugins';
-import { DOTAAIBots } from './components/DOTAAIBots';
-import { GTASimulation } from './components/GTASimulation';
-import { BiotechMeatOptimization } from './components/BiotechMeatOptimization';
-import { BillOfQuantitiesRepository } from './components/BillOfQuantitiesRepository';
-import { TimeTravelProjectAlchemy } from './components/TimeTravelProjectAlchemy';
-import { QuantumSpaceTimeCoordinates } from './components/QuantumSpaceTimeCoordinates';
-import { UserCoin, Transaction } from './types';
+import { 
+  Sparkles, 
+  Zap, 
+  Heart, 
+  Star, 
+  Music, 
+  Headphones,
+  Mic,
+  Volume2,
+  VolumeX,
+  Play,
+  Pause,
+  SkipForward,
+  SkipBack,
+  Shuffle,
+  Repeat
+} from 'lucide-react';
 
-export default function App() {
-  const [currentView, setCurrentView] = useState('home');
-  const [showSidePanel, setShowSidePanel] = useState(false);
-  const [showCoinCreator, setShowCoinCreator] = useState(false);
-  const [showCoinManager, setShowCoinManager] = useState(false);
-  const [showPresentationEditor, setShowPresentationEditor] = useState(false);
-  const [showUserRegistration, setShowUserRegistration] = useState(false);
-  const [showVoiceRecorder, setShowVoiceRecorder] = useState(false);
-  const [showSTEMResearch, setShowSTEMResearch] = useState(false);
-  const [showPowerStemCells, setShowPowerStemCells] = useState(false);
-  const [showUserInterface, setShowUserInterface] = useState(false);
-  const [showSocialPlugins, setShowSocialPlugins] = useState(false);
-  const [showDOTAAIBots, setShowDOTAAIBots] = useState(false);
-  const [showGTASimulation, setShowGTASimulation] = useState(false);
-  const [showBiotechMeat, setShowBiotechMeat] = useState(false);
-  const [showBOQRepository, setShowBOQRepository] = useState(false);
-  const [showTimeTravelAlchemy, setShowTimeTravelAlchemy] = useState(false);
-  const [showQuantumCoordinates, setShowQuantumCoordinates] = useState(false);
-  const [userCoins, setUserCoins] = useState<UserCoin[]>([]);
-  const [transactions, setTransactions] = useState<Transaction[]>([
-    {
-      id: '1',
-      type: 'earned',
-      amount: 50,
-      description: 'Welcome bonus for joining SocialCoin!',
-      createdAt: new Date(),
-      coinType: 'main'
-    },
-    {
-      id: '2',
-      type: 'earned',
-      amount: 25,
-      description: 'Voice post engagement reward',
-      createdAt: new Date(Date.now() - 3600000),
-      coinType: 'main'
-    },
-    {
-      id: '3',
-      type: 'earned',
-      amount: 15,
-      description: 'Community interaction bonus',
-      createdAt: new Date(Date.now() - 7200000),
-      coinType: 'main'
-    }
-  ]);
-  
-  const getTotalCoins = () => {
-    return transactions
-      .filter(t => t.coinType === 'main')
-      .reduce((total, transaction) => {
-        return transaction.type === 'earned' 
-          ? total + transaction.amount 
-          : total - transaction.amount;
-      }, 0);
-  };
+interface EnhancedUIProps {
+  children: React.ReactNode;
+  theme?: 'aurora' | 'garden' | 'fire' | 'starlight';
+}
 
-  // Sample user profile and notifications for UserInterface
-  const [userProfile] = useState({
-    id: 'user-1',
-    name: 'John Creator',
-    email: 'john@socialcoin.com',
-    username: 'johncreator',
-    bio: 'Passionate about voice technology and cryptocurrency. Building the future of social interactions.',
-    location: 'San Francisco, CA',
-    joinDate: new Date('2024-01-15'),
-    verified: true,
-    level: 'Creator Pro',
-    achievements: ['Early Adopter', 'Voice Pioneer', 'Coin Creator', 'Community Builder'],
-    preferences: {
-      theme: 'dark' as const,
-      notifications: true,
-      soundEnabled: true,
-      language: 'en',
-      privacy: 'public' as const
-    },
-    stats: {
-      posts: 156,
-      followers: 2847,
-      following: 1234,
-      coinsEarned: getTotalCoins(),
-      level: 8
-    }
+export const EnhancedUI: React.FC<EnhancedUIProps> = ({ 
+  children, 
+  theme = 'aurora' 
+}) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlayerMinimized, setIsPlayerMinimized] = useState(false);
+  const [showVoiceToast, setShowVoiceToast] = useState(false);
+  const [volume, setVolume] = useState(0.7);
+  const [currentTrack, setCurrentTrack] = useState({
+    title: "Celestial Harmony",
+    artist: "Divine Frequencies",
+    duration: "3:45"
   });
+  const [showTokenCreator, setShowTokenCreator] = useState(false);
+  const [userTokens, setUserTokens] = useState<any[]>([]);
+  const [newToken, setNewToken] = useState({
+    name: '',
+    symbol: '',
+    totalSupply: 1000000,
+    initialPrice: 1.0,
+    description: ''
 
-  const [notifications] = useState([
-    {
-      id: '1',
-      type: 'coin' as const,
-      title: 'Coins Earned!',
-      message: 'You earned 25 coins from voice post engagement',
-      timestamp: new Date(Date.now() - 300000),
-      read: false
-    },
-    {
-      id: '2',
-      type: 'like' as const,
-      title: 'Post Liked',
-      message: 'Sarah Chen liked your voice post about crypto trends',
-      timestamp: new Date(Date.now() - 600000),
-      read: false
-    },
-    {
-      id: '3',
-      type: 'follow' as const,
-      title: 'New Follower',
-      message: 'Mike Johnson started following you',
-      timestamp: new Date(Date.now() - 1800000),
-      read: true
-    }
-  ]);
-
-  // Add sample user coins
-  useEffect(() => {
-    const sampleCoins: UserCoin[] = [
-      {
-        id: 'winter-coin',
-        name: 'WinterCoin',
-        symbol: 'WINTER',
-        description: 'A seasonal cryptocurrency perfect for the holiday season with special rewards and community features.',
-        totalSupply: 1000000,
-        currentSupply: 850000,
-        color: '#3b82f6',
-        coinType: 'big',
-        faceSize: 'large',
-        valueIntensity: 25,
-        creativeTeaching: false,
-        seasonal: true,
-        startDate: new Date('2024-12-01'),
-        endDate: new Date('2025-03-01'),
-        createdAt: new Date(Date.now() - 86400000),
-        createdBy: 'current-user'
-      },
-      {
-        id: 'creator-coin',
-        name: 'CreatorCoin',
-        symbol: 'CREATE',
-        description: 'Empowering content creators with decentralized rewards and community-driven value.',
-        totalSupply: 500000,
-        currentSupply: 500000,
-        color: '#8b5cf6',
-        coinType: 'angel',
-        faceSize: 'medium',
-        valueIntensity: 85,
-        creativeTeaching: true,
-        seasonal: false,
-        createdAt: new Date(Date.now() - 172800000),
-        createdBy: 'current-user'
-      },
-      {
-        id: 'value-coin',
-        name: 'ValueCoin',
-        symbol: 'VALUE',
-        description: 'Small but mighty - concentrated value in every unit. Maximum utility per coin.',
-        totalSupply: 100000,
-        currentSupply: 100000,
-        color: '#f59e0b',
-        coinType: 'small',
-        faceSize: 'small',
-        valueIntensity: 95,
-        creativeTeaching: false,
-        seasonal: false,
-        createdAt: new Date(Date.now() - 259200000),
-        createdBy: 'current-user'
-      }
-    ];
-    
-    setUserCoins(sampleCoins);
-  }, []);
-
-  const handleUserRegistered = (userData: any) => {
-    setShowUserRegistration(false);
-    addTransaction('earned', 100, `Welcome bonus for new user: ${userData.name || userData.email || 'User'}!`, 'main');
-  };
-
-  const handleVoiceRecording = (audioBlob: Blob, duration: number) => {
-    addTransaction('earned', 25, `Voice message recorded (${duration}s), size: ${audioBlob.size} bytes`, 'main');
-    setShowVoiceRecorder(false);
-  };
-
-  const handleTradeComplete = (order: any) => {
-    const amount = order.type === 'buy' ? -order.total : order.total;
-    addTransaction(order.type === 'buy' ? 'spent' : 'earned', Math.abs(amount), 
-      `${order.type.toUpperCase()} ${order.amount} ${order.coin}`, 'main');
-  };
-
-  // Get background variant based on current view
-  const getBackgroundVariant = () => {
-    if (currentView === 'profile') return 'profile';
-    if (currentView === 'studio') return 'studio';
-    if (currentView === 'chat') return 'insights';
-    if (currentView === 'trading') return 'insights';
-    if (currentView === 'analytics') return 'insights';
-    if (showSidePanel) return 'insights';
-    return 'main';
-  };
-
-  const addTransaction = (type: 'earned' | 'spent', amount: number, description: string, coinType: string = 'main') => {
-    const newTransaction: Transaction = {
-      id: Date.now().toString(),
-      type,
-      amount,
-      description,
-      createdAt: new Date(),
-      coinType
-    };
-    setTransactions(prev => [newTransaction, ...prev]);
-  };
-
-  const getUserCoinBalance = (coinId: string) => {
-    return transactions
-      .filter(t => t.coinType === coinId)
-      .reduce((total, transaction) => {
-        return transaction.type === 'earned' 
-          ? total + transaction.amount 
-          : total - transaction.amount;
-      }, 0);
+  const themeStyles = {
+    aurora: 'from-purple-900 via-blue-900 to-indigo-900',
+    garden: 'from-emerald-900 via-green-900 to-teal-900',
+    fire: 'from-orange-900 via-red-900 to-pink-900',
+    starlight: 'from-indigo-900 via-purple-900 to-violet-900'
   };
 
   return (
-    <EnhancedUI theme="aurora">
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
-        <Background3D variant={getBackgroundVariant()} />
-      
-      {/* Header */}
-      <motion.header 
-        className="relative z-10 p-6 flex justify-between items-center bg-white/10 backdrop-blur-md rounded-2xl mb-6 mx-6 border border-white/20"
-        initial={{ y: -50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        <div className="flex items-center space-x-4">
-          <button
-            onClick={() => setShowSidePanel(!showSidePanel)}
-            className="p-3 rounded-xl bg-white/10 hover:bg-white/20 transition-colors"
-          >
-            <Menu size={20} className="text-white" />
-          </button>
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent font-space">
-            SocialCoin
-          </h1>
-        </div>
-        
-        <div className="flex items-center space-x-4">
-          <div className="bg-gradient-to-r from-yellow-400 to-orange-500 px-6 py-3 rounded-full font-bold shadow-lg">
-            <span className="text-blue-900">{getTotalCoins()} Coins</span>
-          </div>
-          
-          <button 
-            onClick={() => setShowUserRegistration(true)}
-            className="p-3 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 transition-all shadow-lg"
-          >
-            <Settings size={20} className="text-white" />
-          </button>
-          
-          <button className="p-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition-all shadow-lg">
-            <User size={20} className="text-white" />
-          </button>
-        </div>
-      </motion.header>
-
-      <div className="flex">
-        {/* Side Panel */}
-        <AnimatePresence>
-          {showSidePanel && (
-            <motion.aside
-              initial={{ x: -280, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: -280, opacity: 0 }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed left-0 top-0 w-72 h-full bg-white/10 backdrop-blur-md z-20 pt-24 border-r border-white/20"
-            >
-              <div className="p-6 space-y-6">
-                <h2 className="text-2xl font-bold text-white font-space">Insights</h2>
-                <div className="space-y-4">
-                  <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/20">
-                    <p className="text-sm text-white/60">Total Earned</p>
-                    <p className="text-2xl font-bold text-green-400">
-                      {transactions.filter(t => t.type === 'earned').reduce((sum, t) => sum + t.amount, 0)} Coins
-                    </p>
-                  </div>
-                  <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/20">
-                    <p className="text-sm text-white/60">Total Spent</p>
-                    <p className="text-2xl font-bold text-red-400">
-                      {transactions.filter(t => t.type === 'spent').reduce((sum, t) => sum + t.amount, 0)} Coins
-                    </p>
-                  </div>
-                  <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/20">
-                    <p className="text-sm text-white/60">User Coins Created</p>
-                    <p className="text-2xl font-bold text-blue-400">{userCoins.length}</p>
-                  </div>
-                </div>
-              </div>
-            </motion.aside>
-          )}
-        </AnimatePresence>
-
-        {/* Main Content */}
-        <main className={`flex-1 transition-all duration-300 ${showSidePanel ? 'ml-72' : 'ml-0'} p-6`}>
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentView}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              {currentView === 'home' && (
-                <Feed 
-                  onEarnCoins={(amount, description) => addTransaction('earned', amount, description)}
-                />
-              )}
-              
-              {currentView === 'insights' && (
-                <EnhancedDashboard
-                  userBalance={getTotalCoins()}
-                  totalTransactions={transactions.length}
-                  userCoins={userCoins}
-                  onNavigate={setCurrentView}
-                />
-              )}
-              
-              {currentView === 'studio' && (
-                <div className="space-y-6">
-                  <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="text-center mb-8"
-                    >
-                      <h2 className="text-4xl font-bold mb-4 text-white font-space">Creator Studio</h2>
-                      <p className="text-white/70 text-lg">Create content, manage your coins, and build presentations</p>
-                    </motion.div>
-                  </div>
-                  
-                  {/* Studio Grid */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {[
-                      { 
-                        title: 'Create Coin', 
-                        desc: 'Launch your own social currency', 
-                        color: 'from-purple-500 to-pink-500',
-                        action: () => setShowCoinCreator(true)
-                      },
-                      { 
-                        title: 'Manage Coins', 
-                        desc: 'View and manage your created coins', 
-                        color: 'from-blue-500 to-cyan-500',
-                        action: () => setShowCoinManager(true)
-                      },
-                      { 
-                        title: 'Presentations', 
-                        desc: 'Create interactive presentations', 
-                        color: 'from-green-500 to-emerald-500',
-                        action: () => setShowPresentationEditor(true)
-                      },
-                      { 
-                        title: 'STEM Research', 
-                        desc: 'Explore advanced scientific research', 
-                        color: 'from-purple-500 to-indigo-500',
-                        action: () => setShowSTEMResearch(true)
-                      },
-                      { 
-                        title: 'Power & Stem Cells', 
-                        desc: 'J.J. NELL bioelectric research', 
-                        color: 'from-orange-500 to-red-500',
-                        action: () => setShowPowerStemCells(true)
-                      },
-                      { 
-                        title: 'User Interface', 
-                        desc: 'Manage profile and settings', 
-                        color: 'from-indigo-500 to-purple-500',
-                        action: () => setShowUserInterface(true)
-                      },
-                      { 
-                        title: 'TikTok & Meta Plugins', 
-                        desc: 'Cross-platform social media integration', 
-                        color: 'from-pink-500 to-red-500',
-                        action: () => setShowSocialPlugins(true)
-                      },
-                      { 
-                        title: 'DOTA AI Bots', 
-                        desc: '4 strategic AI bots with DOTA execution', 
-                        color: 'from-blue-500 to-purple-500',
-                        action: () => setShowDOTAAIBots(true)
-                      },
-                      { 
-                        title: 'GTA 8 Simulation', 
-                        desc: 'Open-world crime simulation game', 
-                        color: 'from-red-500 to-orange-500',
-                        action: () => setShowGTASimulation(true)
-                      },
-                      { 
-                        title: 'Biotech Meat Lab', 
-                        desc: 'Optimize meat production for global nutrition', 
-                        color: 'from-green-500 to-teal-500',
-                        action: () => setShowBiotechMeat(true)
-                      },
-                      { 
-                        title: 'BOQ Repository', 
-                        desc: 'Bill of quantities for multiplayer coin projects', 
-                        color: 'from-blue-500 to-indigo-600',
-                        action: () => setShowBOQRepository(true)
-                      },
-                      { 
-                        title: 'Quantum Coordinates', 
-                        desc: 'Space-time positioning with quantum satellites', 
-                        color: 'from-cyan-500 to-blue-600',
-                        action: () => setShowQuantumCoordinates(true)
-                      },
-                    ].map((item, index) => (
-                      <motion.div
-                        key={item.title}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        whileHover={{ y: -5 }}
-                        className={`bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20 cursor-pointer hover:bg-white/15 transition-all ${
-                          index >= 4 ? 'md:col-span-2 lg:col-span-1' : ''
-                        }`}
-                        onClick={item.action}
-                      >
-                        <div className={`p-4 rounded-xl bg-gradient-to-r ${item.color} mb-4`}>
-                          <Mic className="w-8 h-8 text-white" />
-                        </div>
-                        <h3 className="text-xl font-bold mb-2 text-white font-space">{item.title}</h3>
-                        <p className="text-white/70">{item.desc}</p>
-                      </motion.div>
-                    ))}
-                  </div>
-
-                  {userCoins.length > 0 && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="mt-8"
-                    >
-                      <h3 className="text-2xl font-bold mb-4 text-white">Your Coins</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {userCoins.map((coin) => (
-                          <div key={coin.id} className="bg-white/10 backdrop-blur-md p-4 rounded-lg border border-white/20">
-                            <div className="flex items-center space-x-3 mb-3">
-                              <div className="relative">
-                                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 flex items-center justify-center text-xl font-bold text-white">
-                                  {coin.symbol}
-                                </div>
-                                {coin.coinType === 'angel' && (
-                                  <div className="absolute -top-1 -right-1 text-lg">👼</div>
-                                )}
-                                {coin.coinType === 'small' && (
-                                  <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full flex items-center justify-center">
-                                    <span className="text-black text-xs">🔸</span>
-                                  </div>
-                                )}
-                                {coin.coinType === 'big' && (
-                                  <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-blue-400 rounded-full flex items-center justify-center">
-                                    <span className="text-white text-xs">🔷</span>
-                                  </div>
-                                )}
-                              </div>
-                              <div>
-                                <h4 className="font-bold text-white">{coin.name}</h4>
-                                <p className="text-sm text-white/70">{coin.symbol}</p>
-                                {coin.coinType !== 'standard' && (
-                                  <div className={`text-xs px-2 py-1 rounded-full inline-block mt-1 ${
-                                    coin.coinType === 'small' ? 'bg-yellow-500/20 text-yellow-400' :
-                                    coin.coinType === 'big' ? 'bg-blue-500/20 text-blue-400' :
-                                    'bg-pink-500/20 text-pink-400'
-                                  }`}>
-                                    {coin.coinType === 'angel' ? '👼 Angel' : coin.coinType.toUpperCase()}
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                            <p className="text-sm text-white/70 mb-2">{coin.description}</p>
-                            <div className="flex justify-between items-center">
-                              <div className="text-sm text-white/60">
-                                <div>Supply: {coin.totalSupply.toLocaleString()}</div>
-                                {coin.coinType === 'small' && (
-                                  <div className="text-yellow-400 text-xs">🔸 Intense: {coin.valueIntensity}%</div>
-                                )}
-                                {coin.coinType === 'big' && (
-                                  <div className="text-blue-400 text-xs">🔷 Growth: {100 - coin.valueIntensity}%</div>
-                                )}
-                                {coin.coinType === 'angel' && (
-                                  <div className="text-pink-400 text-xs">👼 Teaching: {coin.creativeTeaching ? 'ON' : 'OFF'}</div>
-                                )}
-                              </div>
-                              <span className="text-sm font-bold text-green-400">
-                                Balance: {getUserCoinBalance(coin.id)}
-                              </span>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </div>
-              )}
-              
-              {currentView === 'trading' && (
-                <CoinTradingInterface
-                  onTradeComplete={handleTradeComplete}
-                  userBalance={getTotalCoins()}
-                />
-              )}
-              
-              {currentView === 'chat' && (
-                <ChatMessagingSystem
-                  currentUserId="current-user"
-                  onSendMessage={(message, chatId) => {
-                    addTransaction('earned', 5, `Message sent to chat ${chatId}: "${message.substring(0, 20)}..."`, 'main');
-                  }}
-                />
-              )}
-              
-              {currentView === 'analytics' && (
-                <DashboardAnalytics
-                  userBalance={getTotalCoins()}
-                  totalTransactions={transactions.length}
-                />
-              )}
-
-              {/* Profile view */}
-              {currentView === 'profile' && (
-                <UserInterface
-                  userProfile={userProfile}
-                  notifications={notifications}
-                  onProfileUpdate={(updates) => {
-                    console.log('Profile updated:', updates);
-                  }}
-                  onNotificationAction={(id, action) => {
-                    console.log('Notification action:', id, action);
-                  }}
-                />
-              )}
-            </motion.div>
-          </AnimatePresence>
-        </main>
+    <div className={`min-h-screen bg-gradient-to-br ${themeStyles[theme]} relative overflow-hidden`}>
+      {/* Animated Background Particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(50)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 bg-white/20 rounded-full"
+            animate={{
+              x: [0, Math.random() * 100, 0],
+              y: [0, Math.random() * 100, 0],
+              opacity: [0, 1, 0],
+            }}
+            transition={{
+              duration: Math.random() * 10 + 10,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+          />
+        ))}
       </div>
 
+      {/* Floating Orbs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(3)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-32 h-32 rounded-full opacity-10"
+            style={{
+              background: `radial-gradient(circle, ${
+                theme === 'aurora' ? '#6366f1' :
+                theme === 'garden' ? '#10b981' :
+                theme === 'fire' ? '#f59e0b' :
+                '#8b5cf6'
+              } 0%, transparent 70%)`,
+              left: `${20 + i * 30}%`,
+              top: `${20 + i * 20}%`,
+            }}
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.1, 0.3, 0.1],
+            }}
+            transition={{
+              duration: 8 + i * 2,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+        ))}
+      </div>
 
-      {/* Bottom Navigation */}
-      <motion.nav 
-        className="fixed bottom-0 left-0 right-0 bg-black/20 backdrop-blur-md border-t border-white/10 p-4 z-10"
+      {/* Main Content */}
+      <div className="relative z-10">
+        {children}
+      </div>
+
+      {/* Enhanced Audio Player */}
+      <motion.div
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
+        className="fixed bottom-4 left-4 right-4 z-50"
       >
-        <div className="flex justify-around max-w-md mx-auto">
-          <motion.button
-            onClick={() => setCurrentView('home')}
-            className={`p-3 rounded-full transition-all ${
-              currentView === 'home' 
-                ? 'bg-purple-500 text-white' 
-                : 'text-white/60 hover:text-white hover:bg-white/10'
-            }`}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <Home size={24} />
-          </motion.button>
-          
-          <motion.button
-            onClick={() => setCurrentView('insights')}
-            className={`p-3 rounded-full transition-all ${
-              currentView === 'insights' 
-                ? 'bg-purple-500 text-white' 
-                : 'text-white/60 hover:text-white hover:bg-white/10'
-            }`}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <TrendingUp size={24} />
-          </motion.button>
-          
-          <motion.button
-            onClick={() => setCurrentView('profile')}
-            className={`p-3 rounded-full transition-all ${
-              currentView === 'profile' 
-                ? 'bg-purple-500 text-white' 
-                : 'text-white/60 hover:text-white hover:bg-white/10'
-            }`}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <User size={24} />
-          </motion.button>
-          
-          <motion.button
-            onClick={() => setCurrentView('studio')}
-            className={`p-3 rounded-full transition-all ${
-              currentView === 'studio' 
-                ? 'bg-purple-500 text-white' 
-                : 'text-white/60 hover:text-white hover:bg-white/10'
-            }`}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <Mic size={24} />
-          </motion.button>
-        </div>
-      </motion.nav>
+        <div className="glass-strong rounded-2xl p-4 max-w-md mx-auto">
+          <div className="flex items-center space-x-4">
+            {/* Album Art */}
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+              <Music className="w-6 h-6 text-white" />
+            </div>
 
-      {/* Modals */}
-      {showCoinCreator && (
-        <CoinCreator
-          onClose={() => setShowCoinCreator(false)}
-          onCoinCreated={(coin) => {
-            setUserCoins(prev => [...prev, coin]);
-            addTransaction('spent', 100, `Created ${coin.name} coin`, 'main');
-            setShowCoinCreator(false);
-          }}
-        />
-      )}
+            {/* Track Info */}
+            <div className="flex-1 min-w-0">
+              <div className="text-white font-medium truncate text-sm">
+                {currentTrack.title}
+              </div>
+              <div className="text-white/60 text-xs truncate">
+                {currentTrack.artist}
+              </div>
+            </div>
 
-      {showCoinManager && (
-        <CoinManager
-          coins={userCoins}
-          onClose={() => setShowCoinManager(false)}
-          onCoinUpdated={(updatedCoin) => {
-            setUserCoins(prev => prev.map(coin => 
-              coin.id === updatedCoin.id ? updatedCoin : coin
-            ));
-          }}
-          getUserCoinBalance={getUserCoinBalance}
-        />
-      )}
+            {/* Controls */}
+            <div className="flex items-center space-x-2">
+              <button className="p-2 hover:bg-white/10 rounded-lg transition-colors">
+                <SkipBack className="w-4 h-4 text-white" />
+              </button>
+              
+              <button
+                onClick={() => setIsPlaying(!isPlaying)}
+                className="p-2 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 rounded-lg transition-all"
+              >
+                {isPlaying ? 
+                  <Pause className="w-4 h-4 text-white" /> : 
+                  <Play className="w-4 h-4 text-white ml-0.5" />
+                }
+              </button>
+              
+              <button className="p-2 hover:bg-white/10 rounded-lg transition-colors">
+                <SkipForward className="w-4 h-4 text-white" />
+              </button>
+            </div>
 
-      {showPresentationEditor && (
-        <PresentationEditor
-          onClose={() => setShowPresentationEditor(false)}
-          onPresentationSaved={() => {
-            addTransaction('earned', 25, 'Presentation created', 'main');
-            setShowPresentationEditor(false);
-          }}
-        />
-      )}
-      
-      {showUserRegistration && (
-        <UserRegistration
-          onClose={() => setShowUserRegistration(false)}
-          onUserRegistered={handleUserRegistered}
-        />
-      )}
-      
-      {showVoiceRecorder && (
-        <VoiceRecorder
-          isOpen={showVoiceRecorder}
-          onClose={() => setShowVoiceRecorder(false)}
-          onRecordingComplete={handleVoiceRecording}
-        />
-      )}
-      
-      {showSTEMResearch && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 overflow-y-auto">
-          <div className="min-h-screen p-4">
-            <div className="max-w-7xl mx-auto">
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 mb-6">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-bold text-white font-space">STEM Research Laboratory</h2>
-                  <button
-                    onClick={() => setShowSTEMResearch(false)}
-                    className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-                  >
-                    <span className="text-white/70 hover:text-white text-xl">✕</span>
-                  </button>
-                </div>
-              </div>
-              <STEMResearch
-                onValueShare={(amount, description) => addTransaction('earned', amount, description)}
-                onSkinApply={(theme) => {
-                  console.log('Applied theme:', theme);
-                  addTransaction('earned', theme.valueShared, `Applied ${theme.name} theme`);
-                }}
+            {/* Volume */}
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => setVolume(volume > 0 ? 0 : 0.7)}
+                className="p-1 hover:bg-white/10 rounded transition-colors"
+              >
+                {volume > 0 ? 
+                  <Volume2 className="w-4 h-4 text-white" /> : 
+                  <VolumeX className="w-4 h-4 text-white" />
+                }
+              </button>
+            </div>
+          </div>
+
+          {/* Progress Bar */}
+          <div className="mt-3">
+            <div className="w-full bg-white/20 rounded-full h-1">
+              <motion.div 
+                className="bg-gradient-to-r from-indigo-400 to-purple-500 h-1 rounded-full"
+                initial={{ width: "0%" }}
+                animate={{ width: isPlaying ? "100%" : "30%" }}
+                transition={{ duration: isPlaying ? 225 : 0 }}
               />
+            </div>
+            <div className="flex justify-between text-xs text-white/50 mt-1">
+              <span>1:23</span>
+              <span>{currentTrack.duration}</span>
             </div>
           </div>
         </div>
-      )}
-      
-      {showPowerStemCells && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 overflow-y-auto">
-          <div className="min-h-screen p-4">
-            <div className="max-w-7xl mx-auto">
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 mb-6">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-bold text-white font-space">J.J. NELL Power & Stem Cell Laboratory</h2>
-                  <button
-                    onClick={() => setShowPowerStemCells(false)}
-                    className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-                  >
-                    <span className="text-white/70 hover:text-white text-xl">✕</span>
-                  </button>
-                </div>
+      </motion.div>
+
+      {/* Voice Recording Indicator */}
+      <AnimatePresence>
+        {isPlaying && (
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0 }}
+            className="fixed top-4 right-4 z-50"
+          >
+            <div className="glass rounded-full p-3 animate-pulse-glow">
+              <div className="voice-wave">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
               </div>
-              <PowerStemCells
-                onResearchComplete={(findings) => {
-                  console.log('Research completed:', findings);
-                  addTransaction('earned', 200, `Completed research: ${findings.title}`);
-                }}
-                onPowerGenerated={(amount, type) => {
-                  addTransaction('earned', amount, `Generated ${amount}μW from ${type} cells`);
-                }}
-              />
             </div>
-          </div>
-        </div>
-      )}
-      
-      {showUserInterface && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 overflow-y-auto">
-          <div className="min-h-screen p-4">
-            <div className="max-w-4xl mx-auto">
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 mb-6">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-bold text-white font-space">User Interface & Settings</h2>
-                  <button
-                    onClick={() => setShowUserInterface(false)}
-                    className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-                  >
-                    <span className="text-white/70 hover:text-white text-xl">✕</span>
-                  </button>
-                </div>
-              </div>
-              <UserInterface
-                userProfile={userProfile}
-                notifications={notifications}
-                onProfileUpdate={(updates) => {
-                  console.log('Profile updated:', updates);
-                }}
-                onNotificationAction={(id, action) => {
-                  console.log('Notification action:', id, action);
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      )}
-      
-      {showSocialPlugins && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 overflow-y-auto">
-          <div className="min-h-screen p-4">
-            <div className="max-w-6xl mx-auto">
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 mb-6">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-bold text-white font-space">Social Media Plugins</h2>
-                  <button
-                    onClick={() => setShowSocialPlugins(false)}
-                    className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-                  >
-                    <span className="text-white/70 hover:text-white text-xl">✕</span>
-                  </button>
-                </div>
-              </div>
-              <SocialPlugins
-                onPluginInstall={(plugin) => {
-                  console.log('Installing plugin:', plugin);
-                  addTransaction('earned', 100, `Installed ${plugin.name} plugin`);
-                }}
-                onPluginConnect={(plugin) => {
-                  console.log('Connecting plugin:', plugin);
-                  addTransaction('earned', 50, `Connected to ${plugin.platform.toUpperCase()}`);
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      )}
-      
-      {showDOTAAIBots && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 overflow-y-auto">
-          <div className="min-h-screen p-4">
-            <div className="max-w-7xl mx-auto">
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 mb-6">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-bold text-white font-space">DOTA AI Execution Bots</h2>
-                  <button
-                    onClick={() => setShowDOTAAIBots(false)}
-                    className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-                  >
-                    <span className="text-white/70 hover:text-white text-xl">✕</span>
-                  </button>
-                </div>
-              </div>
-              <DOTAAIBots
-                onBotAction={(action, result) => {
-                  console.log('Bot action:', action, result);
-                  if (action === 'AI_BOTS_STARTED') {
-                    addTransaction('earned', 50, 'AI Bot execution started');
-                  }
-                }}
-                onCoinsEarned={(amount, description) => {
-                  addTransaction('earned', amount, description);
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      )}
-      
-      {showGTASimulation && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 overflow-y-auto">
-          <div className="min-h-screen p-4">
-            <div className="max-w-7xl mx-auto">
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 mb-6">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-bold text-white font-space">GTA 8: City of Sin</h2>
-                  <button
-                    onClick={() => setShowGTASimulation(false)}
-                    className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-                  >
-                    <span className="text-white/70 hover:text-white text-xl">✕</span>
-                  </button>
-                </div>
-              </div>
-              <GTASimulation
-                onMoneyEarned={(amount, description) => {
-                  addTransaction(amount > 0 ? 'earned' : 'spent', Math.abs(amount), description);
-                }}
-                onLevelUp={(newLevel) => {
-                  addTransaction('earned', newLevel * 100, `Leveled up to ${newLevel}!`);
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      )}
-      
-      {showBiotechMeat && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 overflow-y-auto">
-          <div className="min-h-screen p-4">
-            <div className="max-w-7xl mx-auto">
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 mb-6">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-bold text-white font-space">Biotech Meat Optimization Laboratory</h2>
-                  <button
-                    onClick={() => setShowBiotechMeat(false)}
-                    className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-                  >
-                    <span className="text-white/70 hover:text-white text-xl">✕</span>
-                  </button>
-                </div>
-              </div>
-              <BiotechMeatOptimization
-                onMeatProcessed={(amount, description) => addTransaction('earned', amount, description)}
-                onPopulationFed={(people, nutritionValue) => {
-                  addTransaction('earned', nutritionValue, `Fed ${people.toLocaleString()} people with optimized nutrition`);
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      )}
-      
-      {showBOQRepository && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 overflow-y-auto">
-          <div className="min-h-screen p-4">
-            <div className="max-w-7xl mx-auto">
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 mb-6">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-bold text-white font-space">Bill of Quantities Repository</h2>
-                  <button
-                    onClick={() => setShowBOQRepository(false)}
-                    className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-                  >
-                    <span className="text-white/70 hover:text-white text-xl">✕</span>
-                  </button>
-                </div>
-              </div>
-              <BillOfQuantitiesRepository
-                onProjectCreated={(project) => {
-                  console.log('New project created:', project);
-                  addTransaction('spent', 1000, `Created project: ${project.name}`);
-                }}
-                onResourceAllocated={(amount, description) => {
-                  addTransaction('spent', amount, description);
-                }}
-                onCollaborationUpdate={(participants, project) => {
-                  addTransaction('earned', participants * 50, `Collaboration update: ${project} (${participants} participants)`);
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      )}
-      
-      {showTimeTravelAlchemy && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 overflow-y-auto">
-          <div className="min-h-screen p-4">
-            <div className="max-w-7xl mx-auto">
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 mb-6">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-bold text-white font-space">Time Travel Divine Protection Alchemy</h2>
-                  <button
-                    onClick={() => setShowTimeTravelAlchemy(false)}
-                    className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-                  >
-                    <span className="text-white/70 hover:text-white text-xl">✕</span>
-                  </button>
-                </div>
-              </div>
-              <TimeTravelProjectAlchemy
-                onProjectFunded={(amount, description) => addTransaction('spent', amount, description)}
-                onProtectionCreated={(protection, blessing) => {
-                  addTransaction('earned', blessing, `Divine protection created: ${protection.name}`);
-                }}
-                onDivineIntervention={(intervention, blessing) => {
-                  addTransaction('earned', blessing, intervention);
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      )}
-      
-      {showQuantumCoordinates && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 overflow-y-auto">
-          <div className="min-h-screen p-4">
-            <div className="max-w-7xl mx-auto">
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 mb-6">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-bold text-white font-space">Quantum Space-Time Coordinates</h2>
-                  <button
-                    onClick={() => setShowQuantumCoordinates(false)}
-                    className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-                  >
-                    <span className="text-white/70 hover:text-white text-xl">✕</span>
-                  </button>
-                </div>
-              </div>
-              <QuantumSpaceTimeCoordinates
-                onCoordinatesCalculated={(position, factoring) => {
-                  console.log('Earth position calculated:', position);
-                  addTransaction('earned', 500, `Space-time coordinates calculated for ${position.date.toLocaleDateString()}`);
-                }}
-                onQuantumEntanglement={(satellites, energy) => {
-                  addTransaction('earned', Math.floor(energy / 10), `Quantum satellites entangled - Energy: ${energy.toFixed(0)} units`);
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      )}
-      
-      {/* Floating Voice Record Button */}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Floating Action Button */}
       <motion.button
-        onClick={() => setShowVoiceRecorder(true)}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-        className="fixed bottom-24 right-6 w-16 h-16 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full shadow-2xl flex items-center justify-center z-40"
-        animate={{
-          boxShadow: ['0 0 20px rgba(168, 85, 247, 0.4)', '0 0 40px rgba(168, 85, 247, 0.8)', '0 0 20px rgba(168, 85, 247, 0.4)']
-        }}
-        transition={{
-          duration: 2,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
+        className="fixed bottom-24 right-6 w-14 h-14 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full shadow-2xl flex items-center justify-center z-40"
       >
-        <Mic className="w-7 h-7 text-white" />
+        <Mic className="w-6 h-6 text-white" />
       </motion.button>
 
+      {/* Success Toast Example */}
+      <AnimatePresence>
+        <motion.div
+          initial={{ x: 300, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: 300, opacity: 0 }}
+          className="fixed bottom-32 right-4 z-50 max-w-sm"
+        >
+          <div className="glass-strong rounded-xl p-4 border-l-4 border-green-400">
+            <div className="flex items-center space-x-3">
+              <div className="p-2 bg-green-400/20 rounded-full">
+                <Sparkles className="w-5 h-5 text-green-400" />
+              </div>
+              <div>
+                <div className="text-white font-medium text-sm">
+                  Voice post created!
+                </div>
+                <div className="text-white/70 text-xs">
+                  Your audio content is now live
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </AnimatePresence>
     </div>
-    </EnhancedUI>
   );
+};
+
+// Enhanced Button Component
+interface EnhancedButtonProps {
+  children: React.ReactNode;
+  variant?: 'primary' | 'secondary' | 'accent' | 'ghost';
+  size?: 'sm' | 'md' | 'lg';
+  icon?: React.ReactNode;
+  loading?: boolean;
+  onClick?: () => void;
+  className?: string;
 }
+
+export const EnhancedButton: React.FC<EnhancedButtonProps> = ({
+  children,
+  variant = 'primary',
+  size = 'md',
+  icon,
+  loading = false,
+  onClick,
+  className = ''
+}) => {
+  const variants = {
+    primary: 'bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white shadow-lg hover:shadow-xl',
+    secondary: 'bg-white/10 hover:bg-white/20 text-white border border-white/20 hover:border-white/30',
+    accent: 'bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white shadow-lg hover:shadow-xl',
+    ghost: 'hover:bg-white/10 text-white'
+  };
+
+  const sizes = {
+    sm: 'px-3 py-1.5 text-sm',
+    md: 'px-4 py-2 text-sm',
+    lg: 'px-6 py-3 text-base'
+  };
+
+  return (
+    <motion.button
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={onClick}
+      disabled={loading}
+      className={`
+        ${variants[variant]}
+        ${sizes[size]}
+        ${className}
+        font-medium rounded-lg transition-all duration-200 
+        disabled:opacity-50 disabled:cursor-not-allowed
+        flex items-center space-x-2 justify-center
+      `}
+    >
+      {loading ? (
+        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+      ) : icon ? (
+        <>
+          {icon}
+          <span>{children}</span>
+        </>
+      ) : (
+        children
+      )}
+    </motion.button>
+  );
+};
+
+// Enhanced Card Component
+interface EnhancedCardProps {
+  children: React.ReactNode;
+  hover?: boolean;
+  glow?: boolean;
+  className?: string;
+}
+
+export const EnhancedCard: React.FC<EnhancedCardProps> = ({
+  children,
+  hover = true,
+  glow = false,
+  className = ''
+}) => {
+  return (
+    <motion.div
+      whileHover={hover ? { y: -5, scale: 1.02 } : {}}
+      className={`
+        glass rounded-xl p-6 
+        ${hover ? 'card-hover' : ''}
+        ${glow ? 'animate-pulse-glow' : ''}
+        ${className}
+      `}
+    >
+      {children}
+    </motion.div>
+  );
+};

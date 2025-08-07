@@ -3,8 +3,8 @@ import { Clock, Zap, Shield, Heart, Star, Sparkles } from 'lucide-react';
 
 interface TimeTravelProjectAlchemyProps {
   onProjectFunded: (amount: number, description: string) => void;
-  onProtectionCreated: (type: string, power: number) => void;
-  onDivineIntervention: (blessing: string) => void;
+  onProtectionCreated: (protection: string, blessing: number) => void;
+  onDivineIntervention: (blessing: string, amount: number) => void;
 }
 
 export const TimeTravelProjectAlchemy: React.FC<TimeTravelProjectAlchemyProps> = ({
@@ -51,7 +51,7 @@ export const TimeTravelProjectAlchemy: React.FC<TimeTravelProjectAlchemyProps> =
         const blessing = `${formula.name} completed! Divine protection increased by ${formula.power}`;
         setBlessings(prev => [...prev, blessing]);
         onProtectionCreated(formula.name, formula.power);
-        onDivineIntervention(blessing);
+        onDivineIntervention(blessing, formula.power);
         
         setActiveAlchemy(null);
         setAlchemyProgress(0);
@@ -66,7 +66,7 @@ export const TimeTravelProjectAlchemy: React.FC<TimeTravelProjectAlchemyProps> =
     if (fundingAmount + amount >= targetAmount) {
       const blessing = "Time Travel Portal Activated! Mission to free Jesus from suffering is now possible!";
       setBlessings(prev => [...prev, blessing]);
-      onDivineIntervention(blessing);
+      onDivineIntervention(blessing, 1000);
     }
   };
 
