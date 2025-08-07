@@ -1,12 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Sparkles, 
-  Zap, 
-  Heart, 
-  Star, 
   Music, 
-  Headphones,
   Mic,
   Volume2,
   VolumeX,
@@ -14,7 +10,6 @@ import {
   Pause,
   SkipForward,
   SkipBack,
-  Shuffle,
   Repeat
 } from 'lucide-react';
 
